@@ -90,6 +90,11 @@
   gap: 0.5rem;
 }
 
+.result-card--done {
+  opacity: 0.6;
+  font-size: 0.9rem;
+}
+
 .result-player {
   font-weight: 600;
   color: #e0e0e0;
@@ -113,4 +118,143 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+/* Drawing phase */
+
+.drawing-phase {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  width: 100%;
+  max-width: 480px;
+}
+
+.draw-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  padding: 1.75rem 2rem;
+  border-radius: 12px;
+  background-color: #1a1a2e;
+  border: 2px solid #c89b3c55;
+  box-shadow: 0 0 24px #c89b3c22;
+}
+
+.draw-player {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #e0e0e0;
+}
+
+.draw-progress {
+  font-size: 0.8rem;
+  color: #555;
+  margin-top: -0.5rem;
+}
+
+.draw-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.85rem;
+  width: 100%;
+}
+
+.draw-step-label {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #666;
+}
+
+.draw-confirmed-lane {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #c89b3c;
+  background: #c89b3c18;
+  padding: 0.3rem 0.9rem;
+  border-radius: 20px;
+  border: 1px solid #c89b3c44;
+}
+
+.draw-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #c89b3c;
+}
+
+.draw-value--champion {
+  color: #a0c4ff;
+  font-size: 1.6rem;
+}
+
+.draw-actions {
+  display: flex;
+  gap: 0.75rem;
+  width: 100%;
+  justify-content: center;
+}
+
+.action-btn {
+  flex: 1;
+  max-width: 180px;
+  padding: 0.6rem 1rem;
+  border-radius: 6px;
+  border: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+.action-btn--reroll {
+  background-color: #2e2e4a;
+  color: #aaa;
+  border: 1px solid #3c3c5a;
+}
+
+.action-btn--reroll:hover {
+  background-color: #3a3a5a;
+  color: #e0e0e0;
+}
+
+.action-btn--confirm {
+  background-color: #1e4d2b;
+  color: #6dffa0;
+  border: 1px solid #2a6b3a;
+}
+
+.action-btn--confirm:hover {
+  background-color: #265e35;
+}
+
+.action-btn:active {
+  transform: scale(0.96);
+}
+
+/* Done phase */
+
+.done-phase {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 480px;
+}
+
+.resetar-btn {
+  margin-top: 0.5rem;
+  background-color: #2e2e4a;
+  color: #aaa;
+  border: 1px solid #3c3c5a;
+}
+
+.resetar-btn:hover {
+  background-color: #3a3a5a;
+  color: #e0e0e0;
 }

@@ -22,20 +22,15 @@ const LANE_ICONS: Record<Lane, string> = {
   [Lane.Support]: '💊',
 }
 
-function shuffle<T>(arr: T[]): T[] {
-  const a = [...arr]
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]]
-  }
-  return a
+function pickRandom<T>(arr: T[]): T {
+  return arr[Math.floor(Math.random() * arr.length)]
 }
 
 function randomChampionForLane(lane: Lane): Champion {
   const pool = Object.values(CHAMPIONS).filter(
     c => c.primaryLane === lane || c.secondaryLane === lane
   )
-  return pool[Math.floor(Math.random() * pool.length)]
+  return pickRandom(pool)
 }
 
 type PlayerResult = {
@@ -44,55 +39,211 @@ type PlayerResult = {
   champion: Champion
 }
 
+type Phase = 'setup' | 'drawing' | 'done'
+type DrawStep = 'lane' | 'champion'
+
 function App() {
   const [players, setPlayers] = useState(['', '', '', '', ''])
-  const [results, setResults] = useState<PlayerResult[]>([])
+  const [phase, setPhase] = useState<Phase>('setup')
+  const [confirmed, setConfirmed] = useState<PlayerResult[]>([])
+  const [usedLanes, setUsedLanes] = useState<Lane[]>([])
+  const [currentIdx, setCurrentIdx] = useState(0)
+  const [drawStep, setDrawStep] = useState<DrawStep>('lane')
+  const [pendingLane, setPendingLane] = useState<Lane | null>(null)
+  const [confirmedLane, setConfirmedLane] = useState<Lane | null>(null)
+  const [pendingChampion, setPendingChampion] = useState<Champion | null>(null)
+
+  const playerNames = players.map((p, i) => p.trim() || `Jogador ${i + 1}`)
 
   function updatePlayer(i: number, value: string) {
     setPlayers(prev => prev.map((p, idx) => (idx === i ? value : p)))
   }
 
-  function sortear() {
-    const lanes = shuffle(LANES)
-    const res: PlayerResult[] = players.map((name, i) => ({
-      name: name.trim() || `Jogador ${i + 1}`,
-      lane: lanes[i],
-      champion: randomChampionForLane(lanes[i]),
-    }))
-    setResults(res)
+  function iniciarSorteio() {
+    setPhase('drawing')
+    setConfirmed([])
+    setUsedLanes([])
+    setCurrentIdx(0)
+    setDrawStep('lane')
+    setPendingLane(null)
+    setConfirmedLane(null)
+    setPendingChampion(null)
+  }
+
+  function handleSortearLane() {
+    const available = LANES.filter(l => !usedLanes.includes(l))
+    setPendingLane(pickRandom(available))
+  }
+
+  function handleRerollLane() {
+    const available = LANES.filter(l => !usedLanes.includes(l))
+    setPendingLane(pickRandom(available))
+  }
+
+  function handleConfirmarLane() {
+    if (!pendingLane) return
+    setConfirmedLane(pendingLane)
+    setUsedLanes(prev => [...prev, pendingLane])
+    setPendingLane(null)
+    setDrawStep('champion')
+  }
+
+  function handleSortearChampion() {
+    if (!confirmedLane) return
+    setPendingChampion(randomChampionForLane(confirmedLane))
+  }
+
+  function handleRerollChampion() {
+    if (!confirmedLane) return
+    setPendingChampion(randomChampionForLane(confirmedLane))
+  }
+
+  function handleConfirmarChampion() {
+    if (!confirmedLane || !pendingChampion) return
+    const newResult: PlayerResult = {
+      name: playerNames[currentIdx],
+      lane: confirmedLane,
+      champion: pendingChampion,
+    }
+    setConfirmed(prev => [...prev, newResult])
+    if (currentIdx < 4) {
+      setCurrentIdx(prev => prev + 1)
+      setDrawStep('lane')
+      setConfirmedLane(null)
+      setPendingChampion(null)
+    } else {
+      setPhase('done')
+    }
+  }
+
+  function resetar() {
+    setPhase('setup')
+    setPlayers(['', '', '', '', ''])
+    setConfirmed([])
+    setUsedLanes([])
+    setCurrentIdx(0)
+    setDrawStep('lane')
+    setPendingLane(null)
+    setConfirmedLane(null)
+    setPendingChampion(null)
   }
 
   return (
     <div className="app">
       <h1 className="title">Sorteio LoL</h1>
 
-      <div className="players-form">
-        {players.map((p, i) => (
-          <input
-            key={i}
-            type="text"
-            className="player-input"
-            placeholder={`Jogador ${i + 1}`}
-            value={p}
-            onChange={e => updatePlayer(i, e.target.value)}
-          />
-        ))}
-        <button className="sortear-btn" onClick={sortear}>
-          Sortear
-        </button>
-      </div>
-
-      {results.length > 0 && (
-        <div className="results">
-          {results.map((r, i) => (
-            <div key={i} className="result-card">
-              <span className="result-player">{r.name}</span>
-              <span className="result-lane">
-                {LANE_ICONS[r.lane]} {LANE_LABELS[r.lane]}
-              </span>
-              <span className="result-champion">{r.champion.name}</span>
-            </div>
+      {phase === 'setup' && (
+        <div className="players-form">
+          {players.map((p, i) => (
+            <input
+              key={i}
+              type="text"
+              className="player-input"
+              placeholder={`Jogador ${i + 1}`}
+              value={p}
+              onChange={e => updatePlayer(i, e.target.value)}
+            />
           ))}
+          <button className="sortear-btn" onClick={iniciarSorteio}>
+            Iniciar Sorteio
+          </button>
+        </div>
+      )}
+
+      {phase === 'drawing' && (
+        <div className="drawing-phase">
+          {confirmed.length > 0 && (
+            <div className="results">
+              {confirmed.map((r, i) => (
+                <div key={i} className="result-card result-card--done">
+                  <span className="result-player">{r.name}</span>
+                  <span className="result-lane">
+                    {LANE_ICONS[r.lane]} {LANE_LABELS[r.lane]}
+                  </span>
+                  <span className="result-champion">{r.champion.name}</span>
+                </div>
+              ))}
+            </div>
+          )}
+
+          <div className="draw-card">
+            <span className="draw-player">{playerNames[currentIdx]}</span>
+            <span className="draw-progress">
+              {currentIdx + 1} / {playerNames.length}
+            </span>
+
+            {drawStep === 'lane' && (
+              <div className="draw-step">
+                <span className="draw-step-label">Sorteando Lane</span>
+                {pendingLane ? (
+                  <>
+                    <span className="draw-value">
+                      {LANE_ICONS[pendingLane]} {LANE_LABELS[pendingLane]}
+                    </span>
+                    <div className="draw-actions">
+                      <button className="action-btn action-btn--reroll" onClick={handleRerollLane}>
+                        🔀 Reroll
+                      </button>
+                      <button className="action-btn action-btn--confirm" onClick={handleConfirmarLane}>
+                        ✓ Confirmar
+                      </button>
+                    </div>
+                  </>
+                ) : (
+                  <button className="sortear-btn" onClick={handleSortearLane}>
+                    Sortear Lane
+                  </button>
+                )}
+              </div>
+            )}
+
+            {drawStep === 'champion' && confirmedLane && (
+              <div className="draw-step">
+                <span className="draw-confirmed-lane">
+                  {LANE_ICONS[confirmedLane]} {LANE_LABELS[confirmedLane]}
+                </span>
+                <span className="draw-step-label">Sorteando Campeão</span>
+                {pendingChampion ? (
+                  <>
+                    <span className="draw-value draw-value--champion">
+                      {pendingChampion.name}
+                    </span>
+                    <div className="draw-actions">
+                      <button className="action-btn action-btn--reroll" onClick={handleRerollChampion}>
+                        🎲 Reroll
+                      </button>
+                      <button className="action-btn action-btn--confirm" onClick={handleConfirmarChampion}>
+                        ✓ Confirmar
+                      </button>
+                    </div>
+                  </>
+                ) : (
+                  <button className="sortear-btn" onClick={handleSortearChampion}>
+                    Sortear Campeão
+                  </button>
+                )}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {phase === 'done' && (
+        <div className="done-phase">
+          <div className="results">
+            {confirmed.map((r, i) => (
+              <div key={i} className="result-card">
+                <span className="result-player">{r.name}</span>
+                <span className="result-lane">
+                  {LANE_ICONS[r.lane]} {LANE_LABELS[r.lane]}
+                </span>
+                <span className="result-champion">{r.champion.name}</span>
+              </div>
+            ))}
+          </div>
+          <button className="sortear-btn resetar-btn" onClick={resetar}>
+            Novo Sorteio
+          </button>
         </div>
       )}
     </div>
