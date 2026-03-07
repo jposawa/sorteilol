@@ -1,30 +1,33 @@
 import type React from "react";
-import type { Lane } from "../../types";
-
-import styles from "./LaneIcon.module.css";
 import clsx from "clsx";
 
+import { Lane } from "@/types";
+
+import styles from "./LaneIcon.module.css";
+
 type LaneIconProps = {
-	lane: Lane;
+	iconName: Lane | string;
 	size?: string;
 	className?: string;
 	style?: React.CSSProperties;
 };
 
 export const LaneIcon: React.FC<LaneIconProps> = ({
-	lane,
+	iconName,
 	size = "1.5rem",
 	className = "",
 	style = {},
 }) => {
-	if (!lane) {
+	if (!iconName) {
 		return null;
 	}
+
+  const basePath = `/assets/${Object.values(Lane).includes(iconName as Lane) ? "lanes/" : ""}`;
 
 	return (
 		<img
 			alt="lane-icon"
-			src={`/lanes/icon_${lane.toLowerCase()}.png`}
+			src={`${basePath}icon_${iconName.toLowerCase()}.png`}
 			className={clsx(styles.icon, className)}
 			style={{ ...style, "--size": size } as React.CSSProperties}
 		/>
