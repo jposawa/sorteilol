@@ -6,6 +6,17 @@ export enum Lane {
 	Support = "Support",
 }
 
+export enum Phase {
+	Setup = "setup",
+	Drawing = "drawing",
+	Done = "done",
+}
+
+export enum DrawStep {
+	Lane = "lane",
+	Champion = "champion",
+}
+
 export type Champion = {
 	key: string;
 	name: string;
@@ -14,12 +25,18 @@ export type Champion = {
 };
 
 export type Player = {
-  key: string;
-  name: string;
-  champion: Champion;
-}
+	key: string;
+	name: string;
+	champion: Champion;
+};
 
 export type Party = {
-  key: string;
-  players: Player[];
-}
+	key: string;
+	players: Player[];
+};
+
+export type PlayerResult = {
+	name: string;
+	lane: Lane;
+	champion: Champion;
+};
