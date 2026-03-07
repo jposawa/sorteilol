@@ -1,0 +1,116 @@
+#root {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: #c89b3c;
+  text-transform: uppercase;
+  text-shadow: 0 0 20px #c89b3c55;
+}
+
+.players-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 100%;
+  max-width: 360px;
+}
+
+.player-input {
+  padding: 0.65rem 1rem;
+  border-radius: 6px;
+  border: 1px solid #3c3c3c;
+  background-color: #1a1a2e;
+  color: #e0e0e0;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.player-input:focus {
+  border-color: #c89b3c;
+}
+
+.player-input::placeholder {
+  color: #555;
+}
+
+.sortear-btn {
+  margin-top: 0.5rem;
+  padding: 0.75rem;
+  border-radius: 6px;
+  border: none;
+  background-color: #c89b3c;
+  color: #0a0a0a;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+.sortear-btn:hover {
+  background-color: #e0b354;
+}
+
+.sortear-btn:active {
+  transform: scale(0.97);
+}
+
+.results {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 100%;
+  max-width: 480px;
+}
+
+.result-card {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  align-items: center;
+  padding: 0.85rem 1.25rem;
+  border-radius: 8px;
+  background-color: #1a1a2e;
+  border: 1px solid #2e2e4a;
+  gap: 0.5rem;
+}
+
+.result-player {
+  font-weight: 600;
+  color: #e0e0e0;
+  text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.result-lane {
+  font-size: 0.9rem;
+  color: #c89b3c;
+  font-weight: 600;
+  text-align: center;
+}
+
+.result-champion {
+  font-size: 0.95rem;
+  color: #a0c4ff;
+  text-align: right;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
