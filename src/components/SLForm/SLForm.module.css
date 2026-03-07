@@ -1,0 +1,18 @@
+.baseElement {
+	padding: 0.4rem;
+	border-radius: 6px;
+	border: 1px solid var(--colorBorderNeutral);
+	background-color: var(--colorSurface);
+	color: var(--colorTextPrimary);
+	font-size: 1rem;
+	outline: none;
+	transition: border-color 0.2s;
+
+	&:focus {
+		border-color: var(--colorPrimaryBorderFocus);
+	}
+
+	&::placeholder {
+		color: var(--colorTextPlaceholder);
+	}
+}

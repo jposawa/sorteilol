@@ -14,13 +14,7 @@ import {
 	teamRegistryAtom,
 	teamSizeAtom,
 } from "@/state";
-import {
-	DrawStep,
-	Lane,
-	Phase,
-	type PlayerResult,
-	TeamKey,
-} from "@/types";
+import { DrawStep, Lane, Phase, type PlayerResult, TeamKey } from "@/types";
 
 const ALL_LANES = Object.values(Lane);
 
@@ -33,13 +27,22 @@ const INITIAL_DRAW_STATE: DrawState = {
 };
 
 export const useMatch = () => {
+	/**
+	 * In theory this could be done with fewer states, like using `teamRegistry` to have the `playerNames` and infer step by checking attributes
+	 * However, this was implemented initially using AI.
+	 * Also, on a "bright side", this helps human legibility and debugging by having more explicit states.
+	 *
+	 * TODO: Review if some states can be simplified and inferred from others
+	 */
 	const [teamSize, setTeamSize] = useAtom(teamSizeAtom);
 	const [teamCount, setTeamCount] = useAtom(teamCountAtom);
 	const [playerNames, setPlayerNames] = useAtom(playerNamesAtom);
 	const [teamRegistry, setTeamRegistry] = useAtom(teamRegistryAtom);
 	const [activeTeamKey, setActiveTeamKey] = useAtom(activeTeamKeyAtom);
 	const [matchPhase, setMatchPhase] = useAtom(matchPhaseAtom);
-	const [currentPlayerIndex, setCurrentPlayerIndex] = useAtom(currentPlayerIndexAtom);
+	const [currentPlayerIndex, setCurrentPlayerIndex] = useAtom(
+		currentPlayerIndexAtom,
+	);
 	const [drawState, setDrawState] = useAtom(drawStateAtom);
 	const [randomizeTeams, setRandomizeTeams] = useAtom(randomizeTeamsAtom);
 
@@ -59,7 +62,10 @@ export const useMatch = () => {
 				// Se estava no modo flat (teamB vazio e teamA maior que teamSize), split inteligente
 				const wasFlat = prev.teamB.length === 0 && prev.teamA.length > teamSize;
 				return {
-					teamA: Array.from({ length: teamSize }, (_, i) => prev.teamA[i] ?? ""),
+					teamA: Array.from(
+						{ length: teamSize },
+						(_, i) => prev.teamA[i] ?? "",
+					),
 					teamB: Array.from({ length: teamSize }, (_, i) =>
 						wasFlat ? (prev.teamA[teamSize + i] ?? "") : (prev.teamB[i] ?? ""),
 					),
@@ -77,7 +83,8 @@ export const useMatch = () => {
 	);
 
 	const currentTeam = teamRegistry[activeTeamKey];
-	const currentPlayerName = resolvedPlayerNames[activeTeamKey][currentPlayerIndex];
+	const currentPlayerName =
+		resolvedPlayerNames[activeTeamKey][currentPlayerIndex];
 
 	// --- Configuração ---
 
@@ -109,11 +116,13 @@ export const useMatch = () => {
 	);
 
 	const updatePlayerName = React.useCallback(
-		(teamKey: TeamKey, index: number, name: string) =>
+		(params: { teamKey?: TeamKey; index: number; name: string }) => {
+			const { teamKey = TeamKey.TeamA, index, name } = params;
 			setPlayerNames((prev) => ({
 				...prev,
 				[teamKey]: prev[teamKey].map((n, i) => (i === index ? name : n)),
-			})),
+			}));
+		},
 		[setPlayerNames],
 	);
 
@@ -152,7 +161,9 @@ export const useMatch = () => {
 	const drawLane = React.useCallback(() => {
 		setDrawState((prev) => ({
 			...prev,
-			pendingLane: pickRandom(ALL_LANES.filter((l) => !prev.usedLanes.includes(l))),
+			pendingLane: pickRandom(
+				ALL_LANES.filter((l) => !prev.usedLanes.includes(l)),
+			),
 		}));
 	}, [setDrawState]);
 
@@ -174,7 +185,10 @@ export const useMatch = () => {
 	const drawChampion = React.useCallback(() => {
 		setDrawState((prev) => {
 			if (!prev.confirmedLane) return prev;
-			return { ...prev, pendingChampion: randomChampionForLane(prev.confirmedLane) };
+			return {
+				...prev,
+				pendingChampion: randomChampionForLane(prev.confirmedLane),
+			};
 		});
 	}, [setDrawState]);
 
@@ -276,7 +290,13 @@ export const useMatch = () => {
 		setCurrentPlayerIndex(0);
 		setDrawState(INITIAL_DRAW_STATE);
 		setTeamRegistry({ teamA: [], teamB: [] });
-	}, [setMatchPhase, setActiveTeamKey, setCurrentPlayerIndex, setDrawState, setTeamRegistry]);
+	}, [
+		setMatchPhase,
+		setActiveTeamKey,
+		setCurrentPlayerIndex,
+		setDrawState,
+		setTeamRegistry,
+	]);
 
 	return {
 		// Estado

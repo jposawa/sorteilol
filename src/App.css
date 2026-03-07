@@ -29,25 +29,6 @@
   max-width: 360px;
 }
 
-.player-input {
-  padding: 0.65rem 1rem;
-  border-radius: 6px;
-  border: 1px solid #3c3c3c;
-  background-color: #1a1a2e;
-  color: #e0e0e0;
-  font-size: 1rem;
-  outline: none;
-  transition: border-color 0.2s;
-}
-
-.player-input:focus {
-  border-color: #c89b3c;
-}
-
-.player-input::placeholder {
-  color: #555;
-}
-
 .sortear-btn {
   margin-top: 0.5rem;
   padding: 0.75rem;

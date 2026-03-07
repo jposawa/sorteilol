@@ -4,6 +4,7 @@ import { Provider } from "jotai";
 
 import App from "./App.tsx";
 
+import "./cssProperties.css";
 import "./index.css";
 
 createRoot(document.getElementById("root")!).render(

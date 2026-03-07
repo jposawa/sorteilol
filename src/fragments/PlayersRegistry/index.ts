@@ -1,2 +1,1 @@
 export * from "./PlayersRegistry";
-export * from "./TeamPhases";

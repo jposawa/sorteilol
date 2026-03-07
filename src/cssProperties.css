@@ -1,0 +1,240 @@
+/* =============================================
+   CSS Custom Properties — Design Tokens
+   ============================================= */
+
+/* Primary / Brand Gold */
+
+@property --colorPrimary {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #c89b3c;
+}
+
+@property --colorPrimaryHover {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #e0b354;
+}
+
+@property --colorPrimaryTint {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #c89b3c11;
+}
+
+@property --colorPrimarySubtle {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #c89b3c18;
+}
+
+@property --colorPrimaryMuted {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #c89b3c22;
+}
+
+@property --colorPrimaryBorder {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #c89b3c44;
+}
+
+@property --colorPrimaryBorderFocus {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #c89b3c55;
+}
+
+@property --colorPrimaryBorderHover {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #c89b3c66;
+}
+
+@property --colorOnPrimary {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #0a0a0a;
+}
+
+/* Secondary / Champion Blue */
+
+@property --colorSecondary {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #a0c4ff;
+}
+
+/* Background / Surface */
+
+@property --colorBackground {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #242424;
+}
+
+@property --colorSurface {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #1a1a2e;
+}
+
+@property --colorSurfaceElevated {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #2e2e4a;
+}
+
+@property --colorSurfaceHover {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #3a3a5a;
+}
+
+/* Borders */
+
+@property --colorBorder {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #3c3c5a;
+}
+
+@property --colorBorderNeutral {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #3c3c3c;
+}
+
+/* Text */
+
+@property --colorText {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: rgba(255, 255, 255, 0.87);
+}
+
+@property --colorTextPrimary {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #e0e0e0;
+}
+
+@property --colorTextSecondary {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #aaa;
+}
+
+@property --colorTextMuted {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #888;
+}
+
+@property --colorTextDimmed {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #666;
+}
+
+@property --colorTextPlaceholder {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #555;
+}
+
+/* Semantic — Danger */
+
+@property --colorDanger {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #ff6b6b;
+}
+
+@property --colorDangerSurface {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #2e1a1a;
+}
+
+@property --colorDangerSurfaceHover {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #3a2020;
+}
+
+/* Semantic — Success */
+
+@property --colorSuccess {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #6dffa0;
+}
+
+@property --colorSuccessSurface {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #1e4d2b;
+}
+
+@property --colorSuccessBorder {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #2a6b3a;
+}
+
+@property --colorSuccessSurfaceHover {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #265e35;
+}
+
+/* =============================================
+   :root — Assign token values
+   ============================================= */
+
+:root {
+  /* Primary */
+  --colorPrimary: #c89b3c;
+  --colorPrimaryHover: #e0b354;
+  --colorPrimaryTint: #c89b3c11;
+  --colorPrimarySubtle: #c89b3c18;
+  --colorPrimaryMuted: #c89b3c22;
+  --colorPrimaryBorder: #c89b3c44;
+  --colorPrimaryBorderFocus: #c89b3c55;
+  --colorPrimaryBorderHover: #c89b3c66;
+  --colorOnPrimary: #0a0a0a;
+
+  /* Secondary */
+  --colorSecondary: #a0c4ff;
+
+  /* Background / Surface */
+  --colorBackground: #242424;
+  --colorSurface: #1a1a2e;
+  --colorSurfaceElevated: #2e2e4a;
+  --colorSurfaceHover: #3a3a5a;
+
+  /* Borders */
+  --colorBorder: #3c3c5a;
+  --colorBorderNeutral: #3c3c3c;
+
+  /* Text */
+  --colorText: rgba(255, 255, 255, 0.87);
+  --colorTextPrimary: #e0e0e0;
+  --colorTextSecondary: #aaa;
+  --colorTextMuted: #888;
+  --colorTextDimmed: #666;
+  --colorTextPlaceholder: #555;
+
+  /* Danger */
+  --colorDanger: #ff6b6b;
+  --colorDangerSurface: #2e1a1a;
+  --colorDangerSurfaceHover: #3a2020;
+
+  /* Success */
+  --colorSuccess: #6dffa0;
+  --colorSuccessSurface: #1e4d2b;
+  --colorSuccessBorder: #2a6b3a;
+  --colorSuccessSurfaceHover: #265e35;
+}
