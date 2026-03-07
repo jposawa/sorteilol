@@ -17,6 +17,11 @@ export enum DrawStep {
 	Champion = "champion",
 }
 
+export enum TeamKey {
+  TeamA = "teamA",
+  TeamB = "teamB",
+}
+
 export type Champion = {
 	key: string;
 	name: string;
@@ -39,4 +44,9 @@ export type PlayerResult = {
 	name: string;
 	lane: Lane;
 	champion: Champion;
+};
+
+export type TeamPlayer = {
+  teamA: PlayerResult[];
+  teamB: PlayerResult[];
 };
