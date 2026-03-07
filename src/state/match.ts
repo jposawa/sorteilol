@@ -20,6 +20,8 @@ export const activeTeamKeyAtom = atom<TeamKey>(TeamKey.TeamA);
 
 export const matchPhaseAtom = atom<Phase>(Phase.Setup);
 
+export const randomizeTeamsAtom = atom<boolean>(false);
+
 export const currentPlayerIndexAtom = atom<number>(0);
 
 export type DrawState = {

@@ -1,4 +1,4 @@
-import React from "react";
+﻿import React from "react";
 
 import { LaneIcon } from "../components";
 import { useMatch } from "../hooks";
@@ -10,6 +10,7 @@ export const TeamCreation: React.FC = () => {
 	const {
 		teamSize,
 		teamCount,
+		randomizeTeams,
 		playerNames,
 		resolvedPlayerNames,
 		teamRegistry,
@@ -21,7 +22,9 @@ export const TeamCreation: React.FC = () => {
 		drawState,
 		updateTeamSize,
 		updateTeamCount,
+		updateRandomizeTeams,
 		updatePlayerName,
+		updateFlatPlayerName,
 		startDraw,
 		drawLane,
 		rerollLane,
@@ -53,7 +56,9 @@ export const TeamCreation: React.FC = () => {
 							<select
 								id="team-count"
 								value={teamCount}
-								onChange={(e) => updateTeamCount(Number(e.target.value) as 1 | 2)}
+								onChange={(e) =>
+									updateTeamCount(Number(e.target.value) as 1 | 2)
+								}
 							>
 								<option value={1}>1 time</option>
 								<option value={2}>2 times</option>
@@ -71,50 +76,87 @@ export const TeamCreation: React.FC = () => {
 								onChange={(e) => updateTeamSize(Number(e.target.value))}
 							/>
 						</div>
+
+						{teamCount === 2 && (
+							<div className="config-row">
+								<label htmlFor="randomize-teams">
+									Sortear jogadores entre os times
+								</label>
+								<input
+									id="randomize-teams"
+									type="checkbox"
+									checked={randomizeTeams}
+									onChange={(e) => updateRandomizeTeams(e.target.checked)}
+								/>
+							</div>
+						)}
 					</fieldset>
 
-					<fieldset className="players-fieldset">
-						<legend>{teamCount === 2 ? "Time A" : "Jogadores"}</legend>
-						<ol className="player-list">
-							{playerNames.teamA.map((name, i) => (
-								<li key={i}>
-									<label htmlFor={`player-a-${i}`}>Jogador {i + 1}</label>
-									<input
-										id={`player-a-${i}`}
-										type="text"
-										className="player-input"
-										placeholder={`Jogador ${i + 1}`}
-										value={name}
-										onChange={(e) =>
-											updatePlayerName(TeamKey.TeamA, i, e.target.value)
-										}
-									/>
-								</li>
-							))}
-						</ol>
-					</fieldset>
-
-					{teamCount === 2 && (
+					{teamCount === 2 && randomizeTeams ? (
 						<fieldset className="players-fieldset">
-							<legend>Time B</legend>
+							<legend>Jogadores (times definidos no sorteio)</legend>
 							<ol className="player-list">
-								{playerNames.teamB.map((name, i) => (
+								{playerNames.teamA.map((name, i) => (
 									<li key={i}>
-										<label htmlFor={`player-b-${i}`}>Jogador {i + 1}</label>
+										<label htmlFor={`player-flat-${i}`}>Jogador {i + 1}</label>
 										<input
-											id={`player-b-${i}`}
+											id={`player-flat-${i}`}
 											type="text"
 											className="player-input"
 											placeholder={`Jogador ${i + 1}`}
 											value={name}
-											onChange={(e) =>
-												updatePlayerName(TeamKey.TeamB, i, e.target.value)
-											}
+											onChange={(e) => updateFlatPlayerName(i, e.target.value)}
 										/>
 									</li>
 								))}
 							</ol>
 						</fieldset>
+					) : (
+						<>
+							<fieldset className="players-fieldset">
+								<legend>{teamCount === 2 ? "Time A" : "Jogadores"}</legend>
+								<ol className="player-list">
+									{playerNames.teamA.map((name, i) => (
+										<li key={i}>
+											<label htmlFor={`player-a-${i}`}>Jogador {i + 1}</label>
+											<input
+												id={`player-a-${i}`}
+												type="text"
+												className="player-input"
+												placeholder={`Jogador ${i + 1}`}
+												value={name}
+												onChange={(e) =>
+													updatePlayerName(TeamKey.TeamA, i, e.target.value)
+												}
+											/>
+										</li>
+									))}
+								</ol>
+							</fieldset>
+
+							{teamCount === 2 && (
+								<fieldset className="players-fieldset">
+									<legend>Time B</legend>
+									<ol className="player-list">
+										{playerNames.teamB.map((name, i) => (
+											<li key={i}>
+												<label htmlFor={`player-b-${i}`}>Jogador {i + 1}</label>
+												<input
+													id={`player-b-${i}`}
+													type="text"
+													className="player-input"
+													placeholder={`Jogador ${i + 1}`}
+													value={name}
+													onChange={(e) =>
+														updatePlayerName(TeamKey.TeamB, i, e.target.value)
+													}
+												/>
+											</li>
+										))}
+									</ol>
+								</fieldset>
+							)}
+						</>
 					)}
 
 					<button type="submit" className="sortear-btn">
@@ -180,7 +222,11 @@ export const TeamCreation: React.FC = () => {
 										</div>
 									</>
 								) : (
-									<button type="button" className="sortear-btn" onClick={drawLane}>
+									<button
+										type="button"
+										className="sortear-btn"
+										onClick={drawLane}
+									>
 										Sortear Lane
 									</button>
 								)}
@@ -197,49 +243,54 @@ export const TeamCreation: React.FC = () => {
 							</div>
 						)}
 
-						{drawState.step === DrawStep.Champion && drawState.confirmedLane && (
-							<div className="draw-step">
-								<span className="draw-confirmed-lane">
-									<LaneIcon iconName={drawState.confirmedLane} />{" "}
-									{drawState.confirmedLane}
-								</span>
-								<p className="draw-step-label">Sorteando Campeão</p>
-								{drawState.pendingChampion ? (
-									<>
-										<span className="draw-value draw-value--champion">
-											{drawState.pendingChampion.name}
-										</span>
-										<div className="draw-actions">
-											<button
-												type="button"
-												className="action-btn action-btn--reroll"
-												onClick={rerollChampion}
-											>
-												🎲 Reroll
-											</button>
-											<button
-												type="button"
-												className="action-btn action-btn--confirm"
-												onClick={confirmChampion}
-											>
-												✓ Confirmar
-											</button>
-										</div>
-									</>
-								) : (
+						{drawState.step === DrawStep.Champion &&
+							drawState.confirmedLane && (
+								<div className="draw-step">
+									<span className="draw-confirmed-lane">
+										<LaneIcon iconName={drawState.confirmedLane} />{" "}
+										{drawState.confirmedLane}
+									</span>
+									<p className="draw-step-label">Sorteando Campeão</p>
+									{drawState.pendingChampion ? (
+										<>
+											<span className="draw-value draw-value--champion">
+												{drawState.pendingChampion.name}
+											</span>
+											<div className="draw-actions">
+												<button
+													type="button"
+													className="action-btn action-btn--reroll"
+													onClick={rerollChampion}
+												>
+													🎲 Reroll
+												</button>
+												<button
+													type="button"
+													className="action-btn action-btn--confirm"
+													onClick={confirmChampion}
+												>
+													✓ Confirmar
+												</button>
+											</div>
+										</>
+									) : (
+										<button
+											type="button"
+											className="sortear-btn"
+											onClick={drawChampion}
+										>
+											Sortear Campeão
+										</button>
+									)}
 									<button
 										type="button"
-										className="sortear-btn"
-										onClick={drawChampion}
+										className="back-btn"
+										onClick={goBackToLane}
 									>
-										Sortear Campeão
+										← Voltar para Lane
 									</button>
-								)}
-								<button type="button" className="back-btn" onClick={goBackToLane}>
-									← Voltar para Lane
-								</button>
-							</div>
-						)}
+								</div>
+							)}
 					</article>
 				</section>
 			)}
@@ -258,12 +309,16 @@ export const TeamCreation: React.FC = () => {
 												<LaneIcon iconName={r.lane} /> {r.lane}
 											</span>
 											<div className="result-champion-group">
-												<span className="result-champion">{r.champion.name}</span>
+												<span className="result-champion">
+													{r.champion.name}
+												</span>
 												<button
 													type="button"
 													className="champion-reroll-btn"
 													title="Reroll campeão"
-													onClick={() => rerollChampionForPlayer(TeamKey.TeamA, i)}
+													onClick={() =>
+														rerollChampionForPlayer(TeamKey.TeamA, i)
+													}
 												>
 													🎲
 												</button>
@@ -282,12 +337,16 @@ export const TeamCreation: React.FC = () => {
 												<LaneIcon iconName={r.lane} /> {r.lane}
 											</span>
 											<div className="result-champion-group">
-												<span className="result-champion">{r.champion.name}</span>
+												<span className="result-champion">
+													{r.champion.name}
+												</span>
 												<button
 													type="button"
 													className="champion-reroll-btn"
 													title="Reroll campeão"
-													onClick={() => rerollChampionForPlayer(TeamKey.TeamB, i)}
+													onClick={() =>
+														rerollChampionForPlayer(TeamKey.TeamB, i)
+													}
 												>
 													🎲
 												</button>
