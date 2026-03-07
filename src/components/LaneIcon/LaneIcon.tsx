@@ -13,7 +13,7 @@ type LaneIconProps = {
 
 export const LaneIcon: React.FC<LaneIconProps> = ({
 	lane,
-	size = "2rem",
+	size = "1.5rem",
 	className = "",
 	style = {},
 }) => {
