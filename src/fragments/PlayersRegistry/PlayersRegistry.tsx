@@ -1,10 +1,10 @@
 import clsx from "clsx";
 
+import { SLInput } from "@/components";
 import { useMatch } from "@/hooks";
 import { type BaseComponent, TeamKey } from "@/types";
 
 import styles from "./PlayersRegistry.module.css";
-import { SLInput } from "@/components";
 
 type PlayersRegistryProps = BaseComponent & {
 	teamKey?: TeamKey;
