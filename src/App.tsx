@@ -98,6 +98,26 @@ function App() {
     setPendingChampion(randomChampionForLane(confirmedLane))
   }
 
+  function handleVoltarParaLane() {
+    setUsedLanes(prev => prev.filter(l => l !== confirmedLane))
+    setPendingLane(confirmedLane)
+    setConfirmedLane(null)
+    setPendingChampion(null)
+    setDrawStep('lane')
+  }
+
+  function handleVoltarParaJogadorAnterior() {
+    if (currentIdx === 0) return
+    const prev = confirmed[confirmed.length - 1]
+    setConfirmed(c => c.slice(0, -1))
+    setUsedLanes(l => l.filter(lane => lane !== prev.lane))
+    setCurrentIdx(i => i - 1)
+    setDrawStep('champion')
+    setConfirmedLane(prev.lane)
+    setPendingChampion(prev.champion)
+    setPendingLane(null)
+  }
+
   function handleConfirmarChampion() {
     if (!confirmedLane || !pendingChampion) return
     const newResult: PlayerResult = {
@@ -114,6 +134,14 @@ function App() {
     } else {
       setPhase('done')
     }
+  }
+
+  function rerollChampionDone(i: number) {
+    setConfirmed(prev =>
+      prev.map((r, idx) =>
+        idx === i ? { ...r, champion: randomChampionForLane(r.lane) } : r
+      )
+    )
   }
 
   function resetar() {
@@ -194,6 +222,11 @@ function App() {
                     Sortear Lane
                   </button>
                 )}
+                {currentIdx > 0 && (
+                  <button className="back-btn" onClick={handleVoltarParaJogadorAnterior}>
+                    ← Voltar para {playerNames[currentIdx - 1]}
+                  </button>
+                )}
               </div>
             )}
 
@@ -222,6 +255,9 @@ function App() {
                     Sortear Campeão
                   </button>
                 )}
+                <button className="back-btn" onClick={handleVoltarParaLane}>
+                  ← Voltar para Lane
+                </button>
               </div>
             )}
           </div>
@@ -237,7 +273,16 @@ function App() {
                 <span className="result-lane">
                   {LANE_ICONS[r.lane]} {LANE_LABELS[r.lane]}
                 </span>
-                <span className="result-champion">{r.champion.name}</span>
+                <div className="result-champion-group">
+                  <span className="result-champion">{r.champion.name}</span>
+                  <button
+                    className="champion-reroll-btn"
+                    title="Reroll campeão"
+                    onClick={() => rerollChampionDone(i)}
+                  >
+                    🎲
+                  </button>
+                </div>
               </div>
             ))}
           </div>
