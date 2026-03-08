@@ -7,3 +7,5 @@ export const LANE_ICONS = {
 	[Lane.ADC]: "icon_adc.png",
 	[Lane.Support]: "icon_support.png",
 };
+
+export const APP_PREFIX = "sorteilol";

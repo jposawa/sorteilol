@@ -1,10 +1,10 @@
 import React from "react";
+import { Switch } from "antd";
 import clsx from "clsx";
 
 import { SLButton, SLInput, SLSelect } from "@/components";
 import { useMatch } from "@/hooks";
-import { type BaseComponent, TeamKey } from "@/types";
-import { PlayersRegistry } from "../PlayersRegistry";
+import { type BaseComponent } from "@/types";
 
 import styles from "./TeamPhases.module.css";
 
@@ -16,17 +16,17 @@ export const PhaseSetup: React.FC<PhaseSetupProps> = ({
 }) => {
 	const {
 		teamCount,
-		startDraw,
+		nextPhase,
 		updateTeamCount,
 		teamSize,
 		updateTeamSize,
 		randomizeTeams,
 		updateRandomizeTeams,
-		playerNames,
 	} = useMatch();
+
 	const handleSubmit = (event: React.FormEvent) => {
 		event.preventDefault();
-		startDraw();
+		nextPhase();
 	};
 
 	const handleTeamSizeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -78,22 +78,18 @@ export const PhaseSetup: React.FC<PhaseSetupProps> = ({
 
 				{teamCount === 2 && (
 					<div className={styles.formRow}>
-						<label htmlFor="randomize-teams">
-							Sortear jogadores entre os times
+						<label>
+							<span>Sortear distribuição jogadores&nbsp;</span>
+							<Switch
+								defaultChecked={randomizeTeams}
+								onChange={updateRandomizeTeams}
+							/>
 						</label>
-						<input
-							id="randomize-teams"
-							type="checkbox"
-							checked={randomizeTeams}
-							onChange={(e) => updateRandomizeTeams(e.target.checked)}
-						/>
 					</div>
 				)}
 			</fieldset>
 
-      <SLButton type="submit">
-        Iniciar
-      </SLButton>
+			<SLButton type="submit">Iniciar</SLButton>
 		</form>
 	);
 };

@@ -1,11 +1,17 @@
 import React from "react";
-import { useAtom } from "jotai";
+import { useAtom, useSetAtom } from "jotai";
 
+import {
+  ALL_LANES,
+  INITIAL_DRAW_STATE,
+  PHASE_ORDER,
+} from "@/constants";
 import { pickRandom, randomChampionForLane } from "@/helpers";
 import {
 	activeTeamKeyAtom,
+	currentMainStepAtom,
 	currentPlayerIndexAtom,
-	type DrawState,
+	currentSideStepAtom,
 	drawStateAtom,
 	matchPhaseAtom,
 	playerNamesAtom,
@@ -14,17 +20,12 @@ import {
 	teamRegistryAtom,
 	teamSizeAtom,
 } from "@/state";
-import { DrawStep, Lane, Phase, type PlayerResult, TeamKey } from "@/types";
-
-const ALL_LANES = Object.values(Lane);
-
-const INITIAL_DRAW_STATE: DrawState = {
-	step: DrawStep.Lane,
-	usedLanes: [],
-	pendingLane: null,
-	confirmedLane: null,
-	pendingChampion: null,
-};
+import {
+	DrawStep,
+	Phase,
+	type PlayerResult,
+	TeamKey,
+} from "@/types";
 
 export const useMatch = () => {
 	/**
@@ -45,34 +46,8 @@ export const useMatch = () => {
 	);
 	const [drawState, setDrawState] = useAtom(drawStateAtom);
 	const [randomizeTeams, setRandomizeTeams] = useAtom(randomizeTeamsAtom);
-
-	// Redimensiona/reorganiza os arrays de nomes ao alterar teamSize, teamCount ou randomizeTeams
-	React.useEffect(() => {
-		if (randomizeTeams && teamCount === 2) {
-			const total = teamSize * 2;
-			setPlayerNames((prev) => {
-				const flat = [...prev.teamA, ...prev.teamB];
-				return {
-					teamA: Array.from({ length: total }, (_, i) => flat[i] ?? ""),
-					teamB: [],
-				};
-			});
-		} else {
-			setPlayerNames((prev) => {
-				// Se estava no modo flat (teamB vazio e teamA maior que teamSize), split inteligente
-				const wasFlat = prev.teamB.length === 0 && prev.teamA.length > teamSize;
-				return {
-					teamA: Array.from(
-						{ length: teamSize },
-						(_, i) => prev.teamA[i] ?? "",
-					),
-					teamB: Array.from({ length: teamSize }, (_, i) =>
-						wasFlat ? (prev.teamA[teamSize + i] ?? "") : (prev.teamB[i] ?? ""),
-					),
-				};
-			});
-		}
-	}, [teamSize, teamCount, randomizeTeams, setPlayerNames]);
+  const setCurrentMainStep = useSetAtom(currentMainStepAtom);
+  const setCurrentSideStep = useSetAtom(currentSideStepAtom);
 
 	const resolvedPlayerNames = React.useMemo(
 		() => ({
@@ -125,6 +100,35 @@ export const useMatch = () => {
 		},
 		[setPlayerNames],
 	);
+
+  /**
+   * Move a `Phase` pelo número de passo indicado, seguindo ordem de `Phase` definida em `PHASE_ORDER`.
+   *
+   * @param stepNumber Número de passos em que está se movendo. Pode ser positivo ou negativo, dependendo do sentido de movimento.
+   */
+  const movePhase = React.useCallback((stepNumber: number = 1) => {
+    const currentPhaseIndex = PHASE_ORDER.indexOf(matchPhase);
+    const targetPhaseIndex = currentPhaseIndex + stepNumber;
+
+    if (targetPhaseIndex < 0) {
+      console.warn("[movePhase] Já está na primeira fase, não é possível retroceder mais");
+      return;
+    }
+
+    if (targetPhaseIndex >= PHASE_ORDER.length) {
+      console.warn("[movePhase] Já está na última fase, não é possível avançar mais");
+      return;
+    }
+
+    const targetPhase = PHASE_ORDER[targetPhaseIndex];
+
+    setMatchPhase(targetPhase);
+    setCurrentMainStep(targetPhaseIndex);
+    setCurrentSideStep(0);
+  }, [matchPhase, setCurrentMainStep, setCurrentSideStep, setMatchPhase]);
+
+  const nextPhase = React.useCallback(() => movePhase(1), [movePhase]);
+  const previousPhase = React.useCallback(() => movePhase(-1), [movePhase]);
 
 	const startDraw = React.useCallback(() => {
 		if (randomizeTeams && teamCount === 2) {
@@ -298,6 +302,34 @@ export const useMatch = () => {
 		setTeamRegistry,
 	]);
 
+  // Redimensiona/reorganiza os arrays de nomes ao alterar teamSize, teamCount ou randomizeTeams
+	React.useEffect(() => {
+		if (randomizeTeams && teamCount === 2) {
+			const total = teamSize * 2;
+			setPlayerNames((prev) => {
+				const flat = [...prev.teamA, ...prev.teamB];
+				return {
+					teamA: Array.from({ length: total }, (_, i) => flat[i] ?? ""),
+					teamB: [],
+				};
+			});
+		} else {
+			setPlayerNames((prev) => {
+				// Se estava no modo flat (teamB vazio e teamA maior que teamSize), split inteligente
+				const wasFlat = prev.teamB.length === 0 && prev.teamA.length > teamSize;
+				return {
+					teamA: Array.from(
+						{ length: teamSize },
+						(_, i) => prev.teamA[i] ?? "",
+					),
+					teamB: Array.from({ length: teamSize }, (_, i) =>
+						wasFlat ? (prev.teamA[teamSize + i] ?? "") : (prev.teamB[i] ?? ""),
+					),
+				};
+			});
+		}
+	}, [teamSize, teamCount, randomizeTeams, setPlayerNames]);
+
 	return {
 		// Estado
 		teamSize,
@@ -318,7 +350,12 @@ export const useMatch = () => {
 		updateRandomizeTeams,
 		updatePlayerName,
 		updateFlatPlayerName,
+    //Flow
 		startDraw,
+		setMatchPhase,
+    movePhase,
+    nextPhase,
+    previousPhase,
 		// Lane
 		drawLane,
 		rerollLane: drawLane,

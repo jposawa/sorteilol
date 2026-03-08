@@ -1,6 +1,6 @@
 ﻿import React from "react";
 
-import { PhaseSetup } from "@/fragments";
+import { PhaseRegistering, PhaseSetup } from "@/fragments";
 import { LaneIcon } from "../components";
 import { useMatch } from "../hooks";
 import { DrawStep, Phase, TeamKey } from "../types";
@@ -36,6 +36,10 @@ export const TeamCreation: React.FC = () => {
 			{matchPhase === Phase.Setup && (
 				<PhaseSetup />
 			)}
+
+      {matchPhase === Phase.Registering && (
+        <PhaseRegistering />
+      )}
 
 			{matchPhase === Phase.Drawing && (
 				<section className="drawing-phase">
