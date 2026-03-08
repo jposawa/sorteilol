@@ -16,3 +16,65 @@
 		color: var(--colorTextPlaceholder);
 	}
 }
+
+.button {
+	--currentColor: var(--buttonColor, var(--colorPrimary));
+  --currentButtonTextColor: var(--buttonTextColor, var(--colorOnPrimary));
+
+	padding: 0.6rem 1rem;
+	border-radius: 6px;
+	border: 1px solid transparent;
+	background-color: var(--currentColor);
+	color: var(--currentButtonTextColor);
+	font-size: 1em;
+	font-weight: 700;
+	cursor: pointer;
+	transition:
+		background-color 0.2s,
+		transform 0.1s;
+
+	&:hover {
+		background-color: #e0b354;
+	}
+
+	&:active {
+		transform: scale(0.97);
+	}
+}
+
+.role-primary {
+  --buttonColor: var(--colorPrimary);
+  --buttonTextColor: var(--colorOnPrimary);
+}
+
+.role-secondary {
+  --buttonColor: var(--colorSuccessSurface);
+  --buttonTextColor: var(--colorTextPrimary);
+}
+
+.role-danger {
+  --buttonColor: var(--colorDanger);
+  --buttonTextColor: var(--colorOnDanger);
+}
+
+.btn-outlined {
+  background-color: transparent;
+  color: var(--currentColor);
+  border: 2px solid var(--currentColor);
+
+  &:hover {
+    background-color: var(--currentColor);
+    color: var(--colorOnPrimary);
+  }
+}
+
+.btn-text {
+  background-color: transparent;
+  color: var(--currentColor);
+  padding: 0.5rem;
+
+  &:hover {
+    text-decoration: underline;
+    background: none;
+  }
+}

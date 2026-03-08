@@ -1,16 +1,16 @@
 import React from "react";
 import clsx from "clsx";
 
-import { SLButton, SLInput, SLSelect } from "@/components";
+import { SLInput, SLSelect } from "@/components";
 import { useMatch } from "@/hooks";
 import { type BaseComponent, TeamKey } from "@/types";
 import { PlayersRegistry } from "../PlayersRegistry";
 
 import styles from "./TeamPhases.module.css";
 
-type PhaseSetupProps = BaseComponent;
+type PhaseRegisteringProps = BaseComponent;
 
-export const PhaseSetup: React.FC<PhaseSetupProps> = ({
+export const PhaseRegistering: React.FC<PhaseRegisteringProps> = ({
 	className = "",
 	style = {},
 }) => {
@@ -90,10 +90,23 @@ export const PhaseSetup: React.FC<PhaseSetupProps> = ({
 					</div>
 				)}
 			</fieldset>
+			<PlayersRegistry
+				teamKey={TeamKey.TeamA}
+				fieldTitle={teamCount === 1 || randomizeTeams ? "Jogadores" : "Time A"}
+				className={styles.formField}
+			/>
 
-      <SLButton type="submit">
-        Iniciar
-      </SLButton>
+			{teamCount === 2 && !!playerNames.teamB?.length && (
+				<PlayersRegistry
+					teamKey={TeamKey.TeamB}
+					fieldTitle="Time B"
+					className={styles.formField}
+				/>
+			)}
+
+			<button type="submit" className="sortear-btn">
+				Iniciar Sorteio
+			</button>
 		</form>
 	);
 };

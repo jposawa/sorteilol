@@ -29,29 +29,6 @@
   max-width: 360px;
 }
 
-.sortear-btn {
-  margin-top: 0.5rem;
-  padding: 0.75rem;
-  border-radius: 6px;
-  border: none;
-  background-color: #c89b3c;
-  color: #0a0a0a;
-  font-size: 1rem;
-  font-weight: 700;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: background-color 0.2s, transform 0.1s;
-}
-
-.sortear-btn:hover {
-  background-color: #e0b354;
-}
-
-.sortear-btn:active {
-  transform: scale(0.97);
-}
-
 .results {
   display: flex;
   flex-direction: column;

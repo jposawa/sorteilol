@@ -1,6 +1,12 @@
 import { atom } from "jotai";
 
-import { type Champion, DrawStep, Lane, Phase, TeamKey, type TeamPlayer } from "@/types";
+import {
+	type DrawState,
+	DrawStep,
+	Phase,
+	TeamKey,
+	type TeamPlayer,
+} from "@/types";
 
 export const teamSizeAtom = atom<number>(5);
 
@@ -24,14 +30,6 @@ export const randomizeTeamsAtom = atom<boolean>(false);
 
 export const currentPlayerIndexAtom = atom<number>(0);
 
-export type DrawState = {
-	step: DrawStep;
-	usedLanes: Lane[];
-	pendingLane: Lane | null;
-	confirmedLane: Lane | null;
-	pendingChampion: Champion | null;
-};
-
 export const drawStateAtom = atom<DrawState>({
 	step: DrawStep.Lane,
 	usedLanes: [],
@@ -39,3 +37,7 @@ export const drawStateAtom = atom<DrawState>({
 	confirmedLane: null,
 	pendingChampion: null,
 });
+
+export const currentMainStepAtom = atom<number>(0);
+
+export const currentSideStepAtom = atom<number>(0);

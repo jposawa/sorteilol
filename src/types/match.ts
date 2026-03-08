@@ -8,6 +8,7 @@ export enum Lane {
 
 export enum Phase {
 	Setup = "setup",
+  Registering = "registering",
 	Drawing = "drawing",
 	Done = "done",
 }
@@ -18,8 +19,8 @@ export enum DrawStep {
 }
 
 export enum TeamKey {
-  TeamA = "teamA",
-  TeamB = "teamB",
+	TeamA = "teamA",
+	TeamB = "teamB",
 }
 
 export type Champion = {
@@ -47,6 +48,14 @@ export type PlayerResult = {
 };
 
 export type TeamPlayer = {
-  teamA: PlayerResult[];
-  teamB: PlayerResult[];
+	teamA: PlayerResult[];
+	teamB: PlayerResult[];
+};
+
+export type DrawState = {
+	step: DrawStep;
+	usedLanes: Lane[];
+	pendingLane: Lane | null;
+	confirmedLane: Lane | null;
+	pendingChampion: Champion | null;
 };
