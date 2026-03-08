@@ -123,9 +123,7 @@ export const useMatch = () => {
     const targetPhase = PHASE_ORDER[targetPhaseIndex];
 
     setMatchPhase(targetPhase);
-    setCurrentMainStep(targetPhaseIndex);
-    setCurrentSideStep(0);
-  }, [matchPhase, setCurrentMainStep, setCurrentSideStep, setMatchPhase]);
+  }, [matchPhase, setMatchPhase]);
 
   const nextPhase = React.useCallback(() => movePhase(1), [movePhase]);
   const previousPhase = React.useCallback(() => movePhase(-1), [movePhase]);
@@ -329,6 +327,17 @@ export const useMatch = () => {
 			});
 		}
 	}, [teamSize, teamCount, randomizeTeams, setPlayerNames]);
+
+	/**
+	* Doing this to guarantee state and index sync from multiple update sources
+	*/
+	React.useEffect(() => {
+		const currentPhaseIndex = PHASE_ORDER.indexOf(matchPhase);
+		
+		setCurrentMainStep(currentPhaseIndex);
+    setCurrentSideStep(0);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [matchPhase])
 
 	return {
 		// Estado
