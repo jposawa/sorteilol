@@ -11,8 +11,39 @@
   }
 }
 
-.form {
+.phaseBlock {
+  position: relative;
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 1rem;
+}
+
+.drawCardContainer {
+  position: absolute;
+  margin: auto;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--colorSurface);
+	border: 2px solid var(--colorPrimaryBorderFocus);
+  border-radius: 12px;
+	box-shadow: 0 0 24px var(--colorPrimaryMuted);
+  z-index: 10;
+
+  >header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+.drawStepContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
 }

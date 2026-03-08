@@ -1,11 +1,7 @@
 import React from "react";
 import { useAtom } from "jotai";
 
-import {
-  ALL_LANES,
-  INITIAL_DRAW_STATE,
-  PHASE_ORDER,
-} from "@/constants";
+import { ALL_LANES, INITIAL_DRAW_STATE, PHASE_ORDER } from "@/constants";
 import { pickRandom, randomChampionForLane } from "@/helpers";
 import {
 	activeTeamKeyAtom,
@@ -20,12 +16,7 @@ import {
 	teamRegistryAtom,
 	teamSizeAtom,
 } from "@/state";
-import {
-	DrawStep,
-	Phase,
-	type PlayerResult,
-	TeamKey,
-} from "@/types";
+import { DrawStep, Phase, type PlayerResult, TeamKey } from "@/types";
 
 export const useMatch = () => {
 	/**
@@ -46,8 +37,8 @@ export const useMatch = () => {
 	);
 	const [drawState, setDrawState] = useAtom(drawStateAtom);
 	const [randomizeTeams, setRandomizeTeams] = useAtom(randomizeTeamsAtom);
-  const [currentMainStep, setCurrentMainStep] = useAtom(currentMainStepAtom);
-  const [currentSideStep, setCurrentSideStep] = useAtom(currentSideStepAtom);
+	const [currentMainStep, setCurrentMainStep] = useAtom(currentMainStepAtom);
+	const [currentSideStep, setCurrentSideStep] = useAtom(currentSideStepAtom);
 
 	const resolvedPlayerNames = React.useMemo(
 		() => ({
@@ -101,32 +92,39 @@ export const useMatch = () => {
 		[setPlayerNames],
 	);
 
-  /**
-   * Move a `Phase` pelo número de passo indicado, seguindo ordem de `Phase` definida em `PHASE_ORDER`.
-   *
-   * @param stepNumber Número de passos em que está se movendo. Pode ser positivo ou negativo, dependendo do sentido de movimento.
-   */
-  const movePhase = React.useCallback((stepNumber: number = 1) => {
-    const currentPhaseIndex = PHASE_ORDER.indexOf(matchPhase);
-    const targetPhaseIndex = currentPhaseIndex + stepNumber;
+	/**
+	 * Move a `Phase` pelo número de passo indicado, seguindo ordem de `Phase` definida em `PHASE_ORDER`.
+	 *
+	 * @param stepNumber Número de passos em que está se movendo. Pode ser positivo ou negativo, dependendo do sentido de movimento.
+	 */
+	const movePhase = React.useCallback(
+		(stepNumber: number = 1) => {
+			const currentPhaseIndex = PHASE_ORDER.indexOf(matchPhase);
+			const targetPhaseIndex = currentPhaseIndex + stepNumber;
 
-    if (targetPhaseIndex < 0) {
-      console.warn("[movePhase] Já está na primeira fase, não é possível retroceder mais");
-      return;
-    }
+			if (targetPhaseIndex < 0) {
+				console.warn(
+					"[movePhase] Já está na primeira fase, não é possível retroceder mais",
+				);
+				return;
+			}
 
-    if (targetPhaseIndex >= PHASE_ORDER.length) {
-      console.warn("[movePhase] Já está na última fase, não é possível avançar mais");
-      return;
-    }
+			if (targetPhaseIndex >= PHASE_ORDER.length) {
+				console.warn(
+					"[movePhase] Já está na última fase, não é possível avançar mais",
+				);
+				return;
+			}
 
-    const targetPhase = PHASE_ORDER[targetPhaseIndex];
+			const targetPhase = PHASE_ORDER[targetPhaseIndex];
 
-    setMatchPhase(targetPhase);
-  }, [matchPhase, setMatchPhase]);
+			setMatchPhase(targetPhase);
+		},
+		[matchPhase, setMatchPhase],
+	);
 
-  const nextPhase = React.useCallback(() => movePhase(1), [movePhase]);
-  const previousPhase = React.useCallback(() => movePhase(-1), [movePhase]);
+	const nextPhase = React.useCallback(() => movePhase(1), [movePhase]);
+	const previousPhase = React.useCallback(() => movePhase(-1), [movePhase]);
 
 	const startDraw = React.useCallback(() => {
 		if (randomizeTeams && teamCount === 2) {
@@ -161,24 +159,33 @@ export const useMatch = () => {
 	// --- Sorteio – etapa Lane ---
 
 	const drawLane = React.useCallback(() => {
-		setDrawState((prev) => ({
-			...prev,
-			pendingLane: pickRandom(
-				ALL_LANES.filter((l) => !prev.usedLanes.includes(l)),
-			),
-		}));
-	}, [setDrawState]);
+		const currentUsedLanes = drawState.usedLanes;
+		const remainingLanes = ALL_LANES.filter(
+			(lane) => !currentUsedLanes.includes(lane),
+		);
+		const newPendingLane = pickRandom(remainingLanes);
+
+		setDrawState((prev) => {
+			return {
+				...prev,
+				pendingLane: newPendingLane,
+			};
+		});
+	}, [drawState, setDrawState]);
 
 	const confirmLane = React.useCallback(() => {
 		setDrawState((prev) => {
 			if (!prev.pendingLane) return prev;
-			return {
+
+			const newDrawState = {
 				...prev,
 				step: DrawStep.Champion,
 				usedLanes: [...prev.usedLanes, prev.pendingLane],
 				confirmedLane: prev.pendingLane,
 				pendingLane: null,
 			};
+
+			return newDrawState;
 		});
 	}, [setDrawState]);
 
@@ -212,7 +219,10 @@ export const useMatch = () => {
 
 		if (!isLastPlayer) {
 			setCurrentPlayerIndex((prev) => prev + 1);
-			setDrawState(INITIAL_DRAW_STATE);
+			setDrawState((prev) => ({
+				...INITIAL_DRAW_STATE,
+				usedLanes: [...prev.usedLanes],
+			}));
 		} else if (teamCount === 2 && activeTeamKey === TeamKey.TeamA) {
 			setActiveTeamKey(TeamKey.TeamB);
 			setCurrentPlayerIndex(0);
@@ -300,7 +310,7 @@ export const useMatch = () => {
 		setTeamRegistry,
 	]);
 
-  // Redimensiona/reorganiza os arrays de nomes ao alterar teamSize, teamCount ou randomizeTeams
+	// Redimensiona/reorganiza os arrays de nomes ao alterar teamSize, teamCount ou randomizeTeams
 	React.useEffect(() => {
 		if (randomizeTeams && teamCount === 2) {
 			const total = teamSize * 2;
@@ -329,15 +339,15 @@ export const useMatch = () => {
 	}, [teamSize, teamCount, randomizeTeams, setPlayerNames]);
 
 	/**
-	* Doing this to guarantee state and index sync from multiple update sources
-	*/
+	 * Doing this to guarantee state and index sync from multiple update sources
+	 */
 	React.useEffect(() => {
 		const currentPhaseIndex = PHASE_ORDER.indexOf(matchPhase);
-		
+
 		setCurrentMainStep(currentPhaseIndex);
-    setCurrentSideStep(0);
+		setCurrentSideStep(0);
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [matchPhase])
+	}, [matchPhase]);
 
 	return {
 		// Estado
@@ -353,20 +363,20 @@ export const useMatch = () => {
 		currentPlayerName,
 		currentTeam,
 		drawState,
-    currentMainStep,
-    currentSideStep,
+		currentMainStep,
+		currentSideStep,
 		// Configuração
 		updateTeamSize,
 		updateTeamCount,
 		updateRandomizeTeams,
 		updatePlayerName,
 		updateFlatPlayerName,
-    //Flow
+		//Flow
 		startDraw,
 		setMatchPhase,
-    movePhase,
-    nextPhase,
-    previousPhase,
+		movePhase,
+		nextPhase,
+		previousPhase,
 		// Lane
 		drawLane,
 		rerollLane: drawLane,

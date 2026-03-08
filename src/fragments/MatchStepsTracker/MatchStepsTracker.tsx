@@ -5,7 +5,7 @@ import clsx from "clsx";
 import { PHASE_ORDER } from "@/constants";
 import { capitalize } from "@/helpers";
 import { useMatch } from "@/hooks";
-import { type BaseComponent, TeamKey, Phase} from "@/types";
+import { type BaseComponent, Phase,TeamKey} from "@/types";
 
 import styles from "./MatchStepsTracker.module.css";
 

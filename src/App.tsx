@@ -10,7 +10,7 @@ function App() {
 				<h1 className="title">Sorteio LoL</h1>
 			</header>
 
-			<main>
+			<main className="main-container">
 				<TeamCreation />
 			</main>
 
