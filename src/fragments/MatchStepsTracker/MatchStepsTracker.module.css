@@ -6,6 +6,10 @@
 	:global(.ant-steps-item-icon) {
 		--ant-cmp-steps-item-icon-bg-color: var(--stepColor);
 		--ant-cmp-steps-item-icon-text-color: var(--colorOnPrimary) !important;
+
+		&:hover {
+			--ant-cmp-steps-item-icon-bg-hover-color: var(--stepColor) !important;
+		}
 	}
 
 	:global(.ant-steps-item-title) {
@@ -19,5 +23,11 @@
 	:global(.ant-steps-item-finish) {
 		--textColor: var(--colorSuccess);
 		--stepColor: var(--colorSuccess) !important;
+
+		&:hover {
+			--ant-cmp-steps-item-icon-bg-hover-color: var(--stepColor) !important;
+      --ant-color-primary: var(--colorBlack) !important;
+      --ant-color-primary-hover: var(--colorSuccess) !important;
+		}
 	}
 }

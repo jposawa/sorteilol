@@ -1,5 +1,5 @@
 import React from "react";
-import { useAtom, useSetAtom } from "jotai";
+import { useAtom } from "jotai";
 
 import {
   ALL_LANES,
@@ -46,8 +46,8 @@ export const useMatch = () => {
 	);
 	const [drawState, setDrawState] = useAtom(drawStateAtom);
 	const [randomizeTeams, setRandomizeTeams] = useAtom(randomizeTeamsAtom);
-  const setCurrentMainStep = useSetAtom(currentMainStepAtom);
-  const setCurrentSideStep = useSetAtom(currentSideStepAtom);
+  const [currentMainStep, setCurrentMainStep] = useAtom(currentMainStepAtom);
+  const [currentSideStep, setCurrentSideStep] = useAtom(currentSideStepAtom);
 
 	const resolvedPlayerNames = React.useMemo(
 		() => ({
@@ -344,6 +344,8 @@ export const useMatch = () => {
 		currentPlayerName,
 		currentTeam,
 		drawState,
+    currentMainStep,
+    currentSideStep,
 		// Configuração
 		updateTeamSize,
 		updateTeamCount,

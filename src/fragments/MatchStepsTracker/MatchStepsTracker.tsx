@@ -1,36 +1,49 @@
+import React from "react";
 import { Steps } from "antd";
 import clsx from "clsx";
-import { useAtomValue } from "jotai";
 
 import { PHASE_ORDER } from "@/constants";
 import { capitalize } from "@/helpers";
-import { currentMainStepAtom } from "@/state";
+import { useMatch } from "@/hooks";
 import type { BaseComponent } from "@/types";
 
 import styles from "./MatchStepsTracker.module.css";
 
 type MatchStepsTrackerProps = BaseComponent;
 
-const MAIN_STEPS_LIST = PHASE_ORDER.map((phase) => ({
-	title: capitalize(phase),
-}));
-
 export const MatchStepsTracker: React.FC<MatchStepsTrackerProps> = ({
 	className = "",
 	style = {},
 }) => {
-	const currentMainStep = useAtomValue(currentMainStepAtom);
+	const { currentMainStep, movePhase } = useMatch();
+
+	const mainStepsList = React.useMemo(() => {
+		const steps = PHASE_ORDER.map((phase, index) => ({
+			title: capitalize(phase),
+			disabled: index > currentMainStep,
+		}));
+
+		return steps;
+	}, [currentMainStep]);
+
+	const handleStepChange = (step: number) => {
+		const phaseDiff = step - currentMainStep;
+
+		movePhase(phaseDiff);
+	};
+
 	return (
 		<Steps
+			onChange={handleStepChange}
 			className={clsx(styles.matchStepsTracker, className)}
 			style={style}
-			items={MAIN_STEPS_LIST}
+			items={mainStepsList}
 			current={currentMainStep}
 			titlePlacement="vertical"
 			orientation="horizontal"
-			ellipsis
-      size="small"
+			size="small"
 			responsive={false}
+			ellipsis
 		/>
 	);
 };
