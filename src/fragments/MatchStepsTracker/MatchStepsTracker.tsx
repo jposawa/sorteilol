@@ -5,7 +5,7 @@ import clsx from "clsx";
 import { PHASE_ORDER } from "@/constants";
 import { capitalize } from "@/helpers";
 import { useMatch } from "@/hooks";
-import { type BaseComponent, TeamKey} from "@/types";
+import { type BaseComponent, TeamKey, Phase} from "@/types";
 
 import styles from "./MatchStepsTracker.module.css";
 
@@ -15,7 +15,8 @@ export const MatchStepsTracker: React.FC<MatchStepsTrackerProps> = ({
 	className = "",
 	style = {},
 }) => {
-	const { 
+	const {
+		matchPhase,
 		currentMainStep, 
 		movePhase,
 		currentPlayerIndex,
@@ -34,6 +35,9 @@ export const MatchStepsTracker: React.FC<MatchStepsTrackerProps> = ({
 	}, [currentMainStep]);
 
 	const drawingPercent = React.useMemo(() => {
+		if (matchPhase !== Phase.Drawing) {
+			return undefined;
+		}
 		const teamNumberMult = activeTeamKey === TeamKey.TeamA ? 0 : 1;
 		const teamOffset = teamSize * teamNumberMult;
 		const playerGeralPos = currentPlayerIndex + teamOffset;
@@ -42,7 +46,7 @@ export const MatchStepsTracker: React.FC<MatchStepsTrackerProps> = ({
 		const currentPercent = (playerGeralPos / (totalPositions || 1)) * 100;
 
 		return currentPercent;
-	}, [activeTeamKey, teamSize, teamCount, currentPlayerIndex]);
+	}, [activeTeamKey, teamSize, teamCount, currentPlayerIndex, matchPhase]);
 
 	const handleStepChange = (step: number) => {
 		const phaseDiff = step - currentMainStep;
