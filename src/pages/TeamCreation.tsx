@@ -1,7 +1,7 @@
 ﻿import React from "react";
 
 import { PhaseRegistering, PhaseSetup } from "@/fragments";
-import { LaneIcon } from "../components";
+import { LaneIcon, SLButton } from "../components";
 import { useMatch } from "../hooks";
 import { DrawStep, Phase, TeamKey } from "../types";
 
@@ -33,13 +33,9 @@ export const TeamCreation: React.FC = () => {
 
 	return (
 		<section className={styles.mainContainer}>
-			{matchPhase === Phase.Setup && (
-				<PhaseSetup />
-			)}
+			{matchPhase === Phase.Setup && <PhaseSetup />}
 
-      {matchPhase === Phase.Registering && (
-        <PhaseRegistering />
-      )}
+			{matchPhase === Phase.Registering && <PhaseRegistering />}
 
 			{matchPhase === Phase.Drawing && (
 				<section className="drawing-phase">
@@ -98,13 +94,7 @@ export const TeamCreation: React.FC = () => {
 										</div>
 									</>
 								) : (
-									<button
-										type="button"
-										className="sortear-btn"
-										onClick={drawLane}
-									>
-										Sortear Lane
-									</button>
+									<SLButton onClick={drawLane}>Sortear Lane</SLButton>
 								)}
 								{currentPlayerIndex > 0 && (
 									<button
@@ -150,13 +140,8 @@ export const TeamCreation: React.FC = () => {
 											</div>
 										</>
 									) : (
-										<button
-											type="button"
-											className="sortear-btn"
-											onClick={drawChampion}
-										>
-											Sortear Campeão
-										</button>
+                    <SLButton onClick={drawChampion}>Sortear Campeão</SLButton>
+										
 									)}
 									<button
 										type="button"

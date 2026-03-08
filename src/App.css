@@ -71,6 +71,8 @@
 	color: #c89b3c;
 	font-weight: 600;
 	text-align: center;
+  display: flex;
+  align-items: center;
 }
 
 .result-champion {

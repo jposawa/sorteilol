@@ -1,12 +1,12 @@
 import React from "react";
 import clsx from "clsx";
 
-import { SLInput, SLSelect } from "@/components";
 import { useMatch } from "@/hooks";
 import { type BaseComponent, TeamKey } from "@/types";
 import { PlayersRegistry } from "../PlayersRegistry";
 
 import styles from "./TeamPhases.module.css";
+import { SLButton } from "@/components";
 
 type PhaseRegisteringProps = BaseComponent;
 
@@ -40,9 +40,9 @@ export const PhaseRegistering: React.FC<PhaseRegisteringProps> = ({
 				/>
 			)}
 
-			<button type="submit" className="sortear-btn">
+      <SLButton type="submit">
 				Iniciar Sorteio
-			</button>
+      </SLButton>
 		</form>
 	);
 };
