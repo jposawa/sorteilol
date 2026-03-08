@@ -1,14 +1,23 @@
+import { MatchStepsTracker } from "./fragments";
 import { TeamCreation } from "./pages";
 
 import "./App.css";
 
 function App() {
 	return (
-		<main className="app">
-			<h1 className="title">Sorteio LoL</h1>
+		<div className="app">
+			<header className="app-header">
+				<h1 className="title">Sorteio LoL</h1>
+			</header>
 
-			<TeamCreation />
-		</main>
+			<main>
+				<TeamCreation />
+			</main>
+
+			<footer className="app-footer">
+				<MatchStepsTracker />
+			</footer>
+		</div>
 	);
 }
 

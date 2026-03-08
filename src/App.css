@@ -1,462 +1,453 @@
-#root {
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-}
-
 .app {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2rem;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 2rem;
 }
 
-.title {
-  font-size: 2.5rem;
-  font-weight: 700;
-  letter-spacing: 2px;
-  color: #c89b3c;
-  text-transform: uppercase;
-  text-shadow: 0 0 20px #c89b3c55;
+.app-header {
+	color: var(--colorPrimary);
+	text-transform: uppercase;
+	text-shadow: 0 0 20px var(--colorPrimaryBorderFocus);
+
+	> h1 {
+		font-size: 3em;
+	}
+}
+
+.app-footer {
+  width: 100%;
+  height: max-content;
+  margin: auto;
+  margin-bottom: 0;
 }
 
 .players-form {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  width: 100%;
-  max-width: 360px;
-}
-
-.sortear-btn {
-  margin-top: 0.5rem;
-  padding: 0.75rem;
-  border-radius: 6px;
-  border: none;
-  background-color: #c89b3c;
-  color: #0a0a0a;
-  font-size: 1rem;
-  font-weight: 700;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: background-color 0.2s, transform 0.1s;
-}
-
-.sortear-btn:hover {
-  background-color: #e0b354;
-}
-
-.sortear-btn:active {
-  transform: scale(0.97);
+	display: flex;
+	flex-direction: column;
+	gap: 0.75rem;
+	width: 100%;
+	max-width: 360px;
 }
 
 .results {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  width: 100%;
-  max-width: 480px;
+	display: flex;
+	flex-direction: column;
+	gap: 0.75rem;
+	width: 100%;
+	max-width: 480px;
 }
 
 .result-card {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  align-items: center;
-  padding: 0.85rem 1.25rem;
-  border-radius: 8px;
-  background-color: #1a1a2e;
-  border: 1px solid #2e2e4a;
-  gap: 0.5rem;
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	align-items: center;
+	padding: 0.85rem 1.25rem;
+	border-radius: 8px;
+	background-color: #1a1a2e;
+	border: 1px solid #2e2e4a;
+	gap: 0.5rem;
 }
 
 .result-card--done {
-  opacity: 0.6;
-  font-size: 0.9rem;
+	opacity: 0.6;
+	font-size: 0.9rem;
 }
 
 .result-player {
-  font-weight: 600;
-  color: #e0e0e0;
-  text-align: left;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+	font-weight: 600;
+	color: #e0e0e0;
+	text-align: left;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
 .result-lane {
-  font-size: 0.9rem;
-  color: #c89b3c;
-  font-weight: 600;
-  text-align: center;
+	font-size: 0.9rem;
+	color: #c89b3c;
+	font-weight: 600;
+	text-align: center;
+  display: flex;
+  align-items: center;
 }
 
 .result-champion {
-  font-size: 0.95rem;
-  color: #a0c4ff;
-  text-align: right;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+	font-size: 0.95rem;
+	color: #a0c4ff;
+	text-align: right;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
 /* Drawing phase */
 
 .drawing-phase {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1.25rem;
-  width: 100%;
-  max-width: 480px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 1.25rem;
+	width: 100%;
+	max-width: 480px;
 }
 
 .draw-card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-  width: 100%;
-  padding: 1.75rem 2rem;
-  border-radius: 12px;
-  background-color: #1a1a2e;
-  border: 2px solid #c89b3c55;
-  box-shadow: 0 0 24px #c89b3c22;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 1rem;
+	width: 100%;
+	padding: 1.75rem 2rem;
+	border-radius: 12px;
+	background-color: #1a1a2e;
+	border: 2px solid #c89b3c55;
+	box-shadow: 0 0 24px #c89b3c22;
 }
 
 .draw-player {
-  font-size: 1.4rem;
-  font-weight: 700;
-  color: #e0e0e0;
+	font-size: 1.4rem;
+	font-weight: 700;
+	color: #e0e0e0;
 }
 
 .draw-progress {
-  font-size: 0.8rem;
-  color: #555;
-  margin-top: -0.5rem;
+	font-size: 0.8rem;
+	color: #555;
+	margin-top: -0.5rem;
 }
 
 .draw-step {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.85rem;
-  width: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 0.85rem;
+	width: 100%;
 }
 
 .draw-step-label {
-  font-size: 0.8rem;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  color: #666;
+	font-size: 0.8rem;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	color: #666;
 }
 
 .draw-confirmed-lane {
-  font-size: 1rem;
-  font-weight: 600;
-  color: #c89b3c;
-  background: #c89b3c18;
-  padding: 0.3rem 0.9rem;
-  border-radius: 20px;
-  border: 1px solid #c89b3c44;
-  display: flex;
-  align-items: center;
+	font-size: 1rem;
+	font-weight: 600;
+	color: #c89b3c;
+	background: #c89b3c18;
+	padding: 0.3rem 0.9rem;
+	border-radius: 20px;
+	border: 1px solid #c89b3c44;
+	display: flex;
+	align-items: center;
 }
 
 .draw-value {
-  font-size: 2rem;
-  font-weight: 700;
-  color: #c89b3c;
+	font-size: 2rem;
+	font-weight: 700;
+	color: #c89b3c;
 }
 
 .draw-value--champion {
-  color: #a0c4ff;
-  font-size: 1.6rem;
+	color: #a0c4ff;
+	font-size: 1.6rem;
 }
 
 .draw-actions {
-  display: flex;
-  gap: 0.75rem;
-  width: 100%;
-  justify-content: center;
+	display: flex;
+	gap: 0.75rem;
+	width: 100%;
+	justify-content: center;
 }
 
 .action-btn {
-  flex: 1;
-  max-width: 180px;
-  padding: 0.6rem 1rem;
-  border-radius: 6px;
-  border: none;
-  font-size: 0.9rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.2s, transform 0.1s;
+	flex: 1;
+	max-width: 180px;
+	padding: 0.6rem 1rem;
+	border-radius: 6px;
+	border: none;
+	font-size: 0.9rem;
+	font-weight: 600;
+	cursor: pointer;
+	transition:
+		background-color 0.2s,
+		transform 0.1s;
 }
 
 .action-btn--reroll {
-  background-color: #2e2e4a;
-  color: #aaa;
-  border: 1px solid #3c3c5a;
+	background-color: #2e2e4a;
+	color: #aaa;
+	border: 1px solid #3c3c5a;
 }
 
 .action-btn--reroll:hover {
-  background-color: #3a3a5a;
-  color: #e0e0e0;
+	background-color: #3a3a5a;
+	color: #e0e0e0;
 }
 
 .action-btn--confirm {
-  background-color: #1e4d2b;
-  color: #6dffa0;
-  border: 1px solid #2a6b3a;
+	background-color: #1e4d2b;
+	color: #6dffa0;
+	border: 1px solid #2a6b3a;
 }
 
 .action-btn--confirm:hover {
-  background-color: #265e35;
+	background-color: #265e35;
 }
 
 .action-btn:active {
-  transform: scale(0.96);
+	transform: scale(0.96);
 }
 
 /* Back button */
 
 .back-btn {
-  background: none;
-  border: 1px solid #c89b3c66;
-  color: #c89b3c;
-  font-size: 0.82rem;
-  font-weight: 600;
-  cursor: pointer;
-  padding: 0.35rem 0.85rem;
-  border-radius: 6px;
-  transition: background-color 0.2s, color 0.2s, border-color 0.2s;
-  margin-top: 0.25rem;
+	background: none;
+	border: 1px solid #c89b3c66;
+	color: #c89b3c;
+	font-size: 0.82rem;
+	font-weight: 600;
+	cursor: pointer;
+	padding: 0.35rem 0.85rem;
+	border-radius: 6px;
+	transition:
+		background-color 0.2s,
+		color 0.2s,
+		border-color 0.2s;
+	margin-top: 0.25rem;
 }
 
 .back-btn:hover {
-  background-color: #c89b3c18;
-  border-color: #c89b3c;
-  color: #e0b354;
+	background-color: #c89b3c18;
+	border-color: #c89b3c;
+	color: #e0b354;
 }
 
 /* Done phase */
 
 .done-phase {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1.5rem;
-  width: 100%;
-  max-width: 480px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 1.5rem;
+	width: 100%;
+	max-width: 480px;
 }
 
 .result-champion-group {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 0.5rem;
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	gap: 0.5rem;
 }
 
 .champion-reroll-btn {
-  background: none;
-  border: 1px solid #3c3c5a;
-  border-radius: 4px;
-  color: #666;
-  cursor: pointer;
-  font-size: 0.8rem;
-  padding: 0.15rem 0.35rem;
-  line-height: 1;
-  flex-shrink: 0;
-  transition: border-color 0.2s, color 0.2s, transform 0.1s;
+	background: none;
+	border: 1px solid #3c3c5a;
+	border-radius: 4px;
+	color: #666;
+	cursor: pointer;
+	font-size: 0.8rem;
+	padding: 0.15rem 0.35rem;
+	line-height: 1;
+	flex-shrink: 0;
+	transition:
+		border-color 0.2s,
+		color 0.2s,
+		transform 0.1s;
 }
 
 .champion-reroll-btn:hover {
-  border-color: #a0c4ff;
-  color: #a0c4ff;
+	border-color: #a0c4ff;
+	color: #a0c4ff;
 }
 
 .champion-reroll-btn:active {
-  transform: scale(0.9);
+	transform: scale(0.9);
 }
 
 .resetar-btn {
-  margin-top: 0.5rem;
-  background-color: #2e2e4a;
-  color: #aaa;
-  border: 1px solid #3c3c5a;
+	margin-top: 0.5rem;
+	background-color: #2e2e4a;
+	color: #aaa;
+	border: 1px solid #3c3c5a;
 }
 
 .resetar-btn:hover {
-  background-color: #3a3a5a;
-  color: #e0e0e0;
+	background-color: #3a3a5a;
+	color: #e0e0e0;
 }
 
 /* Tabs */
 
 .tabs {
-  display: flex;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
+	display: flex;
+	gap: 0.5rem;
+	margin-bottom: 1rem;
 }
 
 .tab {
-  flex: 1;
-  padding: 0.75rem 1.5rem;
-  border-radius: 8px;
-  border: 2px solid #2e2e4a;
-  background-color: #1a1a2e;
-  color: #aaa;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s;
-  text-transform: uppercase;
-  letter-spacing: 1px;
+	flex: 1;
+	padding: 0.75rem 1.5rem;
+	border-radius: 8px;
+	border: 2px solid #2e2e4a;
+	background-color: #1a1a2e;
+	color: #aaa;
+	font-size: 1rem;
+	font-weight: 600;
+	cursor: pointer;
+	transition: all 0.2s;
+	text-transform: uppercase;
+	letter-spacing: 1px;
 }
 
 .tab:hover {
-  border-color: #3c3c5a;
-  color: #e0e0e0;
+	border-color: #3c3c5a;
+	color: #e0e0e0;
 }
 
 .tab--active {
-  background-color: #c89b3c;
-  border-color: #c89b3c;
-  color: #0a0a0a;
+	background-color: #c89b3c;
+	border-color: #c89b3c;
+	color: #0a0a0a;
 }
 
 .tab--active:hover {
-  background-color: #e0b354;
-  border-color: #e0b354;
+	background-color: #e0b354;
+	border-color: #e0b354;
 }
 
 /* Mode Container */
 
 .mode-container {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 }
 
 /* Two Teams Mode */
 
 .players-list {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  width: 100%;
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+	width: 100%;
 }
 
 .player-input-row {
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
+	display: flex;
+	gap: 0.5rem;
+	align-items: center;
 }
 
 .player-input-row .player-input {
-  flex: 1;
+	flex: 1;
 }
 
 .remove-player-btn {
-  padding: 0.65rem 0.85rem;
-  border-radius: 6px;
-  border: 1px solid #3c3c3c;
-  background-color: #2e1a1a;
-  color: #ff6b6b;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: all 0.2s;
-  line-height: 1;
-  flex-shrink: 0;
+	padding: 0.65rem 0.85rem;
+	border-radius: 6px;
+	border: 1px solid #3c3c3c;
+	background-color: #2e1a1a;
+	color: #ff6b6b;
+	font-size: 1rem;
+	cursor: pointer;
+	transition: all 0.2s;
+	line-height: 1;
+	flex-shrink: 0;
 }
 
 .remove-player-btn:hover {
-  background-color: #3a2020;
-  border-color: #ff6b6b;
+	background-color: #3a2020;
+	border-color: #ff6b6b;
 }
 
 .add-player-btn {
-  padding: 0.6rem 1rem;
-  border-radius: 6px;
-  border: 1px dashed #3c3c5a;
-  background-color: transparent;
-  color: #888;
-  font-size: 0.9rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s;
-  text-transform: uppercase;
-  letter-spacing: 1px;
+	padding: 0.6rem 1rem;
+	border-radius: 6px;
+	border: 1px dashed #3c3c5a;
+	background-color: transparent;
+	color: #888;
+	font-size: 0.9rem;
+	font-weight: 600;
+	cursor: pointer;
+	transition: all 0.2s;
+	text-transform: uppercase;
+	letter-spacing: 1px;
 }
 
 .add-player-btn:hover {
-  border-color: #c89b3c;
-  color: #c89b3c;
-  background-color: #c89b3c11;
+	border-color: #c89b3c;
+	color: #c89b3c;
+	background-color: #c89b3c11;
 }
 
 .add-player-btn:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-  border-color: #2e2e4a;
-  color: #555;
+	opacity: 0.4;
+	cursor: not-allowed;
+	border-color: #2e2e4a;
+	color: #555;
 }
 
 .add-player-btn:disabled:hover {
-  border-color: #2e2e4a;
-  color: #555;
-  background-color: transparent;
+	border-color: #2e2e4a;
+	color: #555;
+	background-color: transparent;
 }
 
 .two-teams-results {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  width: 100%;
-  max-width: 600px;
+	display: flex;
+	flex-direction: column;
+	gap: 2rem;
+	width: 100%;
+	max-width: 600px;
 }
 
 .team-container {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
 }
 
 .team-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 0.5rem;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 0 0.5rem;
 }
 
 .team-title {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #c89b3c;
-  text-transform: uppercase;
-  letter-spacing: 1px;
+	font-size: 1.5rem;
+	font-weight: 700;
+	color: #c89b3c;
+	text-transform: uppercase;
+	letter-spacing: 1px;
 }
 
 .team-reroll-btn {
-  padding: 0.5rem 1rem;
-  border-radius: 6px;
-  border: 1px solid #3c3c5a;
-  background-color: #2e2e4a;
-  color: #aaa;
-  font-size: 0.85rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s;
+	padding: 0.5rem 1rem;
+	border-radius: 6px;
+	border: 1px solid #3c3c5a;
+	background-color: #2e2e4a;
+	color: #aaa;
+	font-size: 0.85rem;
+	font-weight: 600;
+	cursor: pointer;
+	transition: all 0.2s;
 }
 
 .team-reroll-btn:hover {
-  background-color: #3a3a5a;
-  border-color: #c89b3c;
-  color: #c89b3c;
+	background-color: #3a3a5a;
+	border-color: #c89b3c;
+	color: #c89b3c;
 }
 
 .team-reroll-btn:active {
-  transform: scale(0.97);
+	transform: scale(0.97);
 }

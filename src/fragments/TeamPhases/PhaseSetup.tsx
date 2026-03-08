@@ -1,17 +1,14 @@
 import React from "react";
+import { Switch } from "antd";
 import clsx from "clsx";
 
-import { SLInput, SLSelect } from "@/components";
+import { SLButton, SLInput, SLSelect } from "@/components";
 import { useMatch } from "@/hooks";
-import { TeamKey } from "@/types";
-import { PlayersRegistry } from "../PlayersRegistry";
+import { type BaseComponent } from "@/types";
 
 import styles from "./TeamPhases.module.css";
 
-type PhaseSetupProps = {
-	className?: string;
-	style?: React.CSSProperties;
-};
+type PhaseSetupProps = BaseComponent;
 
 export const PhaseSetup: React.FC<PhaseSetupProps> = ({
 	className = "",
@@ -19,17 +16,17 @@ export const PhaseSetup: React.FC<PhaseSetupProps> = ({
 }) => {
 	const {
 		teamCount,
-		startDraw,
+		nextPhase,
 		updateTeamCount,
 		teamSize,
 		updateTeamSize,
 		randomizeTeams,
 		updateRandomizeTeams,
-		playerNames,
 	} = useMatch();
+
 	const handleSubmit = (event: React.FormEvent) => {
 		event.preventDefault();
-		startDraw();
+		nextPhase();
 	};
 
 	const handleTeamSizeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -58,59 +55,41 @@ export const PhaseSetup: React.FC<PhaseSetupProps> = ({
 				</h3>
 
 				<p className={styles.formRow}>
-					<label>
-						Número times:&nbsp;
-						<SLSelect defaultValue={teamCount} onChange={handleTeamCountChange}>
-							<option value={1}>1 time</option>
-							<option value={2}>2 times</option>
-						</SLSelect>
-					</label>
+					<SLSelect
+						label="Número times: "
+						defaultValue={teamCount}
+						onChange={handleTeamCountChange}
+					>
+						<option value={1}>1 time</option>
+						<option value={2}>2 times</option>
+					</SLSelect>
 				</p>
 
 				<p className={styles.formRow}>
-					<label>
-						Tamanho time:&nbsp;
-						<SLInput
-							type="number"
-							min={1}
-							max={5}
-							defaultValue={teamSize}
-							onChange={handleTeamSizeChange}
-						/>
-					</label>
+					<SLInput
+						label="Tamanho time: "
+						type="number"
+						min={1}
+						max={5}
+						defaultValue={teamSize}
+						onChange={handleTeamSizeChange}
+					/>
 				</p>
 
 				{teamCount === 2 && (
 					<div className={styles.formRow}>
-						<label htmlFor="randomize-teams">
-							Sortear jogadores entre os times
+						<label>
+							<span>Sortear distribuição jogadores&nbsp;</span>
+							<Switch
+								defaultChecked={randomizeTeams}
+								onChange={updateRandomizeTeams}
+							/>
 						</label>
-						<input
-							id="randomize-teams"
-							type="checkbox"
-							checked={randomizeTeams}
-							onChange={(e) => updateRandomizeTeams(e.target.checked)}
-						/>
 					</div>
 				)}
 			</fieldset>
-			<PlayersRegistry
-				teamKey={TeamKey.TeamA}
-				fieldTitle={teamCount === 1 || randomizeTeams ? "Jogadores" : "Time A"}
-				className={styles.formField}
-			/>
 
-			{teamCount === 2 && !!playerNames.teamB?.length && (
-				<PlayersRegistry
-					teamKey={TeamKey.TeamB}
-					fieldTitle="Time B"
-					className={styles.formField}
-				/>
-			)}
-
-			<button type="submit" className="sortear-btn">
-				Iniciar Sorteio
-			</button>
+			<SLButton type="submit">Iniciar</SLButton>
 		</form>
 	);
 };
