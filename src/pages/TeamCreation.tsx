@@ -241,13 +241,9 @@ export const TeamCreation: React.FC = () => {
 						</ol>
 					)}
 
-					<button
-						type="button"
-						className="sortear-btn resetar-btn"
-						onClick={resetDraw}
-					>
-						Novo Sorteio
-					</button>
+					<SLButton variant="outlined" onClick={resetDraw}>
+					  Novo Sorteio
+					</SLButton>
 				</section>
 			)}
 		</section>
