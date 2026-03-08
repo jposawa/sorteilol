@@ -21,7 +21,7 @@ export const MatchStepsTracker: React.FC<MatchStepsTrackerProps> = ({
 		currentPlayerIndex,
 		teamCount,
 		teamSize,
-		activeTeam,
+		activeTeamKey,
 	} = useMatch();
 
 	const mainStepsList = React.useMemo(() => {
@@ -34,7 +34,7 @@ export const MatchStepsTracker: React.FC<MatchStepsTrackerProps> = ({
 	}, [currentMainStep]);
 
 	const drawingPercent = React.useMemo(() => {
-		const teamNumberMult = activeTeam === TeamKey.TeamA ? 0 : 1;
+		const teamNumberMult = activeTeamKey === TeamKey.TeamA ? 0 : 1;
 		const teamOffset = teamSize * teamNumberMult;
 		const playerGeralPos = currentPlayerIndex + teamOffset;
 		const totalPositions = teamCount * teamSize;
@@ -42,7 +42,7 @@ export const MatchStepsTracker: React.FC<MatchStepsTrackerProps> = ({
 		const currentPercent = (playerGeralPos / (totalPositions || 1)) * 100;
 
 		return currentPercent;
-	}, [activeTeam, teamSize, teamCount, currentPlayerIndex]);
+	}, [activeTeamKey, teamSize, teamCount, currentPlayerIndex]);
 
 	const handleStepChange = (step: number) => {
 		const phaseDiff = step - currentMainStep;
