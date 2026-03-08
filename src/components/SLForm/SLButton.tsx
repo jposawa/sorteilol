@@ -5,6 +5,7 @@ import styles from "./SLForm.module.css";
 
 type SLButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
 	variation?: "filled" | "outlined" | "text";
+	variant?: "filled" | "outlined" | "text";
 	role?: "primary" | "secondary" | "danger";
 };
 
@@ -15,6 +16,7 @@ export const SLButton: React.FC<SLButtonProps> = (props) => {
 		style = {},
 		type = "button",
 		variation = "filled",
+		variant,
 		role = "primary",
 		...rest
 	} = props;
@@ -24,7 +26,7 @@ export const SLButton: React.FC<SLButtonProps> = (props) => {
 			type={type}
 			className={clsx(
 				styles.button,
-				styles[`btn-${variation}`],
+				styles[`btn-${variant ?? variation}`],
 				styles[`role-${role}`],
 				className,
 			)}
