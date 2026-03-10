@@ -50,7 +50,7 @@ export const SLSelect = <T,>(props: SLSelectProps<T>) => {
 	}
 
 	return (
-		<label>
+		<label className={clsx(styles.labelElement)}>
 			{elementLabel}
 			<select
 				{...rest}

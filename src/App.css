@@ -52,7 +52,7 @@
 
 .result-card {
 	display: grid;
-	grid-template-columns: 1fr 1fr 1fr;
+	grid-template-columns: 1fr 1fr 1fr auto;
 	align-items: center;
 	padding: 0.85rem 1.25rem;
 	border-radius: 8px;
@@ -80,8 +80,8 @@
 	color: #c89b3c;
 	font-weight: 600;
 	text-align: center;
-  display: flex;
-  align-items: center;
+	display: flex;
+	align-items: center;
 }
 
 .result-champion {
@@ -91,6 +91,14 @@
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
+}
+
+.result-champion-portrait {
+	width: 3.5rem;
+	height: 3.5rem;
+	border-radius: 6px;
+	object-fit: cover;
+	border: 1px solid #2e2e4a;
 }
 
 /* Drawing phase */
