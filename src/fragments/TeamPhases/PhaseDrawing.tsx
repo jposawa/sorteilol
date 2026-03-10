@@ -1,9 +1,11 @@
-import type React from "react";
 import clsx from "clsx";
+import type React from "react";
 
 import { LaneIcon, SLButton } from "@/components";
+import { MAX_DRAW_ROLLS } from "@/constants";
+import { getChampionPortraitUrl } from "@/helpers";
 import { useMatch } from "@/hooks";
-import { type BaseComponent,DrawStep,TeamKey } from "@/types";
+import { type BaseComponent, DrawStep, TeamKey } from "@/types";
 
 import styles from "./TeamPhases.module.css";
 
@@ -13,135 +15,179 @@ export const PhaseDrawing: React.FC<PhaseDrawingProps> = ({
   className = "",
   style = {},
 }) => {
-  const { 
-    teamCount, 
-    activeTeamKey, 
-    currentTeam, 
+  const {
+    teamCount,
+    activeTeamKey,
+    currentTeam,
     teamSize,
     currentPlayerIndex,
     currentPlayerName,
     drawState,
+    canRerollCurrentLane,
     resolvedPlayerNames,
     drawLane,
     rerollLane,
     confirmLane,
     drawChampion,
     rerollChampion,
+    rerollLaneForCurrentPlayer,
     confirmChampion,
-    goBackToLane,
+    goBackToRegistering,
     goBackToPreviousPlayer,
   } = useMatch();
 
-	return (
-		<section className={clsx(styles.phaseBlock, className)} style={style}>
-			{teamCount === 2 && (
-				<p className="active-team-label">
-					{activeTeamKey === TeamKey.TeamA ? "Time A" : "Time B"}
-				</p>
-			)}
+  const canRerollChampion = drawState.championRollCount < MAX_DRAW_ROLLS;
+  const canDrawChampion =
+    !drawState.pendingChampion && drawState.championRollCount < MAX_DRAW_ROLLS;
 
-			{currentTeam.length > 0 && (
-				<ol className="results">
-					{currentTeam.map((r, i) => (
-						<li key={i} className="result-card result-card--done">
-							<span className="result-player">{r.name}</span>
-							<span className="result-lane">
-								<LaneIcon iconName={r.lane} /> {r.lane}
-							</span>
-							<span className="result-champion">{r.champion.name}</span>
-						</li>
-					))}
-				</ol>
-			)}
+  return (
+    <section className={clsx(styles.phaseBlock, className)} style={style}>
+      {teamCount === 2 && (
+        <p className="active-team-label">
+          {activeTeamKey === TeamKey.TeamA ? "Time A" : "Time B"}
+        </p>
+      )}
 
-			<article className={styles.drawCardContainer}>
-				<header className="draw-header">
-					<span className="draw-player">{currentPlayerName}</span>
-					<span className="draw-progress">
-						{currentPlayerIndex + 1} / {teamSize}
-					</span>
-				</header>
+      {currentTeam.length > 0 && (
+        <ol className="results">
+          {currentTeam.map((r, i) => (
+            <li key={i} className="result-card result-card--done">
+              <span className="result-player">{r.name}</span>
+              <span className="result-lane">
+                <LaneIcon iconName={r.lane} /> {r.lane}
+              </span>
+              <span className="result-champion">{r.champion.name}</span>
+            </li>
+          ))}
+        </ol>
+      )}
 
-				{drawState.step === DrawStep.Lane && (
-					<div className={styles.drawStepContainer}>
-						<p className="draw-step-label">Sorteando Lane</p>
-						{drawState.pendingLane ? (
-							<>
-								<span className="draw-value">
-									<LaneIcon iconName={drawState.pendingLane} />{" "}
-									{drawState.pendingLane}
-								</span>
-								<div className="draw-actions">
-									<button
-										type="button"
-										className="action-btn action-btn--reroll"
-										onClick={rerollLane}
-									>
-										🔀 Reroll
-									</button>
-									<button
-										type="button"
-										className="action-btn action-btn--confirm"
-										onClick={confirmLane}
-									>
-										✓ Confirmar
-									</button>
-								</div>
-							</>
-						) : (
-							<SLButton onClick={drawLane}>Sortear Lane</SLButton>
-						)}
-						{currentPlayerIndex > 0 && (
-							<button
-								type="button"
-								className="back-btn"
-								onClick={goBackToPreviousPlayer}
-							>
-								← Voltar para{" "}
-								{resolvedPlayerNames[activeTeamKey][currentPlayerIndex - 1]}
-							</button>
-						)}
-					</div>
-				)}
+      <article className={styles.drawCardContainer}>
+        <header className="draw-header">
+          <span className="draw-player">{currentPlayerName}</span>
+          <span className="draw-progress">
+            {currentPlayerIndex + 1} / {teamSize}
+          </span>
+        </header>
 
-				{drawState.step === DrawStep.Champion && drawState.confirmedLane && (
-					<div className="draw-step">
-						<span className="draw-confirmed-lane">
-							<LaneIcon iconName={drawState.confirmedLane} />{" "}
-							{drawState.confirmedLane}
-						</span>
-						<p className="draw-step-label">Sorteando Campeão</p>
-						{drawState.pendingChampion ? (
-							<>
-								<span className="draw-value draw-value--champion">
-									{drawState.pendingChampion.name}
-								</span>
-								<div className="draw-actions">
-									<button
-										type="button"
-										className="action-btn action-btn--reroll"
-										onClick={rerollChampion}
-									>
-										🎲 Reroll
-									</button>
-									<button
-										type="button"
-										className="action-btn action-btn--confirm"
-										onClick={confirmChampion}
-									>
-										✓ Confirmar
-									</button>
-								</div>
-							</>
-						) : (
-							<SLButton onClick={drawChampion}>Sortear Campeão</SLButton>
-						)}
-						<button type="button" className="back-btn" onClick={goBackToLane}>
-							← Voltar para Lane
-						</button>
-					</div>
-				)}
-			</article>
-		</section>
-	);
+        {drawState.step === DrawStep.Lane && (
+          <div className={styles.drawStepContainer}>
+            <p className="draw-step-label">Sorteando Lane</p>
+            {drawState.pendingLane ? (
+              <>
+                <span className="draw-value">
+                  <LaneIcon iconName={drawState.pendingLane} />{" "}
+                  {drawState.pendingLane}
+                </span>
+                <div className="draw-actions">
+                  <button
+                    type="button"
+                    className="action-btn action-btn--reroll"
+                    onClick={rerollLane}
+                  >
+                    🔀 Reroll
+                  </button>
+                  <button
+                    type="button"
+                    className="action-btn action-btn--confirm"
+                    onClick={confirmLane}
+                  >
+                    ✓ Confirmar
+                  </button>
+                </div>
+              </>
+            ) : (
+              <SLButton onClick={drawLane}>Sortear Lane</SLButton>
+            )}
+            {currentPlayerIndex > 0 && (
+              <button
+                type="button"
+                className="back-btn"
+                onClick={goBackToPreviousPlayer}
+              >
+                ← Voltar para{" "}
+                {resolvedPlayerNames[activeTeamKey][currentPlayerIndex - 1]}
+              </button>
+            )}
+          </div>
+        )}
+
+        {drawState.step === DrawStep.Champion && drawState.confirmedLane && (
+          <div className="draw-step">
+            <div className={styles.championSelectionPreview}>
+              <div className={styles.previewItem}>
+                <span className={styles.previewCircle}>
+                  <LaneIcon iconName={drawState.confirmedLane} size="1.6rem" />
+                </span>
+				<span className={styles.laneNameText}>{drawState.confirmedLane}</span>
+              </div>
+              <div className={styles.previewItem}>
+                <span className={styles.previewCircle}>
+                  {drawState.pendingChampion ? (
+                    <img
+                      className={styles.championPortrait}
+                      src={getChampionPortraitUrl(
+                        drawState.pendingChampion.key,
+                      )}
+                      alt={drawState.pendingChampion.name}
+                    />
+                  ) : (
+                    <span className={styles.championPlaceholder}>?</span>
+                  )}
+                </span>
+                {drawState.pendingChampion && (
+                  <span className={styles.championNameText}>
+                    {drawState.pendingChampion.name}
+                  </span>
+                )}
+              </div>
+            </div>
+            <button
+              type="button"
+              className="back-btn"
+              onClick={rerollLaneForCurrentPlayer}
+              disabled={!canRerollCurrentLane}
+              title={`Rerolagens de lane: ${drawState.laneRollCount}/${MAX_DRAW_ROLLS}`}
+            >
+              🔀 Rerollar lane ({drawState.laneRollCount}/{MAX_DRAW_ROLLS})
+            </button>
+            <p className="draw-step-label">Sorteando Campeão</p>
+            {drawState.pendingChampion ? (
+              <>
+                <div className="draw-actions">
+                  <button
+                    type="button"
+                    className="action-btn action-btn--reroll"
+                    onClick={rerollChampion}
+                    disabled={!canRerollChampion}
+                    title={`Rerolagens de campeão: ${drawState.championRollCount}/${MAX_DRAW_ROLLS}`}
+                  >
+                    🎲 Reroll ({drawState.championRollCount}/{MAX_DRAW_ROLLS})
+                  </button>
+                  <button
+                    type="button"
+                    className="action-btn action-btn--confirm"
+                    onClick={confirmChampion}
+                  >
+                    ✓ Confirmar
+                  </button>
+                </div>
+              </>
+            ) : (
+              <SLButton onClick={drawChampion} disabled={!canDrawChampion}>
+                Sortear Campeão ({drawState.championRollCount}/{MAX_DRAW_ROLLS})
+              </SLButton>
+            )}
+            <button
+              type="button"
+              className="back-btn"
+              onClick={goBackToRegistering}
+            >
+              ← Voltar para registrar jogadores
+            </button>
+          </div>
+        )}
+      </article>
+    </section>
+  );
 };
