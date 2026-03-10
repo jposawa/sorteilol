@@ -1,8 +1,7 @@
-import clsx from "clsx";
 import type React from "react";
+import clsx from "clsx";
 
 import { LaneIcon, SLButton } from "@/components";
-import { MAX_DRAW_ROLLS } from "@/constants";
 import { getChampionPortraitUrl } from "@/helpers";
 import { useMatch } from "@/hooks";
 import { type BaseComponent, DrawStep, TeamKey } from "@/types";
@@ -25,6 +24,7 @@ export const PhaseDrawing: React.FC<PhaseDrawingProps> = ({
     drawState,
     canRerollCurrentLane,
     resolvedPlayerNames,
+    maxDrawRolls,
     drawLane,
     rerollLane,
     confirmLane,
@@ -36,9 +36,9 @@ export const PhaseDrawing: React.FC<PhaseDrawingProps> = ({
     goBackToPreviousPlayer,
   } = useMatch();
 
-  const canRerollChampion = drawState.championRollCount < MAX_DRAW_ROLLS;
+  const canRerollChampion = drawState.championRollCount < maxDrawRolls;
   const canDrawChampion =
-    !drawState.pendingChampion && drawState.championRollCount < MAX_DRAW_ROLLS;
+    !drawState.pendingChampion && drawState.championRollCount < maxDrawRolls;
 
   return (
     <section className={clsx(styles.phaseBlock, className)} style={style}>
@@ -147,9 +147,9 @@ export const PhaseDrawing: React.FC<PhaseDrawingProps> = ({
               className="back-btn"
               onClick={rerollLaneForCurrentPlayer}
               disabled={!canRerollCurrentLane}
-              title={`Rerolagens de lane: ${drawState.laneRollCount}/${MAX_DRAW_ROLLS}`}
+              title={`Rerolagens de lane: ${drawState.laneRollCount}/${maxDrawRolls}`}
             >
-              🔀 Rerollar lane ({drawState.laneRollCount}/{MAX_DRAW_ROLLS})
+              🔀 Rerollar lane ({drawState.laneRollCount}/{maxDrawRolls})
             </button>
             <p className="draw-step-label">Sorteando Campeão</p>
             {drawState.pendingChampion ? (
@@ -160,9 +160,9 @@ export const PhaseDrawing: React.FC<PhaseDrawingProps> = ({
                     className="action-btn action-btn--reroll"
                     onClick={rerollChampion}
                     disabled={!canRerollChampion}
-                    title={`Rerolagens de campeão: ${drawState.championRollCount}/${MAX_DRAW_ROLLS}`}
+                    title={`Rerolagens de campeão: ${drawState.championRollCount}/${maxDrawRolls}`}
                   >
-                    🎲 Reroll ({drawState.championRollCount}/{MAX_DRAW_ROLLS})
+                    🎲 Reroll ({drawState.championRollCount}/{maxDrawRolls})
                   </button>
                   <button
                     type="button"
@@ -175,7 +175,7 @@ export const PhaseDrawing: React.FC<PhaseDrawingProps> = ({
               </>
             ) : (
               <SLButton onClick={drawChampion} disabled={!canDrawChampion}>
-                Sortear Campeão ({drawState.championRollCount}/{MAX_DRAW_ROLLS})
+                Sortear Campeão ({drawState.championRollCount}/{maxDrawRolls})
               </SLButton>
             )}
             <button

@@ -1,10 +1,9 @@
-import { useAtom } from "jotai";
 import React from "react";
+import { useAtom } from "jotai";
 
 import {
   ALL_LANES,
   INITIAL_DRAW_STATE,
-  MAX_DRAW_ROLLS,
   PHASE_ORDER,
 } from "@/constants";
 import { pickRandom, randomChampionForLane } from "@/helpers";
@@ -15,6 +14,7 @@ import {
   currentSideStepAtom,
   drawStateAtom,
   matchPhaseAtom,
+  maxDrawRollsAtom,
   playerNamesAtom,
   randomizeTeamsAtom,
   teamCountAtom,
@@ -50,6 +50,7 @@ export const useMatch = () => {
   const [randomizeTeams, setRandomizeTeams] = useAtom(randomizeTeamsAtom);
   const [currentMainStep, setCurrentMainStep] = useAtom(currentMainStepAtom);
   const [currentSideStep, setCurrentSideStep] = useAtom(currentSideStepAtom);
+  const [maxDrawRolls, setMaxDrawRolls] = useAtom(maxDrawRollsAtom);
 
   const resolvedPlayerNames = React.useMemo(
     () => ({
@@ -81,7 +82,7 @@ export const useMatch = () => {
   }, []);
 
   const canRerollCurrentLane = React.useMemo(() => {
-    if (!drawState.confirmedLane || drawState.laneRollCount >= MAX_DRAW_ROLLS) {
+    if (!drawState.confirmedLane || drawState.laneRollCount >= maxDrawRolls) {
       return false;
     }
 
@@ -92,7 +93,7 @@ export const useMatch = () => {
     return ALL_LANES.some(
       (lane) => lane !== drawState.confirmedLane && !lockedLanes.includes(lane),
     );
-  }, [drawState]);
+  }, [drawState, maxDrawRolls]);
 
   // --- Configuração ---
 
@@ -203,7 +204,7 @@ export const useMatch = () => {
 
   const drawLane = React.useCallback(() => {
     setDrawState((prev) => {
-      if (prev.laneRollCount >= MAX_DRAW_ROLLS) {
+      if (prev.laneRollCount >= maxDrawRolls) {
         return prev;
       }
 
@@ -219,7 +220,7 @@ export const useMatch = () => {
         laneRollCount: prev.laneRollCount + 1,
       };
     });
-  }, [setDrawState]);
+  }, [setDrawState, maxDrawRolls]);
 
   const confirmLane = React.useCallback(() => {
     setDrawState((prev) => {
@@ -242,7 +243,7 @@ export const useMatch = () => {
 
   const drawChampion = React.useCallback(() => {
     setDrawState((prev) => {
-      if (!prev.confirmedLane || prev.championRollCount >= MAX_DRAW_ROLLS) {
+      if (!prev.confirmedLane || prev.championRollCount >= maxDrawRolls) {
         return prev;
       }
 
@@ -252,11 +253,11 @@ export const useMatch = () => {
         championRollCount: prev.championRollCount + 1,
       };
     });
-  }, [setDrawState]);
+  }, [setDrawState, maxDrawRolls]);
 
   const rerollLaneForCurrentPlayer = React.useCallback(() => {
     setDrawState((prev) => {
-      if (!prev.confirmedLane || prev.laneRollCount >= MAX_DRAW_ROLLS) {
+      if (!prev.confirmedLane || prev.laneRollCount >= maxDrawRolls) {
         return prev;
       }
 
@@ -282,7 +283,7 @@ export const useMatch = () => {
         championRollCount: 0,
       };
     });
-  }, [setDrawState]);
+  }, [setDrawState, maxDrawRolls]);
 
   const confirmChampion = React.useCallback(() => {
     if (!drawState.confirmedLane || !drawState.pendingChampion) return;
@@ -462,12 +463,14 @@ export const useMatch = () => {
     canRerollCurrentLane,
     currentMainStep,
     currentSideStep,
+    maxDrawRolls,
     // Configuração
     updateTeamSize,
     updateTeamCount,
     updateRandomizeTeams,
     updatePlayerName,
     updateFlatPlayerName,
+    setMaxDrawRolls,
     //Flow
     startDraw,
     setMatchPhase,

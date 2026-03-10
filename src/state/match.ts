@@ -1,5 +1,6 @@
 import { atom } from "jotai";
 
+import { BASE_MAX_DRAW_ROLLS } from "@/constants";
 import {
   type DrawState,
   DrawStep,
@@ -43,3 +44,5 @@ export const drawStateAtom = atom<DrawState>({
 export const currentMainStepAtom = atom<number>(0);
 
 export const currentSideStepAtom = atom<number>(0);
+
+export const maxDrawRollsAtom = atom<number>(BASE_MAX_DRAW_ROLLS);

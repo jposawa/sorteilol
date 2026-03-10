@@ -1,7 +1,7 @@
 import { type DrawState, DrawStep, Lane, Phase } from "@/types";
 
 export const ALL_LANES = Object.values(Lane);
-export const MAX_DRAW_ROLLS = 3;
+export const BASE_MAX_DRAW_ROLLS = 3;
 
 export const INITIAL_DRAW_STATE: DrawState = {
   step: DrawStep.Lane,

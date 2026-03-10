@@ -1,8 +1,9 @@
 import React from "react";
-import { Switch } from "antd";
+import { Slider, Switch } from "antd";
 import clsx from "clsx";
 
 import { SLButton, SLInput, SLSelect } from "@/components";
+import { BASE_MAX_DRAW_ROLLS } from "@/constants";
 import { useMatch } from "@/hooks";
 import { type BaseComponent } from "@/types";
 
@@ -22,6 +23,8 @@ export const PhaseSetup: React.FC<PhaseSetupProps> = ({
 		updateTeamSize,
 		randomizeTeams,
 		updateRandomizeTeams,
+		maxDrawRolls,
+		setMaxDrawRolls,
 	} = useMatch();
 
 	const handleSubmit = (event: React.FormEvent) => {
@@ -41,6 +44,14 @@ export const PhaseSetup: React.FC<PhaseSetupProps> = ({
 		const newCount = Number(event.target.value ?? "1") as 1 | 2;
 
 		updateTeamCount(newCount);
+	};
+
+	const handleMaxDrawRollsChange = (
+		event: React.ChangeEvent<HTMLInputElement>,
+	) => {
+		const newMax = Number(event.target.value ?? BASE_MAX_DRAW_ROLLS);
+
+		setMaxDrawRolls(newMax);
 	};
 
 	return (
@@ -66,13 +77,33 @@ export const PhaseSetup: React.FC<PhaseSetupProps> = ({
 				</p>
 
 				<p className={styles.formRow}>
+					<label>
+						<p>Tamanho do time: </p>
+						<span className={styles.horizontalGroup}>
+							<Slider
+								min={1}
+								max={5}
+								value={teamSize}
+								onChange={(value) => updateTeamSize(value)}
+							/>
+							<SLInput
+								type="number"
+								min={1}
+								max={5}
+								value={teamSize}
+								onChange={handleTeamSizeChange}
+							/>
+						</span>
+					</label>
+				</p>
+
+				<p className={styles.formRow}>
 					<SLInput
-						label="Tamanho time: "
+						label="Limite rerolls: "
 						type="number"
-						min={1}
-						max={5}
-						defaultValue={teamSize}
-						onChange={handleTeamSizeChange}
+						min={0}
+						defaultValue={maxDrawRolls}
+						onChange={handleMaxDrawRollsChange}
 					/>
 				</p>
 

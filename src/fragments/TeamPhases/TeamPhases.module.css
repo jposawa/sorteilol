@@ -4,6 +4,26 @@ form {
   gap: 1.5rem;
 }
 
+.formRow {
+  display: flex;
+  flex-direction: column;
+}
+
+.horizontalGroup {
+  display: flex;
+  align-items: center;
+  >div {
+    --ant-slider-track-bg: var(--colorPrimary) !important;
+    --ant-slider-track-hover-bg: var(--colorPrimaryHover) !important;
+    --ant-slider-handle-color: var(--colorPrimary) !important;
+
+    width: 100%;
+  }
+
+  input {
+    width: 3rem;
+  }
+}
 
 .formField {
   border: none;
