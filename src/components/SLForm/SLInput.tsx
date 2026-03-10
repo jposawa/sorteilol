@@ -17,14 +17,14 @@ export const SLInput: React.FC<SLInputProps> = (props) => {
 		}
 
 		if (typeof label === "string") {
-			return <span className={styles.label}>{label}</span>;
+			return <span className={styles.labelElement}>{label}</span>;
 		}
 
 		return label as React.ReactNode;
 	}, [label]);
 
 	return (
-		<label>
+		<label className={clsx(styles.labelElement)}>
 			{elementLabel}
 			<input
 				{...rest}
