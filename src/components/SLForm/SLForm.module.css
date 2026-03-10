@@ -17,6 +17,15 @@
 	}
 }
 
+.labelElement {
+	display: flex;
+	flex-direction: column;
+	gap: 0.25rem;
+	font-size: 0.9rem;
+	font-weight: 600;
+	color: var(--colorTextPrimary);
+}
+
 .button {
 	--currentColor: var(--buttonColor, var(--colorPrimary));
   --currentButtonTextColor: var(--buttonTextColor, var(--colorOnPrimary));
