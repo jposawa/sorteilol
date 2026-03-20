@@ -1,11 +1,7 @@
 import React from "react";
 import { useAtom } from "jotai";
 
-import {
-  ALL_LANES,
-  INITIAL_DRAW_STATE,
-  PHASE_ORDER,
-} from "@/constants";
+import { ALL_LANES, INITIAL_DRAW_STATE, PHASE_ORDER } from "@/constants";
 import { pickRandom, randomChampionForLane } from "@/helpers";
 import {
   activeTeamKeyAtom,
@@ -52,17 +48,46 @@ export const useMatch = () => {
   const [currentSideStep, setCurrentSideStep] = useAtom(currentSideStepAtom);
   const [maxDrawRolls, setMaxDrawRolls] = useAtom(maxDrawRollsAtom);
 
-  const resolvedPlayerNames = React.useMemo(
-    () => ({
+  const resolvedPlayerNames = React.useMemo(() => {
+    if (randomizeTeams && teamCount === 2) {
+      const totalPlayers = teamSize * teamCount;
+      const sourcePlayers = [...playerNames.teamA, ...playerNames.teamB].slice(
+        0,
+        totalPlayers,
+      );
+
+      return {
+        teamA: Array.from(
+          { length: teamSize },
+          (_, i) => sourcePlayers[i]?.trim() || `Jogador ${i + 1}`,
+        ),
+        teamB: Array.from(
+          { length: teamSize },
+          (_, i) =>
+            sourcePlayers[teamSize + i]?.trim() ||
+            `Jogador ${teamSize + i + 1}`,
+        ),
+      };
+    }
+
+    return {
       teamA: playerNames.teamA.map((n, i) => n.trim() || `Jogador ${i + 1}`),
       teamB: playerNames.teamB.map((n, i) => n.trim() || `Jogador ${i + 1}`),
-    }),
-    [playerNames],
-  );
+    };
+  }, [playerNames, randomizeTeams, teamCount, teamSize]);
 
   const currentTeam = teamRegistry[activeTeamKey];
   const currentPlayerName =
-    resolvedPlayerNames[activeTeamKey][currentPlayerIndex];
+    resolvedPlayerNames[activeTeamKey][currentPlayerIndex] ??
+    `Jogador ${currentPlayerIndex + 1}`;
+
+  const getUsedChampionKeysForLane = React.useCallback(
+    (lane: Lane) =>
+      [...teamRegistry.teamA, ...teamRegistry.teamB]
+        .filter((result) => result.lane === lane)
+        .map((result) => result.champion.key),
+    [teamRegistry],
+  );
 
   const createAutoChampionStepState = React.useCallback((usedLanes: Lane[]) => {
     const remainingLanes = ALL_LANES.filter(
@@ -171,14 +196,21 @@ export const useMatch = () => {
 
   const startDraw = React.useCallback(() => {
     if (randomizeTeams && teamCount === 2) {
-      const flat = [...playerNames.teamA];
+      const totalPlayers = teamSize * teamCount;
+      const sourcePlayers = [...playerNames.teamA, ...playerNames.teamB];
+      const flat = Array.from(
+        { length: totalPlayers },
+        (_, i) => sourcePlayers[i] ?? "",
+      );
+
       for (let i = flat.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [flat[i], flat[j]] = [flat[j], flat[i]];
       }
+
       setPlayerNames({
         teamA: flat.slice(0, teamSize),
-        teamB: flat.slice(teamSize),
+        teamB: flat.slice(teamSize, teamSize * 2),
       });
     }
     setMatchPhase(Phase.Drawing);
@@ -192,6 +224,7 @@ export const useMatch = () => {
     teamCount,
     teamSize,
     playerNames.teamA,
+    playerNames.teamB,
     setPlayerNames,
     setMatchPhase,
     setActiveTeamKey,
@@ -247,13 +280,20 @@ export const useMatch = () => {
         return prev;
       }
 
+      const excludedChampionKeys = [
+        ...getUsedChampionKeysForLane(prev.confirmedLane),
+        prev.pendingChampion?.key,
+      ].filter((key): key is string => Boolean(key));
+
       return {
         ...prev,
-        pendingChampion: randomChampionForLane(prev.confirmedLane),
+        pendingChampion: randomChampionForLane(prev.confirmedLane, {
+          excludedChampionKeys,
+        }),
         championRollCount: prev.championRollCount + 1,
       };
     });
-  }, [setDrawState, maxDrawRolls]);
+  }, [setDrawState, maxDrawRolls, getUsedChampionKeysForLane]);
 
   const rerollLaneForCurrentPlayer = React.useCallback(() => {
     setDrawState((prev) => {
@@ -385,9 +425,25 @@ export const useMatch = () => {
     (teamKey: TeamKey, index: number) => {
       setTeamRegistry((prev) => ({
         ...prev,
-        [teamKey]: prev[teamKey].map((r, i) =>
-          i === index ? { ...r, champion: randomChampionForLane(r.lane) } : r,
-        ),
+        [teamKey]: prev[teamKey].map((r, i) => {
+          if (i !== index) {
+            return r;
+          }
+
+          const usedChampionKeysForLane = [...prev.teamA, ...prev.teamB]
+            .filter((result) => result.lane === r.lane && result !== r)
+            .map((result) => result.champion.key);
+
+          return {
+            ...r,
+            champion: randomChampionForLane(r.lane, {
+              excludedChampionKeys: [
+                ...usedChampionKeysForLane,
+                r.champion.key,
+              ],
+            }),
+          };
+        }),
       }));
     },
     [setTeamRegistry],

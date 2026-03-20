@@ -47,23 +47,36 @@
 	flex-direction: column;
 	gap: 0.75rem;
 	width: 100%;
-	max-width: 480px;
+	max-width: 560px;
 }
 
 .result-card {
 	display: grid;
-	grid-template-columns: 1fr 1fr 1fr auto;
+	grid-template-columns: minmax(5rem, 1fr) minmax(6rem, 1fr) minmax(8rem, 1fr) auto;
 	align-items: center;
 	padding: 0.85rem 1.25rem;
 	border-radius: 8px;
 	background-color: #1a1a2e;
 	border: 1px solid #2e2e4a;
 	gap: 0.5rem;
+	width: 100%;
+	min-width: 0;
 }
 
 .result-card--done {
 	opacity: 0.6;
 	font-size: 0.9rem;
+	grid-template-columns: minmax(9rem, 1.4fr) auto minmax(9rem, 1.4fr);
+	padding-inline: 1.6rem;
+	width: 100%;
+}
+
+.result-card--done .result-player {
+	justify-self: start;
+}
+
+.result-card--done .result-champion {
+	justify-self: end;
 }
 
 .result-player {
@@ -82,6 +95,7 @@
 	text-align: center;
 	display: flex;
 	align-items: center;
+	gap: 0.35rem;
 }
 
 .result-champion {
@@ -91,6 +105,7 @@
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
+	min-width: 7rem;
 }
 
 .result-champion-portrait {
@@ -251,9 +266,30 @@
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	gap: 1.5rem;
+	max-width: 500px;
+	gap: 8rem;
+}
+
+.main-done-phase {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 4rem;
+	justify-content: center;
 	width: 100%;
-	max-width: 480px;
+}
+
+.done-phase--two-teams {
+	flex-direction: row;
+	align-items: flex-start;
+	justify-content: space-between;
+	max-width: 1000px;
+	width: 100%;
+}
+
+.done-phase--two-teams .team-results {
+	flex: 1;
+	min-width: 0;
 }
 
 .result-champion-group {
@@ -261,6 +297,35 @@
 	align-items: center;
 	justify-content: flex-end;
 	gap: 0.5rem;
+}
+
+@media (min-width: 769px) {
+	.result-card--team-b {
+		grid-template-columns: auto auto 1fr auto;
+		column-gap: 0.7rem;
+	}
+
+	.result-card--team-b .result-champion-portrait {
+		grid-column: 1;
+	}
+
+	.result-card--team-b .result-champion-group {
+		grid-column: 2;
+		justify-content: flex-start;
+		white-space: nowrap;
+	}
+
+	.result-card--team-b .result-lane {
+		grid-column: 3;
+		justify-self: center;
+		justify-content: center;
+	}
+
+	.result-card--team-b .result-player {
+		grid-column: 4;
+		justify-self: end;
+		text-align: right;
+	}
 }
 
 .champion-reroll-btn {
@@ -467,4 +532,47 @@
 
 .team-reroll-btn:active {
 	transform: scale(0.97);
+}
+
+@media (max-width: 768px) {
+	.main-done-phase .result-card {
+		grid-template-columns: auto 1fr auto;
+	}
+
+	.main-done-phase .result-player,
+	.main-done-phase .result-lane-name {
+		display: none;
+	}
+
+	.main-done-phase .result-champion-portrait {
+		display: block;
+		width: 2.25rem;
+		height: 2.25rem;
+	}
+
+	.main-done-phase .result-lane {
+		justify-content: center;
+		font-size: 0;
+	}
+
+	.main-done-phase .result-champion-group {
+		width: 100%;
+	}
+
+	.main-done-phase .result-champion {
+		text-align: left;
+	}
+}
+
+@media (max-width: 650px) {
+	.done-phase--two-teams {
+		flex-direction: column;
+		align-items: center;
+		justify-content: flex-start;
+		gap: 1.5rem;
+	}
+
+	.done-phase--two-teams .team-results {
+		width: 100%;
+	}
 }

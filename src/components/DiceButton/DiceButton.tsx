@@ -11,7 +11,7 @@ export const DiceButton: React.FC<DiceButtonProps> = ({ onClick, title }) => {
   const handleClick = () => {
     setIsRolling(true);
     onClick();
-    setTimeout(() => setIsRolling(false), 600);
+    setTimeout(() => setIsRolling(false), 180);
   };
 
   return (
