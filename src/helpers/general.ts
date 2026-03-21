@@ -1,28 +1,7 @@
-import { CHAMPIONS } from "../constants";
-import type { Champion, Lane } from "../types";
 import { withPrefix } from "./conversion";
 
 export const pickRandom = <T>(arr: T[]): T => {
   return arr[Math.floor(Math.random() * arr.length)];
-};
-
-export const randomChampionForLane = (
-  lane: Lane,
-  options: {
-    excludedChampionKeys?: string[];
-  } = {},
-): Champion => {
-  const { excludedChampionKeys = [] } = options;
-  const pool = Object.values(CHAMPIONS).filter(
-    (c) => c.primaryLane === lane || c.secondaryLane === lane,
-  );
-
-  const excludedSet = new Set(excludedChampionKeys);
-  const availablePool = pool.filter(
-    (champion) => !excludedSet.has(champion.key),
-  );
-
-  return pickRandom(availablePool.length > 0 ? availablePool : pool);
 };
 
 export const saveStorage = (
