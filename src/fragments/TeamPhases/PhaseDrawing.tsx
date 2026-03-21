@@ -43,9 +43,9 @@ export const PhaseDrawing: React.FC<PhaseDrawingProps> = ({
   return (
     <section className={clsx(styles.phaseBlock, className)} style={style}>
       {teamCount === 2 && (
-        <p className="active-team-label">
+        <span className="active-team-label">
           {activeTeamKey === TeamKey.TeamA ? "Time A" : "Time B"}
-        </p>
+        </span>
       )}
 
       {currentTeam.length > 0 && (
