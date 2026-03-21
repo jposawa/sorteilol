@@ -2,7 +2,8 @@ import React from "react";
 import { useAtom } from "jotai";
 
 import { ALL_LANES, INITIAL_DRAW_STATE, PHASE_ORDER } from "@/constants";
-import { pickRandom, randomChampionForLane } from "@/helpers";
+import { pickRandom } from "@/helpers";
+import { useRandomChamp } from "@/hooks/useRandomChamp";
 import {
   activeTeamKeyAtom,
   currentMainStepAtom,
@@ -47,6 +48,7 @@ export const useMatch = () => {
   const [currentMainStep, setCurrentMainStep] = useAtom(currentMainStepAtom);
   const [currentSideStep, setCurrentSideStep] = useAtom(currentSideStepAtom);
   const [maxDrawRolls, setMaxDrawRolls] = useAtom(maxDrawRollsAtom);
+  const { randomChampionForLane } = useRandomChamp();
 
   const resolvedPlayerNames = React.useMemo(() => {
     if (randomizeTeams && teamCount === 2) {
@@ -59,11 +61,11 @@ export const useMatch = () => {
       return {
         teamA: Array.from(
           { length: teamSize },
-          (_, i) => sourcePlayers[i]?.trim() || `Jogador ${i + 1}`,
+          (_value, i) => sourcePlayers[i]?.trim() || `Jogador ${i + 1}`,
         ),
         teamB: Array.from(
           { length: teamSize },
-          (_, i) =>
+          (_value, i) =>
             sourcePlayers[teamSize + i]?.trim() ||
             `Jogador ${teamSize + i + 1}`,
         ),
@@ -293,7 +295,12 @@ export const useMatch = () => {
         championRollCount: prev.championRollCount + 1,
       };
     });
-  }, [setDrawState, maxDrawRolls, getUsedChampionKeysForLane]);
+  }, [
+    setDrawState,
+    maxDrawRolls,
+    getUsedChampionKeysForLane,
+    randomChampionForLane,
+  ]);
 
   const rerollLaneForCurrentPlayer = React.useCallback(() => {
     setDrawState((prev) => {
@@ -446,7 +453,7 @@ export const useMatch = () => {
         }),
       }));
     },
-    [setTeamRegistry],
+    [randomChampionForLane, setTeamRegistry],
   );
 
   const resetDraw = React.useCallback(() => {
