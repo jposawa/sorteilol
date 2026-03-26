@@ -12,115 +12,115 @@ import styles from "./TeamPhases.module.css";
 type PhaseSetupProps = BaseComponent;
 
 export const PhaseSetup: React.FC<PhaseSetupProps> = ({
-	className = "",
-	style = {},
+  className = "",
+  style = {},
 }) => {
-	const {
-		teamCount,
-		nextPhase,
-		updateTeamCount,
-		teamSize,
-		updateTeamSize,
-		randomizeTeams,
-		updateRandomizeTeams,
-		maxDrawRolls,
-		setMaxDrawRolls,
-	} = useMatch();
+  const {
+    teamCount,
+    nextPhase,
+    updateTeamCount,
+    teamSize,
+    updateTeamSize,
+    randomizeTeams,
+    updateRandomizeTeams,
+    maxDrawRolls,
+    setMaxDrawRolls,
+  } = useMatch();
 
-	const handleSubmit = (event: React.FormEvent) => {
-		event.preventDefault();
-		nextPhase();
-	};
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    nextPhase();
+  };
 
-	const handleTeamSizeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		const newSize = Number(event.target.value ?? 1);
+  const handleTeamSizeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newSize = Number(event.target.value ?? 1);
 
-		updateTeamSize(newSize);
-	};
+    updateTeamSize(newSize);
+  };
 
-	const handleTeamCountChange = (
-		event: React.ChangeEvent<HTMLSelectElement>,
-	) => {
-		const newCount = Number(event.target.value ?? "1") as 1 | 2;
+  const handleTeamCountChange = (
+    event: React.ChangeEvent<HTMLSelectElement>,
+  ) => {
+    const newCount = Number(event.target.value ?? "1") as 1 | 2;
 
-		updateTeamCount(newCount);
-	};
+    updateTeamCount(newCount);
+  };
 
-	const handleMaxDrawRollsChange = (
-		event: React.ChangeEvent<HTMLInputElement>,
-	) => {
-		const newMax = Number(event.target.value ?? BASE_MAX_DRAW_ROLLS);
+  const handleMaxDrawRollsChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const newMax = Number(event.target.value ?? BASE_MAX_DRAW_ROLLS);
 
-		setMaxDrawRolls(newMax);
-	};
+    setMaxDrawRolls(newMax);
+  };
 
-	return (
-		<form
-			className={clsx(styles.form, className)}
-			onSubmit={handleSubmit}
-			style={style}
-		>
-			<fieldset className={styles.formField}>
-				<h3>
-					<legend>Configuração da Partida</legend>
-				</h3>
+  return (
+    <form
+      className={clsx(styles.form, className)}
+      onSubmit={handleSubmit}
+      style={style}
+    >
+      <fieldset className={styles.formField}>
+        <legend>
+          <h3>Configuração da Partida</h3>
+        </legend>
 
-				<p className={styles.formRow}>
-					<SLSelect
-						label="Número times: "
-						defaultValue={teamCount}
-						onChange={handleTeamCountChange}
-					>
-						<option value={1}>1 time</option>
-						<option value={2}>2 times</option>
-					</SLSelect>
-				</p>
+        <div className={styles.formRow}>
+          <SLSelect
+            label="Número times: "
+            defaultValue={teamCount}
+            onChange={handleTeamCountChange}
+          >
+            <option value={1}>1 time</option>
+            <option value={2}>2 times</option>
+          </SLSelect>
+        </div>
 
-				<p className={styles.formRow}>
-					<label>
-						<p>Tamanho do time: </p>
-						<span className={styles.horizontalGroup}>
-							<Slider
-								min={1}
-								max={5}
-								value={teamSize}
-								onChange={(value) => updateTeamSize(value)}
-							/>
-							<SLInput
-								type="number"
-								min={1}
-								max={5}
-								value={teamSize}
-								onChange={handleTeamSizeChange}
-							/>
-						</span>
-					</label>
-				</p>
+        <div className={styles.formRow}>
+          <label>
+            <span>Tamanho do time: </span>
+            <span className={styles.horizontalGroup}>
+              <Slider
+                min={1}
+                max={5}
+                value={teamSize}
+                onChange={(value) => updateTeamSize(value)}
+              />
+              <SLInput
+                type="number"
+                min={1}
+                max={5}
+                value={teamSize}
+                onChange={handleTeamSizeChange}
+              />
+            </span>
+          </label>
+        </div>
 
-				<p className={styles.formRow}>
-					<SLInput
-						label="Limite rerolls: "
-						type="number"
-						min={0}
-						defaultValue={maxDrawRolls}
-						onChange={handleMaxDrawRollsChange}
-					/>
-				</p>
+        <div className={styles.formRow}>
+          <SLInput
+            label="Limite rerolls: "
+            type="number"
+            min={0}
+            defaultValue={maxDrawRolls}
+            onChange={handleMaxDrawRollsChange}
+          />
+        </div>
 
-				{teamCount === 2 && (
-					<div className={styles.formRow}>
-						<label>
-							<span>Sortear distribuição jogadores&nbsp;</span>
-							<Switch
-								defaultChecked={randomizeTeams}
-								onChange={updateRandomizeTeams}
-							/>
-						</label>
-					</div>
-				)}
-			</fieldset>
+        {teamCount === 2 && (
+          <div className={styles.formRow}>
+            <label>
+              <span>Sortear distribuição jogadores&nbsp;</span>
+              <Switch
+                defaultChecked={randomizeTeams}
+                onChange={updateRandomizeTeams}
+              />
+            </label>
+          </div>
+        )}
+      </fieldset>
 
-			<SLButton type="submit">Iniciar</SLButton>
-		</form>
-	);
+      <SLButton type="submit">Iniciar</SLButton>
+    </form>
+  );
 };
