@@ -1,5 +1,4 @@
-import { MatchStepsTracker } from "./fragments";
-import { TeamCreation } from "./pages";
+import { AppRouter } from "./pages/";
 
 import "./App.css";
 
@@ -7,15 +6,14 @@ function App() {
 	return (
 		<div className="app">
 			<header className="app-header">
-				<h1 className="title">Sorteio LoL</h1>
+				<h1 className="title">Web App</h1>
 			</header>
 
 			<main className="main-container">
-				<TeamCreation />
+				<AppRouter />
 			</main>
 
 			<footer className="app-footer">
-				<MatchStepsTracker />
 			</footer>
 		</div>
 	);

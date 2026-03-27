@@ -1,1 +1,0 @@
-export { DiceButton } from "./DiceButton";
