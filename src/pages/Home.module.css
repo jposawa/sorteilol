@@ -1,0 +1,572 @@
+.home {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  width: 100%;
+  max-width: 80rem;
+  margin-top: 2.5rem;
+  min-width: 0;
+}
+
+/* ===== Hero ===== */
+
+.hero {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  top: -2.5rem;
+  left: -2.5rem;
+  width: 16rem;
+  height: 16rem;
+  background-color: var(--hxPrimary);
+  opacity: 0.05;
+  filter: blur(100px);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.heroTitle {
+  margin: 0;
+  font-family: var(--hxFontHeadline);
+  font-size: clamp(2.25rem, 5vw, 3rem);
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  color: var(--hxOnSurface);
+}
+
+.heroStatus {
+  color: var(--hxPrimary);
+  text-shadow: 0 0 8px var(--hxGlowPrimaryStrong);
+}
+
+.heroSubtitle {
+  margin: 0;
+  font-family: var(--hxFontLabel);
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--hxSecondary);
+}
+
+/* ===== Bento: cartões de acesso rápido ===== */
+
+.bentoRowQuick {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+
+  @media (min-width: 768px) {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.quickCard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding: 2rem;
+  background-color: var(--hxSurfaceLow);
+  box-shadow: 0 0 40px var(--hxGlowPrimary);
+  border-left: 4px solid var(--hxPrimary);
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.quickCardSecondary {
+  border-left-color: var(--hxSecondary);
+}
+
+.quickCard:hover {
+  background-color: var(--hxSurfaceVariant);
+}
+
+.quickCardIcon {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 1rem;
+  color: var(--hxOnSurface);
+  opacity: 0.1;
+  transition: opacity 0.2s;
+  pointer-events: none;
+}
+
+.quickCard:hover .quickCardIcon {
+  opacity: 0.3;
+}
+
+.quickCardTitle {
+  position: relative;
+  margin: 0 0 1rem;
+  font-family: var(--hxFontHeadline);
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--hxOnSurface);
+}
+
+.quickCardDesc {
+  position: relative;
+  margin: 0 0 2rem;
+  font-size: 0.875rem;
+  line-height: 1.625;
+  color: var(--hxOnSurfaceVariant);
+  flex: 1;
+}
+
+.quickCardCta {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--hxFontLabel);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--hxPrimary);
+  transition: transform 0.3s;
+}
+
+.quickCardSecondary .quickCardCta {
+  color: var(--hxSecondary);
+}
+
+.quickCard:hover .quickCardCta {
+  transform: translateX(0.5rem);
+}
+
+/* ===== Bento: proto-logs ===== */
+
+.logsCard {
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+  background-color: var(--hxSurfaceHighest);
+}
+
+.logsHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logsHeadLabel {
+  font-family: var(--hxFontLabel);
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--hxOnSurfaceVariant);
+}
+
+.logsPulse {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 999px;
+  background-color: var(--hxPrimary);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.3;
+  }
+}
+
+.logList {
+  list-style: none;
+  margin: 1.5rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  flex: 1;
+}
+
+.logItem {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.logTime {
+  margin-top: 0.15rem;
+  font-family: var(--hxFontLabel);
+  font-size: 0.62rem;
+  color: var(--hxPrimary);
+  white-space: nowrap;
+}
+
+.logText {
+  font-size: 0.72rem;
+  line-height: 1.35;
+  color: var(--hxOnSurface);
+}
+
+.logsButton {
+  margin-top: 1.5rem;
+  width: 100%;
+  padding: 0.75rem;
+  background: none;
+  border: 1px solid rgba(61, 73, 84, 0.3);
+  color: var(--hxOnSurface);
+  font-family: var(--hxFontLabel);
+  font-size: 0.68rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.logsButton:hover {
+  background-color: var(--hxSurfaceBright);
+}
+
+/* ===== Bento: drafts recentes ===== */
+
+.bentoRowDrafts {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+
+  @media (min-width: 768px) {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+  }
+}
+
+.draftsCard {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background-color: var(--hxSurfaceLow);
+}
+
+.draftsHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid rgba(61, 73, 84, 0.1);
+}
+
+.draftsTitle {
+  margin: 0;
+  font-family: var(--hxFontHeadline);
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  color: var(--hxOnSurface);
+}
+
+.draftsMeta {
+  font-family: var(--hxFontLabel);
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--hxOnSurfaceVariant);
+  white-space: nowrap;
+}
+
+.draftsEmpty {
+  margin: 0;
+  padding: 2rem;
+  font-size: 0.85rem;
+  color: var(--hxOnSurfaceVariant);
+}
+
+.draftRows {
+  padding: 0.5rem;
+}
+
+.draftRow {
+  display: flex;
+  align-items: center;
+  padding: 1.25rem 1.5rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+
+  & + .draftRow {
+    margin-top: 0.5rem;
+  }
+}
+
+.draftRow:hover {
+  background-color: var(--hxSurfaceVariant);
+}
+
+.draftPortraits {
+  display: flex;
+  margin-right: 2rem;
+  flex-shrink: 0;
+}
+
+.draftPortrait {
+  width: 2.5rem;
+  height: 2.5rem;
+  margin-left: -0.75rem;
+  display: flex;
+  overflow: hidden;
+  background-color: var(--hxSurfaceHighest);
+  border: 2px solid var(--hxSurfaceLow);
+}
+
+.draftPortrait:first-child {
+  margin-left: 0;
+}
+
+.draftPortrait img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(1);
+  transition: filter 0.3s;
+}
+
+.draftRow:hover .draftPortrait img {
+  filter: none;
+}
+
+.draftInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.draftTitle {
+  margin: 0;
+  font-family: var(--hxFontHeadline);
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--hxOnSurface);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.draftMeta {
+  margin: 0.25rem 0 0;
+  font-family: var(--hxFontLabel);
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--hxOnSurfaceVariant);
+}
+
+.draftBadge {
+  flex-shrink: 0;
+  margin-left: 1.5rem;
+  padding: 0.3rem 0.75rem;
+  font-family: var(--hxFontLabel);
+  font-size: 0.66rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.draftBadgePrimary {
+  color: var(--hxPrimary);
+  background-color: rgba(83, 238, 222, 0.1);
+  border: 1px solid rgba(83, 238, 222, 0.2);
+}
+
+.draftBadgeSecondary {
+  color: var(--hxSecondary);
+  background-color: rgba(246, 197, 97, 0.1);
+  border: 1px solid rgba(246, 197, 97, 0.2);
+}
+
+.draftBadgeMuted {
+  color: var(--hxOnSurfaceVariant);
+  background: none;
+  border: 1px solid rgba(61, 73, 84, 0.35);
+}
+
+/* ===== Bento: promo de campeonato ===== */
+
+.eventCard {
+  position: relative;
+  display: flex;
+  overflow: hidden;
+  background-color: var(--hxSurfaceHighest);
+  border-top: 2px solid var(--hxSecondary);
+}
+
+.eventBg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.25;
+  filter: saturate(0.7);
+}
+
+.eventBgShade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    var(--hxSurfaceHighest) 0%,
+    rgba(22, 39, 53, 0.55) 40%,
+    transparent 75%
+  );
+}
+
+.eventContent {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 1.5rem;
+}
+
+.eventBadge {
+  align-self: flex-start;
+  padding: 0.25rem 0.5rem;
+  margin-bottom: 1rem;
+  background-color: var(--hxSecondary);
+  color: var(--hxOnSecondary);
+  font-family: var(--hxFontLabel);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.eventTitle {
+  position: relative;
+  margin: 0 0 0.5rem;
+  font-family: var(--hxFontHeadline);
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.25;
+  text-transform: uppercase;
+  color: var(--hxOnSurface);
+}
+
+.eventDesc {
+  position: relative;
+  margin: 0 0 1.5rem;
+  flex: 1;
+  font-size: 0.75rem;
+  line-height: 1.5;
+  color: var(--hxOnSurfaceVariant);
+}
+
+.eventCta {
+  position: relative;
+  padding: 0.75rem;
+  background-color: var(--hxSecondary);
+  border: none;
+  color: var(--hxOnSecondary);
+  font-family: var(--hxFontHeadline);
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    filter 0.2s,
+    transform 0.1s;
+}
+
+.eventCta:hover {
+  filter: brightness(1.1);
+}
+
+.eventCta:active {
+  transform: scale(0.95);
+}
+
+/* ===== Barra de stats ===== */
+
+.statsBar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--hxBorderGhost);
+  opacity: 0.6;
+  filter: grayscale(1);
+  transition:
+    opacity 0.5s,
+    filter 0.5s;
+}
+
+.statsBar:hover {
+  opacity: 1;
+  filter: none;
+}
+
+.statItem {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.statItemFirmware {
+  margin-left: auto;
+}
+
+.statLabel {
+  font-family: var(--hxFontLabel);
+  font-size: 0.6rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--hxOnSurfaceVariant);
+}
+
+.statValue {
+  font-family: var(--hxFontHeadline);
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--hxOnSurface);
+}
+
+.statValuePrimary {
+  color: var(--hxPrimary);
+}
+
+.statValueSecondary {
+  color: var(--hxSecondary);
+}
+
+/* ===== Mobile ===== */
+
+@media (max-width: 599px) {
+  .home {
+    gap: 2rem;
+  }
+
+  .draftPortraits {
+    display: none;
+  }
+
+  .quickCard {
+    padding: 1.5rem;
+  }
+
+  .statsBar {
+    gap: 1rem 2rem;
+  }
+}

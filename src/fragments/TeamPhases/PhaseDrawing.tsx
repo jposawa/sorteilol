@@ -1,7 +1,7 @@
 import type React from "react";
 import clsx from "clsx";
 
-import { LaneIcon, SLButton } from "@/components";
+import { DrandBadge, LaneIcon, SLButton } from "@/components";
 import { getChampionPortraitUrl } from "@/helpers";
 import { useMatch } from "@/hooks";
 import { type BaseComponent, DrawStep, TeamKey } from "@/types";
@@ -16,6 +16,7 @@ export const PhaseDrawing: React.FC<PhaseDrawingProps> = ({
 }) => {
   const {
     teamCount,
+    randomizeTeams,
     activeTeamKey,
     currentTeam,
     teamSize,
@@ -47,6 +48,8 @@ export const PhaseDrawing: React.FC<PhaseDrawingProps> = ({
           {activeTeamKey === TeamKey.TeamA ? "Time A" : "Time B"}
         </span>
       )}
+
+      {teamCount === 2 && randomizeTeams && <DrandBadge />}
 
       {currentTeam.length > 0 && (
         <ol className="results">

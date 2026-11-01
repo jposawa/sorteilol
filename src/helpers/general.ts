@@ -1,7 +1,8 @@
 import { withPrefix } from "./conversion";
+import { secureRandomInt } from "./random";
 
 export const pickRandom = <T>(arr: T[]): T => {
-  return arr[Math.floor(Math.random() * arr.length)];
+  return arr[secureRandomInt(arr.length)];
 };
 
 export const saveStorage = (

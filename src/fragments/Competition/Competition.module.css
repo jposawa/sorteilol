@@ -1,0 +1,995 @@
+/* Painéis genéricos (ranking / meta / destaque) */
+
+.panel,
+.roundsScreen {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-width: 0;
+}
+
+.panel {
+  gap: 1rem;
+  padding: 1.5rem;
+  background-color: var(--hxSurfaceContainer);
+}
+
+.panelLow {
+  background-color: var(--hxSurfaceLow);
+}
+
+.panelHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.panelTag {
+  font-family: var(--hxFontLabel);
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--hxPrimary);
+}
+
+.panelTitle {
+  margin: 0.15rem 0 0;
+  font-family: var(--hxFontHeadline);
+  font-size: 1.25rem;
+  font-weight: 900;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  color: var(--hxSecondary);
+}
+
+.panelSideMeta {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  font-family: var(--hxFontLabel);
+  font-size: 0.72rem;
+  color: var(--hxOnSurfaceVariant);
+}
+
+.panelSideMeta strong {
+  color: var(--hxSecondary);
+  font-weight: 700;
+}
+
+/* ===== Arena de confrontos (rodadas + pools) ===== */
+
+.roundsScreen {
+  gap: 1.5rem;
+}
+
+.arenaHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.arenaTag {
+  font-family: var(--hxFontLabel);
+  font-size: 0.62rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--hxPrimary);
+}
+
+.arenaTitle {
+  margin: 0.1rem 0 0;
+  font-family: var(--hxFontHeadline);
+  font-size: 1.4rem;
+  font-weight: 900;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  color: var(--hxSecondary);
+}
+
+.switcher {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem;
+  background-color: var(--hxSurfaceLow);
+  overflow-x: auto;
+}
+
+.switchTab {
+  padding: 0.5rem 1rem;
+  background: none;
+  border: none;
+  font-family: var(--hxFontLabel);
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--hxOnSurfaceVariant);
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    color 0.2s,
+    background-color 0.2s;
+}
+
+.switchTab:hover:not(.switchTabActive) {
+  color: var(--hxOnSurface);
+}
+
+.switchTabActive {
+  background-color: var(--hxSurfaceHighest);
+  color: var(--hxPrimary);
+  font-weight: 700;
+}
+
+.switchTabSoon {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.pools {
+  display: grid;
+  gap: 1.5rem;
+
+  @media (min-width: 900px) {
+    grid-template-columns: repeat(auto-fit, minmax(21rem, 1fr));
+  }
+}
+
+.poolPanel {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  min-width: 0;
+}
+
+.poolHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  background-color: var(--hxSurfaceHigh);
+  border-bottom: 2px solid transparent;
+}
+
+.poolIcon {
+  display: flex;
+}
+
+.poolTitle {
+  font-family: var(--hxFontHeadline);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.poolSub {
+  padding: 0.15rem 0.5rem;
+  font-family: var(--hxFontLabel);
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  background-color: var(--hxSurfaceContainer);
+  color: var(--hxOnSurfaceVariant);
+  white-space: nowrap;
+}
+
+.poolSubAccent {
+  font-weight: 700;
+}
+
+.poolGold {
+  border-bottom-color: var(--hxSecondary);
+}
+
+.poolGold .poolIcon,
+.poolGold .poolTitle {
+  color: var(--hxSecondary);
+}
+
+.poolPrimary {
+  border-bottom-color: var(--hxPrimary);
+}
+
+.poolPrimary .poolIcon,
+.poolPrimary .poolTitle {
+  color: var(--hxPrimary);
+}
+
+.poolError {
+  border-bottom-color: var(--hxError, #ff716c);
+}
+
+.poolError .poolIcon,
+.poolError .poolTitle {
+  color: var(--hxError, #ff716c);
+}
+
+.poolError .poolSubAccent {
+  color: var(--hxError, #ff716c);
+  background-color: rgba(255, 113, 108, 0.1);
+}
+
+.poolGold .poolSubAccent {
+  color: var(--hxSecondary);
+}
+
+.poolPrimary .poolSubAccent {
+  color: var(--hxPrimary);
+}
+
+/* ===== Match card ===== */
+
+.matchCard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.25rem;
+  background-color: var(--hxSurfaceContainer);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.25);
+  transition: transform 0.2s;
+  min-width: 0;
+}
+
+.matchCard:hover {
+  transform: translateY(-2px);
+}
+
+.matchCardLive::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 6rem;
+  height: 6rem;
+  background-color: var(--hxPrimary);
+  opacity: 0.1;
+  filter: blur(30px);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.matchTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.matchLabel {
+  font-family: var(--hxFontLabel);
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--hxOnSurfaceVariant);
+}
+
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.2rem 0.55rem;
+  font-family: var(--hxFontLabel);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.statusDone {
+  background-color: rgba(246, 197, 97, 0.15);
+  color: var(--hxSecondary);
+}
+
+.statusElim {
+  background-color: rgba(255, 113, 108, 0.2);
+  color: var(--hxError, #ff716c);
+}
+
+.statusLive {
+  background-color: rgba(83, 238, 222, 0.15);
+  color: var(--hxPrimary);
+}
+
+.statusWait {
+  background-color: var(--hxSurfaceVariant);
+  color: var(--hxOnSurfaceVariant);
+}
+
+.pulseDot {
+  width: 0.375rem;
+  height: 0.375rem;
+  border-radius: 999px;
+  background-color: var(--hxPrimary);
+  animation: hx-pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes hx-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.25;
+  }
+}
+
+.teamsWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 0.25rem 0;
+}
+
+.teamRow {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 0;
+}
+
+.teamRowClickable {
+  background: none;
+  border: none;
+  font: inherit;
+  padding: 0;
+  text-align: left;
+  cursor: pointer;
+}
+
+.teamLeft {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 0;
+  flex: 1;
+}
+
+.teamTag {
+  width: 2.25rem;
+  height: 2.25rem;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--hxSurfaceHighest);
+  font-family: var(--hxFontHeadline);
+  font-size: 0.8rem;
+  font-weight: 900;
+  color: var(--hxOnSurface);
+  overflow: hidden;
+}
+
+.teamTagGold {
+  color: var(--hxSecondary);
+}
+
+.teamTagError {
+  color: var(--hxError, #ff716c);
+}
+
+.teamTagCyan {
+  color: var(--hxPrimary);
+}
+
+.teamInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  min-width: 0;
+}
+
+.teamName {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--hxFontHeadline);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--hxOnSurface);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.teamNameGold {
+  color: var(--hxSecondary);
+}
+
+.teamNameStruck {
+  color: var(--hxOnSurfaceVariant);
+  text-decoration: line-through;
+}
+
+.teamSub {
+  font-family: var(--hxFontLabel);
+  font-size: 0.62rem;
+  color: var(--hxOnSurfaceVariant);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.teamSubError {
+  color: var(--hxError, #ff716c);
+}
+
+.teamScore {
+  flex-shrink: 0;
+  font-family: var(--hxFontHeadline);
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: var(--hxOnSurfaceVariant);
+}
+
+.scoreGold {
+  color: var(--hxSecondary);
+}
+
+.scoreCyan {
+  color: var(--hxPrimary);
+}
+
+.teamIcon {
+  display: flex;
+  flex-shrink: 0;
+}
+
+.byeRow {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.4rem 0.6rem;
+  border: 1px dashed rgba(83, 238, 222, 0.35);
+  font-size: 0.8rem;
+  color: var(--hxPrimary);
+  min-width: 0;
+}
+
+.byeRow b {
+  color: var(--hxSecondary);
+  font-family: var(--hxFontHeadline);
+}
+
+.matchCta {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.65rem;
+  border: none;
+  font-family: var(--hxFontHeadline);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    filter 0.2s,
+    background-color 0.2s,
+    transform 0.1s;
+}
+
+.matchCta:active {
+  transform: scale(0.97);
+}
+
+.ctaGradient {
+  background: linear-gradient(135deg, var(--hxPrimary) 0%, var(--hxPrimaryContainer) 100%);
+  color: var(--hxOnPrimary, #00554e);
+}
+
+.ctaGradient:hover {
+  filter: brightness(1.1);
+}
+
+.ctaGhost {
+  background-color: var(--hxSurfaceHighest);
+  color: var(--hxPrimary);
+}
+
+.ctaGhost:hover {
+  background-color: var(--hxSurfaceBright);
+}
+
+.matchSideNote {
+  font-size: 0.78rem;
+  color: var(--hxOnSurfaceVariant);
+}
+
+/* Note: emparelhamento disponível */
+
+.pairPrompt {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1rem 1.25rem;
+  background-color: var(--hxSurfaceContainer);
+  border-left: 2px solid var(--hxSecondary);
+}
+
+.pairPromptText {
+  margin: 0;
+  font-size: 0.82rem;
+  color: var(--hxOnSurfaceVariant);
+}
+
+.pairCta {
+  align-self: flex-start;
+  padding: 0.6rem 1.5rem;
+}
+
+.resolvedNote {
+  padding: 0.85rem 1rem;
+  background-color: var(--hxSurfaceContainer);
+  border-left: 2px solid var(--hxSecondary);
+  font-size: 0.85rem;
+  color: var(--hxSecondary);
+}
+
+/* ===== Match draft (mantida) ===== */
+
+.matchDraftScreen {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 100%;
+  min-width: 0;
+}
+
+.draftRecordNote {
+  padding: 0.6rem 0.85rem;
+  border: 1px dashed var(--hxOutlineVariant);
+  font-size: 0.8rem;
+  color: var(--hxOnSurfaceVariant);
+}
+
+/* ===== Ranking ===== */
+
+.rankTableWrap {
+  margin-top: 0.5rem;
+  overflow-x: auto;
+  width: 100%;
+}
+
+.rankTable {
+  width: 100%;
+  min-width: 46rem;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.rankTable th {
+  padding: 0.75rem 1rem;
+  background-color: var(--hxSurfaceHighest);
+  font-family: var(--hxFontLabel);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--hxOnSurfaceVariant);
+}
+
+.rankTable th.center,
+.rankTable td.center {
+  text-align: center;
+}
+
+.rankTable th.right,
+.rankTable td.right {
+  text-align: right;
+}
+
+.rankRow {
+  background-color: var(--hxSurfaceLow);
+  transition: background-color 0.2s;
+}
+
+.rankRow:nth-child(even) {
+  background-color: transparent;
+}
+
+.rankRow:hover {
+  background-color: rgba(22, 39, 53, 0.6);
+}
+
+.rankRowEliminated {
+  opacity: 0.6;
+}
+
+.rankRow td {
+  padding: 0.85rem 1rem;
+  font-size: 0.78rem;
+}
+
+.rankPos {
+  font-family: var(--hxFontHeadline);
+  font-size: 0.85rem;
+  font-weight: 900;
+  color: var(--hxOnSurfaceVariant);
+}
+
+.rankPosGold {
+  color: var(--hxSecondary);
+}
+
+.rankPosError {
+  color: var(--hxError, #ff716c);
+}
+
+.rankTeamCell {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 0;
+}
+
+.rankTagMini {
+  width: 1.75rem;
+  height: 1.75rem;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--hxSurfaceHighest);
+  font-family: var(--hxFontHeadline);
+  font-size: 0.6rem;
+  font-weight: 900;
+  color: var(--hxOnSurface);
+}
+
+.rankName {
+  font-family: var(--hxFontHeadline);
+  font-weight: 700;
+  color: var(--hxOnSurface);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rankStruck {
+  text-decoration: line-through;
+}
+
+.rankPts {
+  font-family: var(--hxFontHeadline);
+  font-size: 0.9rem;
+  font-weight: 900;
+  color: var(--hxPrimary);
+}
+
+.rankWl {
+  font-family: var(--hxFontLabel);
+  color: var(--hxOnSurface);
+}
+
+.rankWlError {
+  color: var(--hxError, #ff716c);
+}
+
+.rankDiff {
+  font-family: var(--hxFontLabel);
+  color: var(--hxOnSurfaceVariant);
+}
+
+.diffPos {
+  color: var(--hxPrimary);
+}
+
+.diffNeg {
+  color: var(--hxError, #ff716c);
+}
+
+.rankBuch {
+  font-family: var(--hxFontLabel);
+  color: var(--hxOnSurfaceVariant);
+}
+
+.statusChip {
+  display: inline-flex;
+  padding: 0.25rem 0.65rem;
+  font-family: var(--hxFontLabel);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.chipGold {
+  background-color: rgba(246, 197, 97, 0.15);
+  color: var(--hxSecondary);
+}
+
+.chipPrimary {
+  background-color: rgba(83, 238, 222, 0.15);
+  color: var(--hxPrimary);
+}
+
+.chipError {
+  background-color: rgba(255, 113, 108, 0.15);
+  color: var(--hxError, #ff716c);
+}
+
+.chipEliminated {
+  background-color: rgba(159, 5, 25, 0.4);
+  color: #ffa8a3;
+}
+
+/* ===== Destaque (análise do último jogo) ===== */
+
+.highlightTitle {
+  margin: 0.15rem 0 0;
+  font-family: var(--hxFontHeadline);
+  font-size: 1.1rem;
+  font-weight: 900;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  color: var(--hxSecondary);
+  min-width: 0;
+}
+
+.sidePanels {
+  display: grid;
+  gap: 1.5rem;
+  margin-top: 0.5rem;
+
+  @media (min-width: 768px) {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.sidePanel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1.25rem;
+  background-color: var(--hxSurfaceContainer);
+  min-width: 0;
+}
+
+.sidePanelLoser {
+  opacity: 0.72;
+}
+
+.sideHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.sideHeadLeft {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-width: 0;
+}
+
+.sideDot {
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 999px;
+  flex-shrink: 0;
+}
+
+.dotBlue {
+  background-color: var(--hxPrimary);
+}
+
+.dotRed {
+  background-color: var(--hxError, #ff716c);
+}
+
+.sideTitle {
+  font-family: var(--hxFontHeadline);
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--hxOnSurface);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sideTitleBlue {
+  color: var(--hxPrimary);
+}
+
+.sideTitleRed {
+  color: var(--hxError, #ff716c);
+}
+
+.picksGrid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0.5rem;
+}
+
+.pickCell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.5rem;
+  background-color: var(--hxSurfaceHighest);
+  min-width: 0;
+}
+
+.pickImg {
+  width: 3rem;
+  height: 3rem;
+  object-fit: cover;
+}
+
+.pickName {
+  font-family: var(--hxFontHeadline);
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--hxOnSurface);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+}
+
+.pickLane {
+  font-family: var(--hxFontLabel);
+  font-size: 0.55rem;
+  letter-spacing: 0.1em;
+  color: var(--hxPrimary);
+}
+
+.pickLaneRed {
+  color: var(--hxError, #ff716c);
+}
+
+.sideBansRow {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-top: 0.25rem;
+  font-family: var(--hxFontLabel);
+  font-size: 0.68rem;
+  color: var(--hxOnSurfaceVariant);
+  flex-wrap: wrap;
+}
+
+.fearlessNote {
+  color: var(--hxPrimary);
+}
+
+.fearlessNoteRed {
+  color: var(--hxError, #ff716c);
+}
+
+/* ===== Painel fearless ===== */
+
+.fearlessBanner {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.85rem;
+  background-color: var(--hxSurfaceHighest);
+}
+
+.bannerIcon {
+  display: flex;
+  flex-shrink: 0;
+  color: var(--hxPrimary);
+}
+
+.fearlessBannerOff .bannerIcon {
+  color: var(--hxOnSurfaceVariant);
+}
+
+.bannerTitle {
+  font-family: var(--hxFontHeadline);
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--hxOnSurface);
+}
+
+.bannerSub {
+  font-family: var(--hxFontLabel);
+  font-size: 0.62rem;
+  color: var(--hxOnSurfaceVariant);
+}
+
+.champList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 0.25rem;
+}
+
+.champRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.85rem;
+  background-color: var(--hxSurfaceLow);
+  transition: background-color 0.2s;
+}
+
+.champRow:hover {
+  background-color: var(--hxSurfaceBright);
+}
+
+.champLeft {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 0;
+}
+
+.champImg {
+  width: 3rem;
+  height: 3rem;
+  flex-shrink: 0;
+  object-fit: cover;
+}
+
+.champName {
+  display: block;
+  font-family: var(--hxFontHeadline);
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--hxOnSurface);
+}
+
+.champRole {
+  font-family: var(--hxFontLabel);
+  font-size: 0.62rem;
+  color: var(--hxOnSurfaceVariant);
+}
+
+.champPick {
+  display: block;
+  margin-top: 0.15rem;
+  font-family: var(--hxFontLabel);
+  font-size: 0.62rem;
+}
+
+.champPickCyan {
+  color: var(--hxPrimary);
+}
+
+.lockBadge {
+  flex-shrink: 0;
+  padding: 0.25rem 0.5rem;
+  font-family: var(--hxFontLabel);
+  font-size: 0.55rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background-color: rgba(255, 113, 108, 0.15);
+  color: var(--hxError, #ff716c);
+}
+
+.emptyNote {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--hxOnSurfaceVariant);
+}
+
+@media (max-width: 599px) {
+  .picksGrid {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+
+  .matchCard {
+    padding: 1rem;
+  }
+}

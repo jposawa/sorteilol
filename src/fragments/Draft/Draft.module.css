@@ -1,0 +1,1188 @@
+/* Sala de Draft — design Stitch proj 11027172451449408339
+   "Sala de Draft Desktop - Fearless Aprimorada" (Hextech Protocol). */
+
+.draftScreen {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  width: 100%;
+  /* altura fixa: as colunas de slots preenchem o viewport e o pool rola
+     internamente (caso contrário, a linha do grid estica pelo alto do pool
+     e os slots saem da vista) */
+  height: calc(100vh - 8rem);
+}
+
+/* ---------- Header: placar com nomes das equipes ---------- */
+
+.draftHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.backBtn {
+  background: none;
+  border: none;
+  padding: 0;
+  font-family: var(--hxFontLabel);
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--hxOnSurfaceVariant);
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.backBtn:hover {
+  color: var(--hxPrimary);
+}
+
+.scoreboard {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 0.4rem 1.25rem;
+  background: rgba(12, 27, 38, 0.9);
+  border: 1px solid rgba(61, 73, 84, 0.3);
+}
+
+.scoreSide {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  min-width: 8rem;
+}
+
+.scoreTeam {
+  font-family: var(--hxFontHeadline);
+  font-size: 0.75rem;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.scoreTeamAlpha {
+  color: var(--hxPrimary);
+}
+
+.scoreTeamOmega {
+  color: var(--hxError);
+}
+
+.scoreSideBadge {
+  font-family: var(--hxFontLabel);
+  font-size: 0.5625rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--hxOnSurfaceVariant);
+}
+
+.scoreDigits {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.75rem;
+  background: #000;
+  border: 1px solid rgba(61, 73, 84, 0.3);
+  font-family: var(--hxFontHeadline);
+  font-weight: 700;
+}
+
+.scoreDigit {
+  font-size: 1rem;
+}
+
+.scoreDigitAlpha {
+  color: var(--hxPrimary);
+}
+
+.scoreDigitOmega {
+  color: var(--hxError);
+}
+
+.scoreColon {
+  font-size: 0.75rem;
+  color: var(--hxOnSurfaceVariant);
+}
+
+.draftHeaderRight {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-left: auto;
+}
+
+.seriesLabel {
+  font-family: var(--hxFontLabel);
+  font-size: 0.5625rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--hxSecondary);
+}
+
+.fearlessBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.7rem;
+  background: rgba(255, 113, 108, 0.12);
+  border: 1px solid rgba(255, 113, 108, 0.4);
+  box-shadow: 0 0 10px rgba(255, 113, 108, 0.15);
+  font-family: var(--hxFontLabel);
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--hxError);
+  cursor: help;
+}
+
+/* ---------- Barra de turno ---------- */
+
+.turnBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid var(--hxBorderGhost);
+}
+
+.turnLabel {
+  font-family: var(--hxFontLabel);
+  font-size: 0.6875rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--hxOnSurfaceVariant);
+}
+
+.turnLabelAlpha {
+  color: var(--hxPrimary);
+  font-weight: 700;
+}
+
+.turnLabelOmega {
+  color: var(--hxError);
+  font-weight: 700;
+}
+
+.turnCounter {
+  font-family: var(--hxFontLabel);
+  font-size: 0.625rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--hxPrimary);
+}
+
+/* ---------- Banco fearless ---------- */
+
+.fearlessBank {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  background: var(--hxSurfaceLow);
+  border: 1px solid rgba(255, 113, 108, 0.3);
+}
+
+.fearlessBankHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.fearlessBankTitle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--hxFontHeadline);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--hxError);
+}
+
+.fearlessBankCount {
+  padding: 0.2rem 0.55rem;
+  background: rgba(255, 113, 108, 0.2);
+  border: 1px solid rgba(255, 113, 108, 0.4);
+  font-family: var(--hxFontLabel);
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--hxError);
+}
+
+.fearlessChips {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(7.5rem, 1fr)
+  );
+  gap: 0.4rem;
+}
+
+.fearlessChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.25rem 0.5rem;
+  background: #000;
+  border: 1px solid rgba(255, 113, 108, 0.3);
+  cursor: help;
+  min-width: 0;
+}
+
+.fearlessChipImg {
+  flex: none;
+  width: 1.5rem;
+  height: 1.5rem;
+  object-fit: cover;
+  filter: grayscale(1);
+  opacity: 0.7;
+}
+
+.fearlessChipName {
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-family: var(--hxFontHeadline);
+  font-size: 0.5625rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--hxError);
+}
+
+/* ---------- Board (3 colunas) ---------- */
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  grid-template-rows: minmax(0, 1fr);
+  gap: 1rem;
+  min-height: 0;
+  flex: 1;
+}
+
+.sideColumn {
+  grid-column: span 3;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  min-height: 0;
+  min-width: 0;
+  border: 1px solid rgba(61, 73, 84, 0.12);
+  transition:
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+/* Time A alinhado à esquerda / Time B à direita (espelhado) */
+.sideAlpha {
+  border-left: 3px solid rgba(83, 238, 222, 0.35);
+}
+
+.sideOmega {
+  
+  border-right: 3px solid rgba(255, 113, 108, 0.35);
+}
+
+.sideTurn.sideAlpha {
+  border-color: rgba(83, 238, 222, 0.65);
+  box-shadow: 0 0 34px rgba(83, 238, 222, 0.18);
+}
+
+.sideTurn.sideOmega {
+  border-color: rgba(255, 113, 108, 0.65);
+  box-shadow: 0 0 34px rgba(255, 113, 108, 0.18);
+}
+
+/* Banner proeminente do turno (bans/picks) — quem está na vez fica óbvio */
+.turnBanner {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.85rem 1.25rem;
+  border: 1px solid rgba(61, 73, 84, 0.4);
+  background: var(--hxSurfaceHigh);
+}
+
+.turnBannerAlpha {
+  border-color: rgba(83, 238, 222, 0.55);
+  background:
+    linear-gradient(90deg, rgba(83, 238, 222, 0.14), transparent 55%),
+    var(--hxSurfaceHigh);
+  box-shadow: 0 0 30px rgba(83, 238, 222, 0.12);
+}
+
+.turnBannerOmega {
+  border-color: rgba(255, 113, 108, 0.55);
+  background:
+    linear-gradient(90deg, rgba(255, 113, 108, 0.14), transparent 55%),
+    var(--hxSurfaceHigh);
+  box-shadow: 0 0 30px rgba(255, 113, 108, 0.12);
+}
+
+.turnBannerDot {
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 50%;
+  background: var(--hxPrimary);
+  animation: turnBannerPulse 1.4s ease-in-out infinite;
+}
+
+.turnBannerOmega .turnBannerDot {
+  background: var(--hxError);
+}
+
+@keyframes turnBannerPulse {
+  0%,
+  100% {
+    opacity: 1;
+    box-shadow: 0 0 0 0 currentColor;
+  }
+
+  50% {
+    opacity: 0.45;
+  }
+}
+
+.turnBannerMain {
+  display: flex;
+  align-items: baseline;
+  gap: 0.55rem;
+  min-width: 0;
+  flex: 1;
+}
+
+.turnBannerTeam {
+  font-family: var(--hxFontHeadline);
+  font-size: 1.05rem;
+  font-weight: 900;
+  font-style: italic;
+  text-transform: uppercase;
+  color: var(--hxOnSurface);
+}
+
+.turnBannerAlpha .turnBannerTeam {
+  color: var(--hxPrimary);
+}
+
+.turnBannerOmega .turnBannerTeam {
+  color: var(--hxError);
+}
+
+.turnBannerHint {
+  font-family: var(--hxFontLabel);
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--hxOnSurfaceVariant);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.turnBannerAction {
+  font-family: var(--hxFontLabel);
+  font-size: 0.5625rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-align: right;
+  color: var(--hxOnSurface);
+  white-space: nowrap;
+}
+
+/* Painel do time na vez respira enquanto atua */
+.sideTurn {
+  animation: sideTurnBreath 2.4s ease-in-out infinite;
+}
+
+@keyframes sideTurnBreath {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.93;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sideTurn,
+  .turnBannerDot {
+    animation: none;
+  }
+}
+
+.sideHeader {
+  padding: 0.6rem 0.9rem;
+}
+
+.sideHeaderAlpha {
+  background: linear-gradient(
+    90deg,
+    rgba(83, 238, 222, 0.1),
+    transparent 70%
+  );
+}
+
+.sideHeaderOmega {
+  background: linear-gradient(
+    270deg,
+    rgba(255, 113, 108, 0.1),
+    transparent 70%
+  );
+  text-align: right;
+}
+
+.sideTitle {
+  margin: 0;
+  font-family: var(--hxFontHeadline);
+  font-size: 1.05rem;
+  font-weight: 900;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sideTitleAlpha {
+  color: var(--hxPrimary);
+}
+
+.sideTitleOmega {
+  color: var(--hxError);
+}
+
+.sideSub {
+  font-family: var(--hxFontLabel);
+  font-size: 0.625rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--hxOnSurfaceVariant);
+}
+
+.slotStack {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.sideOmega .slotStack {
+  align-items: flex-end;
+}
+
+.sideOmega .slotStack .slotItem {
+  width: 100%;
+}
+
+.bansRow {
+  display: flex;
+  gap: 0.3rem;
+  justify-content: flex-start;
+}
+
+.sideOmega .bansRow {
+  justify-content: flex-end;
+}
+
+.banCard {
+  position: relative;
+  width: 40px;
+  height: 48px;
+  overflow: hidden;
+  background: var(--hxSurfaceContainer);
+  border: 1px solid rgba(255, 113, 108, 0.25);
+  flex: none;
+}
+
+.banCardEmpty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.25);
+  border-style: dashed;
+}
+
+.banCardImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(1) brightness(0.65);
+}
+
+.banCardCross {
+  color: #6b7783;
+  font-size: 0.65rem;
+}
+
+.slotItem {
+  flex: 1 1 0;
+  /* quadrado quando há espaço; nos viewports baixos, cada slot divide a
+     altura com os irmãos, mas nunca desce do mínimo legível */
+  max-width: 10rem;
+  max-height: 10rem;
+  min-height: 4.5rem;
+  display: flex;
+}
+
+.slot {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  background: var(--hxSurfaceHigh);
+  border: 1px solid rgba(61, 73, 84, 0.15);
+  cursor: pointer;
+  transition: filter 0.25s ease;
+}
+
+.sideAlpha .slot {
+  border-left: 2px solid rgba(83, 238, 222, 0.55);
+}
+
+.sideOmega .slot {
+  border-right: 2px solid rgba(255, 113, 108, 0.55);
+}
+
+.slotPortrait {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(1);
+  opacity: 0.55;
+  transition:
+    filter 0.25s ease,
+    opacity 0.25s ease;
+}
+
+.slot:hover .slotPortrait {
+  filter: grayscale(0.3);
+  opacity: 0.8;
+}
+
+.slotShade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, #040f18 4%, transparent 55%);
+}
+
+.slotText {
+  position: absolute;
+  bottom: 0.45rem;
+  left: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.05rem;
+  max-width: calc(100% - 1rem);
+}
+
+.sideOmega .slotText {
+  left: auto;
+  right: 0.75rem;
+  text-align: right;
+  align-items: flex-end;
+}
+
+.slotLane {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: var(--hxFontLabel);
+  font-size: 0.5625rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.slotLaneAlpha {
+  color: var(--hxPrimary);
+}
+
+.slotLaneOmega {
+  color: var(--hxError);
+}
+
+.slotChampion {
+  font-family: var(--hxFontHeadline);
+  font-size: 0.95rem;
+  font-weight: 900;
+  line-height: 1.1;
+  text-transform: uppercase;
+  color: var(--hxOnSurface);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.slotPlaceholder {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: var(--hxFontLabel);
+  font-size: 0.625rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #6b7783;
+}
+
+.slotSwapHint {
+  color: var(--hxSecondary);
+  animation: slot-pulse 1.6s ease-in-out infinite;
+}
+
+.slotSwapSource {
+  border: 2px solid var(--hxSecondary) !important;
+  box-shadow:
+    0 0 18px rgba(246, 197, 97, 0.28),
+    inset 0 0 14px rgba(246, 197, 97, 0.14);
+}
+
+.sideOmega .slotPlaceholder {
+  left: auto;
+  right: 1rem;
+  transform: translateY(-50%);
+}
+
+.slotHourglass {
+  position: absolute;
+  top: 1.4rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1.4rem;
+  color: var(--hxPrimary);
+  animation: slot-pulse 1.6s ease-in-out infinite;
+}
+
+.sideOmega .slotHourglass {
+  left: auto;
+  right: 50%;
+  transform: translateX(50%);
+}
+
+.slotPicking {
+  background: var(--hxSurfaceHighest);
+  border-left: 4px solid var(--hxPrimary) !important;
+  box-shadow: inset 0 0 24px rgba(83, 238, 222, 0.18);
+}
+
+.sideOmega .slotPicking {
+  border-left: 1px solid rgba(61, 73, 84, 0.15);
+  border-right: 4px solid var(--hxError) !important;
+  box-shadow: inset 0 0 24px rgba(255, 113, 108, 0.18);
+}
+
+@keyframes slot-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.4;
+  }
+}
+
+.slotPickingText {
+  font-style: italic;
+  color: var(--hxPrimary);
+}
+
+/* ---------- Painel central ---------- */
+
+.championArea {
+  grid-column: span 6;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  min-height: 0;
+  min-width: 0;
+  padding: 1rem;
+  background: rgba(12, 27, 38, 0.6);
+  border: 1px solid rgba(61, 73, 84, 0.15);
+}
+
+.poolHeader {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.turnOwnerTitle {
+  font-family: var(--hxFontHeadline);
+  font-size: 1rem;
+  font-weight: 900;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--hxPrimary);
+}
+
+.turnOwnerOmega {
+  color: var(--hxError);
+}
+
+.poolMeta {
+  font-family: var(--hxFontLabel);
+  font-size: 0.625rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--hxOnSurfaceVariant);
+}
+
+.filters {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.filters > :first-child {
+  flex: 1 1 200px;
+  min-width: 0;
+}
+
+.scopeFilters {
+  display: flex;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+}
+
+.scopeFilter {
+  padding: 0.3rem 0.7rem;
+  background: var(--hxSurfaceHighest);
+  border: 1px solid rgba(61, 73, 84, 0.25);
+  font-family: var(--hxFontLabel);
+  font-size: 0.625rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--hxOnSurfaceVariant);
+  cursor: pointer;
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.scopeFilterActive {
+  background: rgba(83, 238, 222, 0.12);
+  border-color: var(--hxPrimary);
+  font-weight: 700;
+  color: var(--hxPrimary);
+}
+
+.filterRow {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.laneFilters,
+.classFilters {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+}
+
+.filterGroupLabel {
+  font-family: var(--hxFontLabel);
+  font-size: 0.5625rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #6b7783;
+}
+
+.laneFilter,
+.classFilter {
+  padding: 0.25rem 0.55rem;
+  background: var(--hxSurfaceContainer);
+  border: 1px solid rgba(61, 73, 84, 0.25);
+  font-family: var(--hxFontLabel);
+  font-size: 0.625rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--hxOnSurfaceVariant);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.laneFilterActive,
+.classFilterActive {
+  background: var(--hxPrimary);
+  border-color: transparent;
+  font-weight: 700;
+  color: #00403a;
+}
+
+.championGrid {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  display: grid;
+  /* cards maiores: o splash em cards ~100px cortava o campeão no recorte */
+  grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
+  gap: 0.6rem;
+  align-content: start;
+  padding-right: 0.25rem;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(83, 238, 222, 0.3) transparent;
+}
+
+.emptyPool {
+  grid-column: 1 / -1;
+  padding: 2rem 0;
+  text-align: center;
+  font-family: var(--hxFontLabel);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #6b7783;
+}
+
+.championCard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font: inherit;
+  min-width: 0;
+}
+
+.championCardFrame {
+  position: relative;
+  display: block;
+  aspect-ratio: 3 / 5;
+  overflow: hidden;
+  background: var(--hxSurfaceHigh);
+  border: 1px solid rgba(61, 73, 84, 0.25);
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.championThumb {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(1);
+  opacity: 0.8;
+  transition:
+    filter 0.2s ease,
+    opacity 0.2s ease,
+    transform 0.2s ease;
+}
+
+.championCard:hover:not(:disabled) .championThumb {
+  filter: grayscale(0.25);
+  opacity: 1;
+  transform: scale(1.04);
+}
+
+.championCard:hover:not(:disabled) .championCardFrame {
+  border-color: rgba(83, 238, 222, 0.55);
+}
+
+.championCard:disabled {
+  cursor: not-allowed;
+}
+
+.championCardDisabled .championThumb {
+  opacity: 0.3;
+  filter: grayscale(1);
+}
+
+.championCardDisabled .championName {
+  color: rgba(160, 172, 185, 0.45);
+}
+
+.championCardSelected .championCardFrame {
+  border: 2px solid var(--hxSecondary);
+  box-shadow:
+    0 0 18px rgba(246, 197, 97, 0.25),
+    inset 0 0 10px rgba(246, 197, 97, 0.15);
+}
+
+.championCardSelected .championThumb {
+  filter: grayscale(0.2);
+  opacity: 1;
+}
+
+.championCardFlag {
+  position: absolute;
+  top: 0.35rem;
+  left: 0.35rem;
+  z-index: 2;
+  padding: 0.15rem 0.4rem;
+  background: var(--hxSecondary);
+  font-family: var(--hxFontLabel);
+  font-size: 0.5625rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--hxOnSecondary);
+}
+
+.championCardLock {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 42%;
+  z-index: 2;
+  padding: 0.25rem 0;
+  background: rgba(0, 0, 0, 0.55);
+  text-align: center;
+  font-family: var(--hxFontLabel);
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--hxError);
+}
+
+.championCardDispo {
+  position: absolute;
+  top: 0.35rem;
+  right: 0.35rem;
+  z-index: 2;
+  padding: 0.15rem 0.35rem;
+  background: rgba(4, 15, 24, 0.85);
+  border: 1px solid rgba(83, 238, 222, 0.4);
+  font-family: var(--hxFontLabel);
+  font-size: 0.5625rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--hxPrimary);
+}
+
+.championName {
+  font-family: var(--hxFontHeadline);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--hxOnSurface);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ---------- Barra de confirmação ---------- */
+
+.pickConfirmBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding-top: 0.85rem;
+  border-top: 1px solid var(--hxBorderGhost);
+}
+
+.confirmInfo {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.confirmTitle {
+  font-family: var(--hxFontHeadline);
+  font-size: 0.8125rem;
+  font-weight: 900;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--hxOnSurface);
+}
+
+.confirmValid {
+  padding: 0.15rem 0.5rem;
+  background: rgba(83, 238, 222, 0.12);
+  border: 1px solid rgba(83, 238, 222, 0.4);
+  font-family: var(--hxFontLabel);
+  font-size: 0.5625rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--hxPrimary);
+}
+
+.confirmActions {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.confirmBtn {
+  padding: 0.7rem 1.5rem;
+  background: linear-gradient(135deg, #53eede 0%, #0dc9ba 100%);
+  border: none;
+  box-shadow: 0 0 20px rgba(83, 238, 222, 0.35);
+  font-family: var(--hxFontHeadline);
+  font-size: 0.8125rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #00554e;
+  cursor: pointer;
+  transition:
+    filter 0.2s ease,
+    transform 0.15s ease;
+}
+
+.confirmBtn:hover {
+  filter: brightness(1.08);
+}
+
+.confirmBtn:active {
+  transform: scale(0.96);
+}
+
+.confirmHint {
+  font-size: 0.8125rem;
+  color: var(--hxOnSurfaceVariant);
+}
+
+/* ---------- Tactical HUD ---------- */
+
+.tacticalHud {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding: 0.65rem 1.25rem;
+  background: rgba(22, 39, 53, 0.55);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(61, 73, 84, 0.15);
+}
+
+.hudLeft {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.hudLabel {
+  font-family: var(--hxFontLabel);
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--hxOnSurfaceVariant);
+}
+
+.hudDot {
+  display: inline-block;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: var(--hxPrimary);
+  box-shadow: 0 0 8px var(--hxPrimary);
+  animation: hud-pulse 2s ease-in-out infinite;
+}
+
+@keyframes hud-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.35;
+  }
+}
+
+.hudStatus {
+  font-family: var(--hxFontHeadline);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--hxOnSurface);
+}
+
+.hudPool {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.2rem 0.55rem;
+  background: rgba(255, 113, 108, 0.15);
+  border: 1px solid rgba(255, 113, 108, 0.3);
+  font-family: var(--hxFontLabel);
+  font-size: 0.5625rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--hxError);
+}
+
+.hudRight {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+/* ---------- Responsivo ---------- */
+
+@media (max-width: 1279px) {
+  .draftScreen {
+    height: auto;
+  }
+
+  .board {
+    grid-template-columns: minmax(0, 1fr);
+    min-height: 0;
+  }
+
+  .sideColumn,
+  .championArea {
+    grid-column: span 12;
+  }
+
+  .championGrid {
+    overflow-y: visible;
+    flex: none;
+  }
+
+  .sideColumn {
+    max-height: none;
+  }
+
+  .slotItem {
+    flex: none;
+    min-height: 4.5rem;
+  }
+}

@@ -2,7 +2,7 @@
 
 import { PhaseDrawing, PhaseRegistering, PhaseSetup } from "@/fragments";
 import { getChampionPortraitUrl } from "@/helpers";
-import { DiceButton, LaneIcon, SLButton } from "../components";
+import { DiceButton, DrandBadge, LaneIcon, SLButton } from "../components";
 import { useMatch } from "../hooks";
 import { Lane, Phase, TeamKey } from "../types";
 
@@ -22,6 +22,7 @@ const sortByLane = <T extends { lane: Lane }>(results: T[]): T[] =>
 export const TeamCreation: React.FC = () => {
   const {
     teamCount,
+    randomizeTeams,
     teamRegistry,
     matchPhase,
     rerollChampionForPlayer,
@@ -152,6 +153,7 @@ export const TeamCreation: React.FC = () => {
               </ol>
             )}
           </section>
+          {teamCount === 2 && randomizeTeams && <DrandBadge />}
           <SLButton variant="outlined" onClick={resetDraw}>
             Novo Sorteio
           </SLButton>

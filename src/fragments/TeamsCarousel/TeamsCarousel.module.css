@@ -1,0 +1,189 @@
+.teamsSection {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+  min-width: 0;
+}
+
+.teamsHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.teamsHeader h3 {
+  margin: 0;
+  color: var(--colorPrimary);
+  text-transform: uppercase;
+  font-size: 0.95rem;
+}
+
+.teamForm {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 0.85rem 1rem;
+  background-color: #1a1a2e;
+  border: 1px solid #2e2e4a;
+  border-radius: 10px;
+}
+
+.playerInputs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 0.45rem;
+}
+
+.carouselTrack {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  border-radius: 10px;
+}
+
+.carouselTrack::-webkit-scrollbar {
+  display: none;
+}
+
+.teamPage {
+  flex: 0 0 100%;
+  scroll-snap-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding: 1rem;
+  background-color: #1a1a2e;
+  border: 1px solid #2e2e4a;
+  border-radius: 10px;
+  min-width: 0;
+}
+
+.teamName {
+  margin: 0;
+  color: var(--colorPrimary);
+  font-size: 1.15rem;
+  text-transform: uppercase;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.teamStats {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 0.5rem;
+  border-radius: 8px;
+  background-color: #10101c;
+  border: 1px solid #2e2e4a;
+}
+
+.statWins {
+  color: #58b368;
+  font-weight: 700;
+}
+
+.statLosses {
+  color: #d9564c;
+  font-weight: 700;
+}
+
+.statRate {
+  color: #8a8aa5;
+  font-size: 0.8rem;
+}
+
+.teamPlayers {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.teamPlayers li {
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+  background-color: #20203a;
+  border: 1px solid #2e2e4a;
+  font-size: 0.8rem;
+}
+
+.noPlayers {
+  margin: 0;
+  color: #8a8aa5;
+  font-size: 0.8rem;
+}
+
+.teamActions {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.teamAction {
+  background: none;
+  border: 1px solid #2e2e4a;
+  border-radius: 6px;
+  padding: 0.25rem 0.75rem;
+  color: #8a8aa5;
+  cursor: pointer;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+}
+
+.teamAction:hover {
+  border-color: var(--colorPrimaryBorderHover);
+  color: var(--colorPrimary);
+}
+
+.carouselNav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+}
+
+.carouselArrow {
+  background: none;
+  border: 1px solid #2e2e4a;
+  border-radius: 6px;
+  color: var(--colorPrimary);
+  cursor: pointer;
+  width: 2rem;
+  height: 2rem;
+  line-height: 1;
+}
+
+.carouselArrow:disabled {
+  opacity: 0.25;
+  cursor: not-allowed;
+}
+
+.carouselDot {
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 999px;
+  border: 1px solid #3a3a5a;
+  background-color: #20203a;
+  cursor: pointer;
+  padding: 0;
+}
+
+.carouselDotActive {
+  background-color: var(--colorPrimary);
+  border-color: var(--colorPrimary);
+}
+
+.emptyNote {
+  color: #8a8aa5;
+  font-size: 0.85rem;
+}

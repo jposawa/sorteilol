@@ -23,11 +23,20 @@ export enum TeamKey {
   TeamB = "teamB",
 }
 
+export type ChampionClass =
+  | "Mago"
+  | "Lutador"
+  | "Assassino"
+  | "Atirador"
+  | "Tanque"
+  | "Suporte";
+
 export type Champion = {
   key: string;
   name: string;
   primaryLane: Lane;
   secondaryLane?: Lane;
+  classes: ChampionClass[];
 };
 
 export type Player = {
@@ -35,6 +44,11 @@ export type Player = {
   name: string;
   champion: Champion;
 };
+
+export type DraftTurn =
+  | { kind: "ban"; side: TeamKey; /** ban nº da fase (0-based) */ phaseIndex: number }
+  | { kind: "pick"; side: TeamKey; /** pick nº da fase (0-based) */ phaseIndex: number }
+  | { kind: "ready" };
 
 export type Party = {
   key: string;

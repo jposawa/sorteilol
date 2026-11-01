@@ -1,19 +1,8 @@
 import React, { useMemo } from "react";
 
-import { pickRandom } from "@/helpers";
+import { pickRandom, secureShuffle } from "@/helpers";
 import { filterChampByLane } from "@/helpers/filterChampByLane";
 import { type Champion, Lane } from "@/types";
-
-const shuffleChampions = (champions: Champion[]) => {
-  const shuffled = [...champions];
-
-  for (let i = shuffled.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-  }
-
-  return shuffled;
-};
 
 interface UseRandomChampOptions {
   excludedChampionKeys?: string[];
@@ -40,7 +29,7 @@ export const useRandomChamp = () => {
 
   const refillLanePool = React.useCallback(
     (lane: Lane) => {
-      const refilledPool = shuffleChampions(championPoolByLane[lane]);
+      const refilledPool = secureShuffle(championPoolByLane[lane]);
 
       remainingChampionsByLaneRef.current[lane] = refilledPool;
 

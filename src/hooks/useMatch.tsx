@@ -2,14 +2,25 @@ import React from "react";
 import { useAtom } from "jotai";
 
 import { ALL_LANES, INITIAL_DRAW_STATE, PHASE_ORDER } from "@/constants";
-import { pickRandom } from "@/helpers";
+import {
+  createDrawSeedRecord,
+  createSeededRandom,
+  fetchLatestDrandRound,
+  pickRandom,
+  removeStorage,
+  saveStorage,
+  secureShuffle,
+  seededShuffle,
+} from "@/helpers";
 import { useRandomChamp } from "@/hooks/useRandomChamp";
 import {
   activeTeamKeyAtom,
+  assignModeAtom,
   currentMainStepAtom,
   currentPlayerIndexAtom,
   currentSideStepAtom,
   drawStateAtom,
+  enabledLanesAtom,
   matchPhaseAtom,
   maxDrawRollsAtom,
   playerNamesAtom,
@@ -24,6 +35,7 @@ import {
   Phase,
   type PlayerResult,
   TeamKey,
+  type TeamPlayer,
 } from "@/types";
 
 export const useMatch = () => {
@@ -48,6 +60,8 @@ export const useMatch = () => {
   const [currentMainStep, setCurrentMainStep] = useAtom(currentMainStepAtom);
   const [currentSideStep, setCurrentSideStep] = useAtom(currentSideStepAtom);
   const [maxDrawRolls, setMaxDrawRolls] = useAtom(maxDrawRollsAtom);
+  const [assignMode, setAssignMode] = useAtom(assignModeAtom);
+  const [enabledLanes, setEnabledLanes] = useAtom(enabledLanesAtom);
   const { randomChampionForLane } = useRandomChamp();
 
   const resolvedPlayerNames = React.useMemo(() => {
@@ -144,11 +158,28 @@ export const useMatch = () => {
 
   const updateFlatPlayerName = React.useCallback(
     (index: number, name: string) =>
-      setPlayerNames((prev) => ({
-        ...prev,
-        teamA: prev.teamA.map((n, i) => (i === index ? name : n)),
-      })),
-    [setPlayerNames],
+      setPlayerNames((prev) => {
+        if (!(randomizeTeams && teamCount === 2)) {
+          return {
+            ...prev,
+            teamA: prev.teamA.map((n, i) => (i === index ? name : n)),
+          };
+        }
+
+        /**
+         * Vista flat: a fonte da verdade é a lista combinada teamA + teamB
+         * (o shuffle do sorteio recalcula a divisão entre os times; a edição
+         * normaliza o atom de volta para o formato flat).
+         */
+        const flat = [...prev.teamA, ...prev.teamB];
+        const targetLength = Math.max(flat.length, index + 1);
+        const nextFlat = flat
+          .concat(Array.from({ length: targetLength - flat.length }, () => ""))
+          .map((n, i) => (i === index ? name : n));
+
+        return { teamA: nextFlat, teamB: [] };
+      }),
+    [randomizeTeams, teamCount, setPlayerNames],
   );
 
   const updatePlayerName = React.useCallback(
@@ -196,25 +227,57 @@ export const useMatch = () => {
   const nextPhase = React.useCallback(() => movePhase(1), [movePhase]);
   const previousPhase = React.useCallback(() => movePhase(-1), [movePhase]);
 
-  const startDraw = React.useCallback(() => {
-    if (randomizeTeams && teamCount === 2) {
-      const totalPlayers = teamSize * teamCount;
-      const sourcePlayers = [...playerNames.teamA, ...playerNames.teamB];
-      const flat = Array.from(
-        { length: totalPlayers },
-        (_, i) => sourcePlayers[i] ?? "",
-      );
+  /**
+   * Distribuição dos invocadores: com "embaralhar" ativo (2 times), os nomes
+   * viram uma lista embaralhada por seed verificável (drand + entropia local).
+   * Sem beacon (offline/timeout), cai para entropia 100% local.
+   * Retorna os nomes finais para uso imediato no mesmo fluxo de execução.
+   */
+  const shufflePlayerNames = React.useCallback(async () => {
+    if (!(randomizeTeams && teamCount === 2)) {
+      removeStorage("drand-draw");
 
-      for (let i = flat.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [flat[i], flat[j]] = [flat[j], flat[i]];
-      }
-
-      setPlayerNames({
-        teamA: flat.slice(0, teamSize),
-        teamB: flat.slice(teamSize, teamSize * 2),
-      });
+      return null;
     }
+
+    const totalPlayers = teamSize * teamCount;
+    const sourcePlayers = [...playerNames.teamA, ...playerNames.teamB];
+    const flatNames = Array.from(
+      { length: totalPlayers },
+      (_, i) => sourcePlayers[i] ?? "",
+    );
+
+    const drand = await fetchLatestDrandRound();
+    const seedRecord = await createDrawSeedRecord(drand);
+    const seededRandom = await createSeededRandom(
+      seedRecord.seed,
+      flatNames.length - 1,
+    );
+
+    const shuffledNames = seededShuffle(flatNames, seededRandom);
+
+    saveStorage("drand-draw", seedRecord, { needParse: true });
+
+    const nextNames = {
+      teamA: shuffledNames.slice(0, teamSize),
+      teamB: shuffledNames.slice(teamSize, teamSize * 2),
+    };
+
+    setPlayerNames(nextNames);
+
+    return nextNames;
+  }, [
+    randomizeTeams,
+    teamCount,
+    teamSize,
+    playerNames.teamA,
+    playerNames.teamB,
+    setPlayerNames,
+  ]);
+
+  const startDraw = React.useCallback(async () => {
+    await shufflePlayerNames();
+
     setMatchPhase(Phase.Drawing);
     setActiveTeamKey(TeamKey.TeamA);
     setCurrentPlayerIndex(0);
@@ -222,12 +285,7 @@ export const useMatch = () => {
     setTeamRegistry({ teamA: [], teamB: [] });
   }, [
     createAutoChampionStepState,
-    randomizeTeams,
-    teamCount,
-    teamSize,
-    playerNames.teamA,
-    playerNames.teamB,
-    setPlayerNames,
+    shufflePlayerNames,
     setMatchPhase,
     setActiveTeamKey,
     setCurrentPlayerIndex,
@@ -456,6 +514,248 @@ export const useMatch = () => {
     [randomChampionForLane, setTeamRegistry],
   );
 
+  // --- Tela Randomizer (sorteio instantâneo) ---
+
+  /** Liga/desliga uma rota do pool habilitado, preservando a ordem oficial. */
+  const toggleLane = React.useCallback(
+    (lane: Lane) => {
+      setEnabledLanes((prev) =>
+        prev.includes(lane)
+          ? prev.filter((candidate) => candidate !== lane)
+          : ALL_LANES.filter(
+              (candidate) => candidate === lane || prev.includes(candidate),
+            ),
+      );
+    },
+    [setEnabledLanes],
+  );
+
+  /**
+   * "Sortear tudo": distribui os invocadores, atribui uma rota e um campeão
+   * para cada slot de uma vez. Em `fixed`, cada slot recebe uma das 5 rotas
+   * oficiais em ordem; em `random`, as rotas do pool habilitado vêm
+   * embaralhadas. Campeões não se repetem dentro da mesma rota — os dois
+   * times compartilham o pool por rota.
+   */
+  const drawEverything = React.useCallback(async () => {
+    const shuffledNames = await shufflePlayerNames();
+
+    const finalNames = shuffledNames
+      ? {
+          teamA: shuffledNames.teamA.map(
+            (name, index) => name.trim() || `Jogador ${index + 1}`,
+          ),
+          teamB: shuffledNames.teamB.map(
+            (name, index) => name.trim() || `Jogador ${teamSize + index + 1}`,
+          ),
+        }
+      : resolvedPlayerNames;
+
+    const lanePool = enabledLanes.length > 0 ? enabledLanes : ALL_LANES;
+    const shuffledLanePool = secureShuffle(lanePool);
+    const lanePlan = Array.from({ length: Math.max(teamSize, 1) }, (_, index) =>
+      assignMode === "fixed"
+        ? ALL_LANES[index % ALL_LANES.length]
+        : shuffledLanePool[index % shuffledLanePool.length],
+    );
+
+    const results: TeamPlayer = { teamA: [], teamB: [] };
+    const teamPlan: TeamKey[] = [TeamKey.TeamA, TeamKey.TeamB];
+
+    for (const teamKey of teamPlan) {
+      if (teamCount === 1 && teamKey === TeamKey.TeamB) {
+        continue;
+      }
+
+      for (let index = 0; index < teamSize; index += 1) {
+        const lane = lanePlan[index % lanePlan.length];
+        const usedChampionKeys = [...results.teamA, ...results.teamB]
+          .filter((result) => result.lane === lane)
+          .map((result) => result.champion.key);
+        const fallbackIndex =
+          teamKey === TeamKey.TeamA ? index + 1 : teamSize + index + 1;
+
+        results[teamKey].push({
+          name:
+            finalNames[teamKey][index]?.trim() || `Jogador ${fallbackIndex}`,
+          lane,
+          champion: randomChampionForLane(lane, {
+            excludedChampionKeys: usedChampionKeys,
+          }),
+        });
+      }
+    }
+
+    setTeamRegistry(results);
+    setMatchPhase(Phase.Done);
+  }, [
+    shufflePlayerNames,
+    resolvedPlayerNames,
+    teamSize,
+    teamCount,
+    enabledLanes,
+    assignMode,
+    randomChampionForLane,
+    setTeamRegistry,
+    setMatchPhase,
+  ]);
+
+  /**
+   * "Reroll rota/posição": troca a rota do slot com a de outro slot aleatório
+   * do mesmo time e re-sorteia os dois campeões para as rotas trocadas.
+   */
+  const rerollSlotLane = React.useCallback(
+    (teamKey: TeamKey, index: number) => {
+      setTeamRegistry((prev) => {
+        const roster = prev[teamKey];
+        const target = roster[index];
+
+        if (!target || roster.length < 2) {
+          return prev;
+        }
+
+        const siblings = roster.filter(
+          (_, resultIndex) => resultIndex !== index,
+        );
+        const sibling = pickRandom(siblings);
+        const siblingIndex = roster.indexOf(sibling);
+
+        if (!sibling || sibling.lane === target.lane) {
+          return prev;
+        }
+
+        const othersInTargetLane = [...prev.teamA, ...prev.teamB]
+          .filter(
+            (result) =>
+              result.lane === sibling.lane &&
+              result !== target &&
+              result !== sibling,
+          )
+          .map((result) => result.champion.key);
+        const othersInSiblingLane = [...prev.teamA, ...prev.teamB]
+          .filter(
+            (result) =>
+              result.lane === target.lane &&
+              result !== target &&
+              result !== sibling,
+          )
+          .map((result) => result.champion.key);
+
+        return {
+          ...prev,
+          [teamKey]: roster.map((result, resultIndex) => {
+            if (resultIndex === index) {
+              return {
+                ...result,
+                lane: sibling.lane,
+                champion: randomChampionForLane(sibling.lane, {
+                  excludedChampionKeys: [
+                    ...othersInTargetLane,
+                    target.champion.key,
+                  ],
+                }),
+              };
+            }
+
+            if (resultIndex === siblingIndex) {
+              return {
+                ...result,
+                lane: target.lane,
+                champion: randomChampionForLane(target.lane, {
+                  excludedChampionKeys: [
+                    ...othersInSiblingLane,
+                    sibling.champion.key,
+                  ],
+                }),
+              };
+            }
+
+            return result;
+          }),
+        };
+      });
+    },
+    [randomChampionForLane, setTeamRegistry],
+  );
+
+  /**
+   * Passeia um pick de um slot para outro slot VAZIO do mesmo time (o
+   * jogador realoca o campeão para a rota certa).
+   */
+  const movePickToLane = React.useCallback(
+    (teamKey: TeamKey, fromIndex: number, toLane: Lane) => {
+      setTeamRegistry((prev) => {
+        const roster = prev[teamKey];
+        const target = roster[fromIndex];
+
+        if (!target || target.lane === toLane) {
+          return prev;
+        }
+
+        if (roster.some((result) => result.lane === toLane)) {
+          return prev;
+        }
+
+        return {
+          ...prev,
+          [teamKey]: roster.map((result, resultIndex) =>
+            resultIndex === fromIndex ? { ...result, lane: toLane } : result,
+          ),
+        };
+      });
+    },
+    [setTeamRegistry],
+  );
+
+  /**
+   * Troca os campeões entre dois slots do mesmo time, mantendo as rotas.
+   */
+  const swapPickWithSlot = React.useCallback(
+    (teamKey: TeamKey, fromIndex: number, toIndex: number) => {
+      setTeamRegistry((prev) => {
+        const roster = prev[teamKey];
+
+        if (!roster[fromIndex] || !roster[toIndex] || fromIndex === toIndex) {
+          return prev;
+        }
+
+        return {
+          ...prev,
+          [teamKey]: roster.map((result, resultIndex) =>
+            resultIndex === fromIndex
+              ? roster[toIndex]
+              : resultIndex === toIndex
+                ? roster[fromIndex]
+                : result,
+          ),
+        };
+      });
+    },
+    [setTeamRegistry],
+  );
+
+  /** Re-sorteia todos os campeões de um time, mantendo as rotas. */
+  const rerollTeamRoster = React.useCallback(
+    (teamKey: TeamKey) => {
+      setTeamRegistry((prev) => ({
+        ...prev,
+        [teamKey]: prev[teamKey].map((result) => {
+          const laneChampionKeys = [...prev.teamA, ...prev.teamB]
+            .filter((other) => other.lane === result.lane && other !== result)
+            .map((other) => other.champion.key);
+
+          return {
+            ...result,
+            champion: randomChampionForLane(result.lane, {
+              excludedChampionKeys: [...laneChampionKeys, result.champion.key],
+            }),
+          };
+        }),
+      }));
+    },
+    [randomChampionForLane, setTeamRegistry],
+  );
+
   const resetDraw = React.useCallback(() => {
     setMatchPhase(Phase.Setup);
     setActiveTeamKey(TeamKey.TeamA);
@@ -555,5 +855,15 @@ export const useMatch = () => {
     // Done
     rerollChampionForPlayer,
     resetDraw,
+    // Tela Randomizer
+    assignMode,
+    setAssignMode,
+    enabledLanes,
+    toggleLane,
+    drawEverything,
+    rerollSlotLane,
+    rerollTeamRoster,
+    movePickToLane,
+    swapPickWithSlot,
   };
 };

@@ -1,0 +1,991 @@
+/* Hextech Randomizer — tela de sorteio instantâneo
+   Design Stitch: proj 11027172451449408339 (Randomizer Desktop Atualizado). */
+
+.randomizer {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+/* ---------- Hero ---------- */
+
+.hero {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 1rem 1.25rem;
+  justify-content: space-between;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--hxBorderGhost);
+}
+
+.heroCopy {
+  min-width: min(100%, 30rem);
+}
+
+.heroTitleRow {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.heroTitle {
+  margin: 0;
+  font-family: var(--hxFontHeadline);
+  font-size: 1.9rem;
+  font-weight: 900;
+  font-style: italic;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  color: var(--hxOnSurface);
+
+  @media (max-width: 1023px) {
+    font-size: 1.45rem;
+  }
+}
+
+.heroBadge {
+  padding: 0.125rem 0.5rem;
+  background: rgba(83, 238, 222, 0.1);
+  border: 1px solid rgba(83, 238, 222, 0.4);
+  font-family: var(--hxFontLabel);
+  font-size: 0.625rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--hxPrimary);
+  white-space: nowrap;
+}
+
+.heroSubtitle {
+  margin: 0.35rem 0 0;
+  font-size: 0.875rem;
+  color: var(--hxOnSurfaceVariant);
+}
+
+.heroActions {
+  display: flex;
+  align-items: stretch;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.exportBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1rem;
+  background: var(--hxSurfaceContainer);
+  border: 1px solid rgba(246, 197, 97, 0.4);
+  font-family: var(--hxFontLabel);
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--hxSecondary);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.exportBtn:hover:not(:disabled) {
+  background: var(--hxSurfaceHighest);
+}
+
+.exportBtn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.drawAllBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.7rem 1.5rem;
+  background: linear-gradient(135deg, #53eede 0%, #0dc9ba 100%);
+  border: none;
+  box-shadow: 0 0 20px rgba(83, 238, 222, 0.35);
+  font-family: var(--hxFontHeadline);
+  font-size: 0.8125rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #00554e;
+  cursor: pointer;
+  transition:
+    filter 0.2s ease,
+    transform 0.15s ease;
+}
+
+.drawAllBtn:hover:not(:disabled) {
+  filter: brightness(1.08);
+}
+
+.drawAllBtn:active:not(:disabled) {
+  transform: scale(0.96);
+}
+
+.drawAllBtn:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+/* ---------- Painéis de controle ---------- */
+
+.controlsGrid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 1.5rem;
+}
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.5rem;
+  background: var(--hxSurfaceLow);
+  border: 1px solid var(--hxBorderGhost);
+}
+
+.formatPanel {
+  grid-column: span 4;
+}
+
+.filtersPanel {
+  grid-column: span 8;
+}
+
+.panelHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  color: var(--hxSecondary);
+}
+
+.panelHeadTitle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--hxFontLabel);
+  font-size: 0.6875rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.panelHeadAside {
+  font-family: var(--hxFontLabel);
+  font-size: 0.625rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #6b7783;
+  text-align: right;
+}
+
+.panelHeadAsidePrimary {
+  color: var(--hxPrimary);
+}
+
+.panelLabel {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-family: var(--hxFontLabel);
+  font-size: 0.625rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--hxOnSurfaceVariant);
+}
+
+/* Formato & times */
+
+.formatRow {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.5rem;
+}
+
+.formatCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  padding: 0.6rem 0.4rem;
+  background: var(--hxSurfaceLow);
+  border: 1px solid rgba(61, 73, 84, 0.2);
+  font-family: var(--hxFontLabel);
+  font-size: 0.6875rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-align: center;
+  color: var(--hxOnSurfaceVariant);
+  cursor: pointer;
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.formatCardSub {
+  font-size: 0.5625rem;
+  letter-spacing: 0;
+  color: #6b7783;
+}
+
+.formatCard:not(:disabled):hover {
+  border-color: rgba(83, 238, 222, 0.4);
+}
+
+.formatCard:disabled:not(.formatCardActive) {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.formatCard:disabled:not(.formatCardActive):not(.logicCardActive) {
+  transition: none;
+}
+
+.formatCardActive {
+  background: var(--hxSurfaceHighest);
+  border-color: transparent;
+  border-bottom: 2px solid var(--hxPrimary);
+  box-shadow: 0 0 15px rgba(83, 238, 222, 0.15);
+  font-weight: 700;
+  color: var(--hxPrimary);
+}
+
+.formatCardSubActive {
+  color: var(--hxPrimaryDim);
+}
+
+/* Lógica de atribuição + switch de embaralhamento */
+
+.logicGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.logicRow {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.5rem;
+}
+
+.logicCard {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.4rem;
+  padding: 0.6rem 0.75rem;
+  background: var(--hxSurfaceContainer);
+  border: 1px solid rgba(61, 73, 84, 0.2);
+  font-family: var(--hxFontLabel);
+  font-size: 0.625rem;
+  letter-spacing: 0;
+  white-space: nowrap;
+  color: var(--hxOnSurfaceVariant);
+  cursor: pointer;
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.logicCard:not(:disabled):not(.logicCardActive):hover {
+  background: var(--hxSurfaceHighest);
+}
+
+.logicCardActive {
+  background: var(--hxSurfaceHighest);
+  border-color: transparent;
+  border-bottom: 2px solid var(--hxPrimary);
+  text-transform: uppercase;
+  color: var(--hxPrimary);
+}
+
+.shuffleSwitchRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-top: 0.4rem;
+  padding-top: 0.85rem;
+  border-top: 1px dashed rgba(61, 73, 84, 0.3);
+  cursor: pointer;
+}
+
+.shuffleSwitchLabel {
+  font-family: var(--hxFontLabel);
+  font-size: 0.5625rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--hxOnSurfaceVariant);
+}
+
+.switchTrack {
+  position: relative;
+  flex: none;
+  width: 2.25rem;
+  height: 1.15rem;
+  padding: 0;
+  background: var(--hxSurfaceHighest);
+  border: 1px solid rgba(61, 73, 84, 0.45);
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.switchTrackOn {
+  background: rgba(83, 238, 222, 0.25);
+  border-color: var(--hxPrimary);
+}
+
+.switchDot {
+  position: absolute;
+  top: 50%;
+  left: 0.15rem;
+  width: 0.8rem;
+  height: 0.8rem;
+  background: var(--hxOnSurfaceVariant);
+  transform: translateY(-50%);
+  transition:
+    transform 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.switchDotOn {
+  transform: translateY(-50%) translateX(1.05rem);
+  background: var(--hxPrimary);
+}
+
+/* Filtros */
+
+.chipRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.laneChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.75rem;
+  background: var(--hxSurfaceHighest);
+  border: 1px solid transparent;
+  font-family: var(--hxFontLabel);
+  font-size: 0.6875rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.laneChipCaption {
+  font-size: 0.5625rem;
+  text-transform: none;
+  opacity: 0.75;
+}
+
+.laneChipOn {
+  border-color: var(--hxPrimary);
+  color: var(--hxPrimary);
+}
+
+.laneChipOff {
+  border-color: rgba(61, 73, 84, 0.2);
+  color: var(--hxOnSurfaceVariant);
+  opacity: 0.55;
+}
+
+.classChip {
+  padding: 0.3rem 0.6rem;
+  background: var(--hxSurfaceHighest);
+  border: 1px solid rgba(83, 238, 222, 0.3);
+  font-family: var(--hxFontLabel);
+  font-size: 0.6875rem;
+  color: var(--hxOnSurface);
+}
+
+.customChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.6rem;
+  background: var(--hxSurfaceHighest);
+  border: 1px solid rgba(246, 197, 97, 0.4);
+  font-family: var(--hxFontLabel);
+  font-size: 0.6875rem;
+  color: var(--hxSecondary);
+}
+
+.customChip:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* ---------- Registro de invocadores ---------- */
+
+.registryCard {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.25rem 1.5rem;
+  background: var(--hxSurfaceLow);
+  border: 1px solid var(--hxBorderGhost);
+}
+
+.registryCols {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem 1.5rem;
+}
+
+.registryCols > :only-child {
+  grid-column: 1 / -1;
+}
+
+.registryGroup {
+  min-width: 0;
+}
+
+.registryGroupTitle {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-family: var(--hxFontLabel);
+  font-size: 0.625rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--hxPrimary);
+}
+
+.registryList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.registryList:has(11 > li) {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.5rem 1rem;
+}
+
+.registryRow {
+  display: grid;
+  grid-template-columns: 1.75rem minmax(0, 1fr);
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.registryList:has(11 > li) .registryRow {
+  grid-template-columns: 1.25rem minmax(0, 1fr);
+}
+
+.registryIndex {
+  font-family: var(--hxFontLabel);
+  font-size: 0.625rem;
+  letter-spacing: 0.08em;
+  text-align: right;
+  color: #6b7783;
+}
+
+.registryInput {
+  width: 100%;
+}
+
+.registryInput::placeholder {
+  text-transform: uppercase;
+  font-size: 0.6875rem;
+  letter-spacing: 0.06em;
+  color: rgba(160, 172, 185, 0.55);
+}
+
+/* ---------- Times ---------- */
+
+.teamsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2rem;
+}
+
+.teamCard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  overflow: hidden;
+  padding: 1.5rem;
+  background: var(--hxSurfaceContainer);
+}
+
+.teamCardAlpha {
+  border: 1px solid rgba(83, 238, 222, 0.3);
+}
+
+.teamCardOmega {
+  border: 1px solid rgba(255, 113, 108, 0.3);
+}
+
+.teamGlow {
+  position: absolute;
+  top: -3rem;
+  right: -3rem;
+  width: 12rem;
+  height: 12rem;
+  border-radius: 50%;
+  background: rgba(83, 238, 222, 0.05);
+  filter: blur(40px);
+  pointer-events: none;
+}
+
+.teamCardOmega .teamGlow {
+  background: rgba(255, 113, 108, 0.05);
+}
+
+.teamIdentity {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.teamIdentityIcon {
+  flex: none;
+}
+
+.teamTitle {
+  margin: 0;
+  font-family: var(--hxFontHeadline);
+  font-size: 1.25rem;
+  font-weight: 900;
+  font-style: italic;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.teamSub {
+  display: block;
+  font-family: var(--hxFontLabel);
+  font-size: 0.625rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--hxOnSurfaceVariant);
+}
+
+.teamMeta {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.teamSynergy {
+  text-align: right;
+}
+
+.teamSynergyLabel {
+  display: block;
+  font-family: var(--hxFontLabel);
+  font-size: 0.625rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #6b7783;
+}
+
+.teamSynergyValue {
+  display: block;
+  font-family: var(--hxFontHeadline);
+  font-size: 1.125rem;
+  font-weight: 900;
+}
+
+.teamRerollBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  background: var(--hxSurfaceVariant);
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    transform 0.15s ease;
+}
+
+.teamRerollBtn:active:not(:disabled) {
+  transform: scale(0.88);
+}
+
+.teamRerollBtn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Slots do roster */
+
+.slotList {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.slot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.75rem;
+  min-height: 4.25rem;
+  background: var(--hxSurfaceHigh);
+}
+
+.slotInfo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 0;
+}
+
+.slotPortrait {
+  flex: none;
+  width: 3rem;
+  height: 3rem;
+  object-fit: cover;
+  background: var(--hxSurfaceHighest);
+}
+
+.slotTexts {
+  min-width: 0;
+}
+
+.slotLane {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--hxFontLabel);
+  font-size: 0.6875rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.slotChampion {
+  margin: 0.1rem 0;
+  font-family: var(--hxFontHeadline);
+  font-size: 1rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  color: var(--hxOnSurface);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.slotSummoner {
+  display: block;
+  font-family: var(--hxFontLabel);
+  font-size: 0.625rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.slotGhost {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.slotGhostPortrait {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 3rem;
+  height: 3rem;
+  background: rgba(0, 0, 0, 0.2);
+  font-family: var(--hxFontHeadline);
+  font-weight: 900;
+  color: #6b7783;
+}
+
+.slotGhostLabel {
+  font-family: var(--hxFontLabel);
+  font-size: 0.625rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #6b7783;
+}
+
+/* ---------- Barra de entropia ---------- */
+
+.entropyBar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 1.5rem;
+  padding: 1rem 1.25rem;
+  background: #000;
+  border-left: 4px solid var(--hxSecondary);
+  font-family: var(--hxFontLabel);
+  font-size: 0.6875rem;
+  line-height: 1.6;
+}
+
+.entropyText {
+  margin: 0;
+  color: var(--hxOnSurfaceVariant);
+  opacity: 0.85;
+}
+
+.entropyLabel {
+  margin-right: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--hxSecondary);
+}
+
+.syncStatus {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  font-size: 0.625rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #6b7783;
+}
+
+.syncDot {
+  display: inline-block;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: var(--hxPrimary);
+  animation: sync-pulse 2s ease-in-out infinite;
+}
+
+@keyframes sync-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.35;
+  }
+}
+
+/* ---------- FAB ---------- */
+
+.fab {
+  position: fixed;
+  right: 2rem;
+  bottom: 6rem;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.5rem;
+  height: 3.5rem;
+  background: linear-gradient(135deg, #53eede 0%, #0dc9ba 100%);
+  border: none;
+  box-shadow: 0 0 20px rgba(83, 238, 222, 0.4);
+  color: #00554e;
+  cursor: pointer;
+  transition: transform 0.25s ease;
+}
+
+.fab:hover:not(:disabled) {
+  transform: scale(1.1) rotate(90deg);
+}
+
+.fab:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+/* ---------- Cores por time (alpha = ciano / omega = vermelho) ---------- */
+
+.teamHead {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: 0.75rem;
+}
+
+.teamHeadAlpha {
+  border-bottom: 1px solid rgba(83, 238, 222, 0.2);
+}
+
+.teamHeadOmega {
+  border-bottom: 1px solid rgba(255, 113, 108, 0.2);
+}
+
+.teamTitleAlpha {
+  color: var(--hxPrimary);
+}
+
+.teamTitleOmega {
+  color: var(--hxError);
+}
+
+.teamIdentity {
+  color: var(--hxPrimary);
+}
+
+.teamCardOmega .teamIdentity {
+  color: var(--hxError);
+}
+
+.teamRerollAlpha {
+  border: 1px solid rgba(83, 238, 222, 0.4);
+  color: var(--hxPrimary);
+  background: var(--hxSurfaceVariant);
+}
+
+.teamRerollAlpha:hover:not(:disabled) {
+  background: var(--hxSurfaceHigh);
+}
+
+.teamRerollOmega {
+  border: 1px solid rgba(255, 113, 108, 0.4);
+  color: var(--hxError);
+  background: var(--hxSurfaceVariant);
+}
+
+.teamRerollOmega:hover:not(:disabled) {
+  background: var(--hxSurfaceHigh);
+}
+
+.slot {
+  border-left: 4px solid var(--hxPrimary);
+}
+
+.teamCardOmega .slot {
+  border-left-color: var(--hxError);
+}
+
+.slotLaneAlpha,
+.slotLaneAlpha img {
+  color: var(--hxPrimary);
+}
+
+.slotLaneOmega,
+.teamCardOmega .slotLane {
+  color: var(--hxError);
+}
+
+.slotPortrait {
+  border: 1px solid rgba(83, 238, 222, 0.4);
+}
+
+.teamCardOmega .slotPortrait {
+  border-color: rgba(255, 113, 108, 0.4);
+}
+
+.slotSummoner {
+  color: var(--hxPrimaryDim);
+}
+
+.slotSummonerOmega {
+  color: #d7383b;
+}
+
+.slotAction {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  background: var(--hxSurfaceContainer);
+  border: 1px solid rgba(61, 73, 84, 0.3);
+  color: var(--hxSecondary);
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.slotAction:hover:not(:disabled) {
+  background: var(--hxSurfaceHighest);
+  color: var(--hxPrimary);
+}
+
+.slotActionError:hover:not(:disabled) {
+  color: var(--hxError);
+}
+
+.teamCardOmega .slotAction:hover:not(:disabled) {
+  color: var(--hxError);
+}
+
+.slotAction:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.slotGhostPortrait {
+  border: 1px dashed rgba(61, 73, 84, 0.4);
+}
+
+/* Alinhamento do ícone de lane dentro dos chips/labels */
+
+.slotLane img,
+.laneChip img {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/* ---------- Responsivo ---------- */
+
+@media (max-width: 1279px) {
+  .teamsGrid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 1023px) {
+  .hero {
+    flex-direction: column;
+  }
+
+  .formatPanel,
+  .filtersPanel {
+    grid-column: span 12;
+  }
+
+  .registryCols {
+    grid-template-columns: 1fr;
+  }
+
+  .registryList:has(11 > li),
+  .registryList:has(11 > li) {
+    grid-template-columns: 1fr;
+  }
+
+  .fab {
+    right: 1rem;
+    bottom: 5.9rem;
+    width: 2.75rem;
+    height: 2.75rem;
+  }
+
+  .teamCard {
+    padding: 1.25rem;
+  }
+
+  .slot {
+    flex-wrap: wrap;
+  }
+}
