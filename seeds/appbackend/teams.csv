@@ -1,0 +1,15 @@
+﻿teamId,orgId,teamName,teamTag,createdAt,isActiveTeam,teamMembers
+team-aurora-prime,org-aurora,Aurora Prime,AUR-P,2025-06-01,true,BlazeZy; QuillFire; OnyxHorn; Talon; FrostX; NovaBlade; PrismFrost
+team-aurora-nova,org-aurora,Aurora Nova,AUR-N,2025-06-01,true,QuillMaster; StormX; DriftHorn; FrostHorn; Nyxz; PrismFire; VoltBlade
+team-borealis-frost,org-borealis,Borealis Frost,BOG,2025-06-01,true,CobaltZy; VoidLord; WolfX; NovaReign; Zynz; EchoFire; BlazeKing
+team-cdg-azul,org-casadracao,Casa do Dragão Azul,CDG-A,2025-06-01,true,HexOwl; FableStorm; NyxKing; IronBlade; CobaltBlade; NyxLord; RuneFang
+team-cdg-vermelho,org-casadracao,Casa do Dragão Vermelho,CDG-V,2025-06-01,true,ZynMaster; GrimMaster; Novao; IronFrost; TalonFang; StormReign; VortexMaster
+team-equinocio,org-equinocio,Equinócio,EQN,2025-06-01,true,DriftReign; TundraLord; Zyno; HollowReign; NyxOwl; DriftMaster; GrimFang
+team-forjasul,org-forjasul,Forja Sul,FJS,2025-06-01,true,SableReign; Tundra; ZephyrHorn; Wolfz; EmberFrost; ZynFrost; CobaltReign
+team-guardioes,org-guardioes,Guardiões do Norte,GDN,2025-06-01,true,StormFang; VortexZy; QuillHorn; CobaltFrost; PrimeLord; PixelReign; TalonHorn
+team-marealta,org-marealta,Maré Alta,MRE,2025-06-01,true,KaiReign; PrimeFang; TundraStorm; EmberFang; VoltLord; SableBlade; VoidMaster
+team-pantanal,org-pantanal,Pantanal Blitz,PBL,2025-06-01,true,KaiFrost; BlazeVeil; EchoMaster; WolfKing; VoltReign; Grimo; Onyxz
+team-nucleo-zero,,Núcleo Zero,NUZ,2025-06-01,true,Cobalto; QuillStorm; PrismHorn; PrimeHorn; KaiVeil; EchoLord; Driftz
+team-vento-leste,,Vento Leste,VTL,2025-06-01,true,NovaVeil; FableFrost; OnyxVeil; TalonMaster; HollowFire; PrimeOwl; Grim
+team-alpha,,Time Alpha,ALP,2025-06-01,true,FableZy; FableVeil; Prismo; VoidZy; HollowFang; RuneHorn; HexFire
+team-omega,,Time Omega,OMG,2025-06-01,true,NyxFang; PixelKing; Quillo; Ironz; FableHorn; CobaltHorn; Echo

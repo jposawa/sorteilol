@@ -1,0 +1,21 @@
+﻿rowId,competitionId,teamId,seed,registeredAt,active
+ct-hexa-01,comp-hexa-m1,team-equinocio,1,2026-10-12 12:00,true
+ct-hexa-02,comp-hexa-m1,team-aurora-nova,2,2026-10-12 12:00,true
+ct-hexa-03,comp-hexa-m1,team-marealta,3,2026-10-12 12:00,true
+ct-hexa-04,comp-hexa-m1,team-guardioes,4,2026-10-12 12:00,true
+ct-hexa-05,comp-hexa-m1,team-forjasul,5,2026-10-12 12:00,true
+ct-hexa-06,comp-hexa-m1,team-vento-leste,6,2026-10-12 12:00,true
+ct-hexa-07,comp-hexa-m1,team-cdg-azul,7,2026-10-12 12:00,true
+ct-hexa-08,comp-hexa-m1,team-borealis-frost,8,2026-10-12 12:00,true
+ct-hexa-09,comp-hexa-m1,team-aurora-prime,9,2026-10-12 12:00,true
+ct-hexa-10,comp-hexa-m1,team-pantanal,10,2026-10-12 12:00,true
+ct-hexa-11,comp-hexa-m1,team-cdg-vermelho,11,2026-10-12 12:00,true
+ct-hexa-12,comp-hexa-m1,team-nucleo-zero,12,2026-10-12 12:00,true
+ct-inv-01,comp-copa-inv,team-forjasul,1,2026-10-28 11:00,true
+ct-inv-02,comp-copa-inv,team-cdg-vermelho,2,2026-10-28 11:00,true
+ct-inv-03,comp-copa-inv,team-aurora-nova,3,2026-10-28 11:00,true
+ct-inv-04,comp-copa-inv,team-equinocio,4,2026-10-28 11:00,true
+ct-inv-05,comp-copa-inv,team-borealis-frost,5,2026-10-28 11:00,true
+ct-inv-06,comp-copa-inv,team-cdg-azul,6,2026-10-28 11:00,true
+ct-inv-07,comp-copa-inv,team-aurora-prime,7,2026-10-28 11:00,true
+ct-inv-08,comp-copa-inv,team-guardioes,8,2026-10-28 11:00,true

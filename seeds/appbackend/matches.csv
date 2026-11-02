@@ -1,0 +1,15 @@
+﻿matchId,competitionId,round,teamAId,teamBId,teamASeed,teamBSeed,seriesFormat,winnerTeamId,winnerSource,status,createdAt
+m-hexa-r1-1,comp-hexa-m1,1,team-equinocio,team-aurora-nova,1,2,1,team-equinocio,draft,done,2026-10-14 20:00
+m-hexa-r1-2,comp-hexa-m1,1,team-marealta,team-guardioes,3,4,1,team-guardioes,draft,done,2026-10-14 20:00
+m-hexa-r1-3,comp-hexa-m1,1,team-forjasul,team-vento-leste,5,6,1,team-forjasul,draft,done,2026-10-14 20:00
+m-hexa-r1-4,comp-hexa-m1,1,team-cdg-azul,team-borealis-frost,7,8,1,team-cdg-azul,draft,done,2026-10-14 20:00
+m-hexa-r1-5,comp-hexa-m1,1,team-aurora-prime,team-pantanal,9,10,1,team-pantanal,draft,done,2026-10-14 20:00
+m-hexa-r1-6,comp-hexa-m1,1,team-cdg-vermelho,team-nucleo-zero,11,12,1,team-nucleo-zero,draft,done,2026-10-14 20:00
+m-hexa-r2-w1,comp-hexa-m1,2,team-equinocio,team-marealta,1,3,3,team-equinocio,draft,done,2026-10-14 20:00
+m-hexa-r2-w2,comp-hexa-m1,2,team-forjasul,team-cdg-azul,5,7,3,,,live,2026-10-14 20:00
+m-hexa-r2-w3,comp-hexa-m1,2,team-cdg-vermelho,team-forjasul,11,5,3,,,live,2026-10-14 20:00
+m-hexa-r2-l1,comp-hexa-m1,2,team-aurora-nova,team-guardioes,2,4,1,team-aurora-nova,draft,done,2026-10-14 20:00
+m-hexa-r2-l2,comp-hexa-m1,2,team-borealis-frost,team-aurora-prime,8,9,1,team-aurora-prime,draft,done,2026-10-14 20:00
+m-hexa-r2-l3,comp-hexa-m1,2,team-cdg-vermelho,team-vento-leste,11,6,1,team-cdg-vermelho,draft,done,2026-10-14 20:00
+m-avulsa-bo1,,0,team-alpha,team-omega,1,2,1,team-alpha,draft,done,2026-10-14 20:00
+m-avulsa-bo3,,0,team-alpha,team-omega,1,2,3,team-alpha,draft,done,2026-10-14 20:00

@@ -15,6 +15,7 @@ import {
 
 import { getChampionPortraitUrl } from "./helpers";
 import { useDraftSession } from "./hooks";
+import { useBackendSync } from "./hooks/useBackendSync";
 import { Arena, Competition, Home, Randomizer, Sessions, Teams } from "./pages";
 
 import "./App.css";
@@ -46,6 +47,9 @@ const noop = () => {};
 
 function App() {
   const { appScreen, setAppScreen } = useDraftSession();
+
+  // Hidratar/espelhar as 12 tabelas do appbackend no boot do app.
+  useBackendSync();
 
   return (
     <div className="app">

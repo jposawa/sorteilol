@@ -1,0 +1,174 @@
+﻿championId,name,classes
+Annie,Annie,Mago; Suporte
+Kayle,Kayle,Atirador; Mago
+Xerath,Xerath,Mago; Suporte
+Shyvana,Shyvana,Lutador; Tanque
+Ahri,Ahri,Assassino; Mago
+Graves,Graves,Atirador
+Fizz,Fizz,Assassino; Lutador
+Volibear,Volibear,Lutador; Tanque
+Rengar,Rengar,Assassino; Lutador
+MasterYi,Master Yi,Assassino; Lutador
+Varus,Varus,Atirador; Mago
+Nautilus,Nautilus,Suporte; Tanque
+Viktor,Viktor,Mago
+Sejuani,Sejuani,Tanque
+Fiora,Fiora,Assassino; Lutador
+Ziggs,Ziggs,Mago
+Lulu,Lulu,Mago; Suporte
+Draven,Draven,Atirador
+Alistar,Alistar,Suporte; Tanque
+Hecarim,Hecarim,Lutador; Tanque
+Khazix,Kha'Zix,Assassino
+Darius,Darius,Lutador; Tanque
+Jayce,Jayce,Atirador; Lutador
+Lissandra,Lissandra,Mago
+Ryze,Ryze,Mago
+Diana,Diana,Assassino; Lutador
+Quinn,Quinn,Assassino; Atirador
+Syndra,Syndra,Mago
+AurelionSol,Aurelion Sol,Mago
+Sion,Sion,Lutador; Tanque
+Kayn,Kayn,Assassino; Lutador
+Zoe,Zoe,Mago
+Zyra,Zyra,Mago; Suporte
+Kaisa,Kai'Sa,Atirador; Mago
+Seraphine,Seraphine,Mago; Suporte
+Sivir,Sivir,Atirador
+Gnar,Gnar,Lutador; Tanque
+Zac,Zac,Lutador; Tanque
+Yasuo,Yasuo,Assassino; Lutador
+Soraka,Soraka,Mago; Suporte
+Velkoz,Vel'Koz,Mago; Suporte
+Taliyah,Taliyah,Mago; Suporte
+Camille,Camille,Assassino; Lutador
+Akshan,Akshan,Assassino; Atirador
+Teemo,Teemo,Atirador; Mago
+Tristana,Tristana,Assassino; Atirador
+Warwick,Warwick,Lutador; Tanque
+Olaf,Olaf,Lutador; Tanque
+Nunu,Nunu & Willump,Mago; Tanque
+Belveth,Bel'Veth,Lutador
+Braum,Braum,Suporte; Tanque
+Jhin,Jhin,Atirador; Mago
+Kindred,Kindred,Atirador
+MissFortune,Miss Fortune,Atirador; Mago
+Ashe,Ashe,Atirador; Suporte
+Zeri,Zeri,Atirador
+Jinx,Jinx,Atirador
+TahmKench,Tahm Kench,Suporte; Tanque
+Tryndamere,Tryndamere,Assassino; Lutador
+Briar,Briar,Assassino; Lutador
+Viego,Viego,Assassino; Lutador
+Senna,Senna,Atirador; Suporte
+Lucian,Lucian,Assassino; Atirador
+Zed,Zed,Assassino
+Jax,Jax,Lutador
+Kled,Kled,Lutador
+Ekko,Ekko,Assassino; Mago
+Qiyana,Qiyana,Assassino
+Morgana,Morgana,Mago; Suporte
+Vi,Vi,Assassino; Lutador
+Zilean,Zilean,Mago; Suporte
+Aatrox,Aatrox,Lutador
+Nami,Nami,Mago; Suporte
+Azir,Azir,Atirador; Mago
+Singed,Singed,Mago; Tanque
+Evelynn,Evelynn,Assassino; Mago
+Twitch,Twitch,Assassino; Atirador
+Galio,Galio,Mago; Tanque
+Karthus,Karthus,Mago
+Chogath,Cho'Gath,Mago; Tanque
+Amumu,Amumu,Suporte; Tanque
+Rammus,Rammus,Tanque
+Anivia,Anivia,Mago
+Shaco,Shaco,Assassino
+Yuumi,Yuumi,Mago; Suporte
+DrMundo,Dr. Mundo,Lutador; Tanque
+Samira,Samira,Assassino; Atirador
+Sona,Sona,Mago; Suporte
+Kassadin,Kassadin,Assassino; Mago
+Irelia,Irelia,Assassino; Lutador
+TwistedFate,Twisted Fate,Atirador; Mago
+Janna,Janna,Mago; Suporte
+Gangplank,Gangplank,Lutador
+Thresh,Thresh,Suporte; Tanque
+Corki,Corki,Atirador; Mago
+Illaoi,Illaoi,Lutador; Tanque
+RekSai,Rek'Sai,Lutador; Tanque
+Ivern,Ivern,Mago; Suporte
+Kalista,Kalista,Atirador
+Karma,Karma,Mago; Suporte
+Bard,Bard,Mago; Suporte
+Taric,Taric,Suporte; Tanque
+Veigar,Veigar,Mago
+Trundle,Trundle,Lutador; Tanque
+Rakan,Rakan,Suporte
+Xayah,Xayah,Atirador
+XinZhao,Xin Zhao,Lutador; Tanque
+Swain,Swain,Mago; Suporte
+Caitlyn,Caitlyn,Atirador
+Ornn,Ornn,Tanque
+Sylas,Sylas,Assassino; Mago
+Neeko,Neeko,Mago; Suporte
+Aphelios,Aphelios,Atirador
+Rell,Rell,Suporte; Tanque
+Blitzcrank,Blitzcrank,Suporte; Tanque
+Malphite,Malphite,Mago; Tanque
+Katarina,Katarina,Assassino; Mago
+Pyke,Pyke,Assassino; Suporte
+Nocturne,Nocturne,Assassino; Lutador
+Maokai,Maokai,Suporte; Tanque
+Renekton,Renekton,Lutador; Tanque
+JarvanIV,Jarvan IV,Lutador; Tanque
+Urgot,Urgot,Lutador; Tanque
+Elise,Elise,Assassino; Mago
+Orianna,Orianna,Mago; Suporte
+MonkeyKing,Wukong,Lutador; Tanque
+Brand,Brand,Mago; Suporte
+LeeSin,Lee Sin,Assassino; Lutador
+Vayne,Vayne,Assassino; Atirador
+Rumble,Rumble,Lutador; Mago
+Cassiopeia,Cassiopeia,Mago
+Leblanc,LeBlanc,Assassino; Mago
+Vex,Vex,Mago
+Skarner,Skarner,Lutador; Tanque
+Heimerdinger,Heimerdinger,Mago; Suporte
+Nasus,Nasus,Lutador; Tanque
+Nidalee,Nidalee,Assassino; Mago
+Udyr,Udyr,Lutador; Tanque
+Yone,Yone,Assassino; Lutador
+Poppy,Poppy,Lutador; Tanque
+Gragas,Gragas,Lutador; Mago
+Ambessa,Ambessa,Assassino; Lutador
+Vladimir,Vladimir,Lutador; Mago
+Pantheon,Pantheon,Assassino; Lutador
+Mel,Mel,Mago; Suporte
+Yunara,Yunara,Atirador
+Locke,Locke,Assassino; Mago
+Ezreal,Ezreal,Atirador; Mago
+Mordekaiser,Mordekaiser,Lutador; Mago
+Yorick,Yorick,Lutador; Tanque
+Akali,Akali,Assassino
+Kennen,Kennen,Mago
+Garen,Garen,Lutador; Tanque
+Sett,Sett,Lutador; Tanque
+Lillia,Lillia,Lutador; Mago
+Gwen,Gwen,Lutador
+Renata,Renata Glasc,Mago; Suporte
+Leona,Leona,Suporte; Tanque
+Aurora,Aurora,Assassino; Mago
+Nilah,Nilah,Assassino; Lutador
+KSante,K'Sante,Lutador; Tanque
+Fiddlesticks,Fiddlesticks,Mago; Suporte
+Malzahar,Malzahar,Mago
+Smolder,Smolder,Atirador; Mago
+Milio,Milio,Mago; Suporte
+Zaahen,Zaahen,Lutador
+Talon,Talon,Assassino
+Hwei,Hwei,Mago; Suporte
+Riven,Riven,Assassino; Lutador
+Naafiri,Naafiri,Assassino; Lutador
+KogMaw,Kog'Maw,Atirador; Mago
+Shen,Shen,Tanque
+Lux,Lux,Mago; Suporte

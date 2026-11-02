@@ -13,8 +13,10 @@
 .hero {
   position: relative;
   display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem 2rem;
 }
 
 .hero::before {
@@ -31,119 +33,451 @@
   pointer-events: none;
 }
 
+.heroCopy {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  max-width: 44rem;
+}
+
+.heroTags {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.heroBadge {
+  padding: 0.3rem 0.65rem;
+  font-family: var(--hxFontLabel);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--hxPrimary);
+  border: 1px solid rgba(83, 238, 222, 0.35);
+  background-color: rgba(83, 238, 222, 0.08);
+}
+
+.heroOnline {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--hxFontLabel);
+  font-size: 0.62rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--hxOnSurfaceVariant);
+}
+
+.heroDot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 999px;
+  background-color: var(--hxPrimary);
+  box-shadow: 0 0 10px var(--hxGlowPrimaryStrong);
+  animation: pulse 2s ease-in-out infinite;
+}
+
 .heroTitle {
   margin: 0;
   font-family: var(--hxFontHeadline);
-  font-size: clamp(2.25rem, 5vw, 3rem);
+  font-size: clamp(2.4rem, 5.2vw, 3.4rem);
+  line-height: 1.02;
   font-weight: 900;
   letter-spacing: -0.03em;
   text-transform: uppercase;
   color: var(--hxOnSurface);
 }
 
-.heroStatus {
+.heroAccent {
   color: var(--hxPrimary);
-  text-shadow: 0 0 8px var(--hxGlowPrimaryStrong);
+  text-shadow: 0 0 16px var(--hxGlowPrimaryStrong);
 }
 
 .heroSubtitle {
   margin: 0;
   font-family: var(--hxFontLabel);
-  font-size: 0.8rem;
-  font-weight: 500;
+  font-size: 0.72rem;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.18em;
   color: var(--hxSecondary);
 }
 
-/* ===== Bento: cartões de acesso rápido ===== */
+.heroActions {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+}
 
-.bentoRowQuick {
+.heroCta {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.9rem 1.5rem;
+  background-color: var(--hxPrimary);
+  border: 1px solid var(--hxPrimary);
+  color: var(--hxOnSurface);
+  font-family: var(--hxFontHeadline);
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    filter 0.2s,
+    transform 0.1s;
+}
+
+.heroCta em {
+  display: block;
+  font-style: normal;
+  opacity: 0.75;
+  font-weight: 700;
+}
+
+.heroCta:hover {
+  filter: brightness(1.12) drop-shadow(0 0 12px var(--hxGlowPrimaryStrong));
+}
+
+.heroCta:active {
+  transform: scale(0.96);
+}
+
+.heroCtaSecondary {
+  background: none;
+  border: 1px solid var(--hxSecondary);
+  color: var(--hxSecondary);
+}
+
+.heroCtaSecondary:hover {
+  filter: brightness(1.12) drop-shadow(0 0 12px rgba(246, 197, 97, 0.5));
+}
+
+/* ===== Monitor: campeonatos & campeão do torneio ===== */
+
+.monitorGrid {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
 
-  @media (min-width: 768px) {
+  @media (min-width: 900px) {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: 2fr 1fr;
+    align-items: stretch;
   }
 }
 
-.quickCard {
-  position: relative;
+.monitorCard {
   display: flex;
   flex-direction: column;
-  overflow: hidden;
-  padding: 2rem;
+  position: relative;
+  padding: 1.5rem;
   background-color: var(--hxSurfaceLow);
-  box-shadow: 0 0 40px var(--hxGlowPrimary);
-  border-left: 4px solid var(--hxPrimary);
+  border-left: 3px solid var(--hxPrimary);
+}
+
+.monitorHead {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(61, 73, 84, 0.2);
+}
+
+.monitorHeadInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.monitorTitle {
+  margin: 0;
+  font-family: var(--hxFontHeadline);
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  color: var(--hxOnSurface);
+}
+
+.monitorMeta {
+  margin: 0;
+  font-family: var(--hxFontLabel);
+  font-size: 0.6rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--hxOnSurfaceVariant);
+}
+
+.monitorBadge {
+  align-self: flex-start;
+  padding: 0.28rem 0.6rem;
+  font-family: var(--hxFontLabel);
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--hxPrimary);
+  background-color: rgba(83, 238, 222, 0.08);
+  border: 1px solid rgba(83, 238, 222, 0.25);
+  white-space: nowrap;
+}
+
+.monitorEmpty {
+  margin: 1.5rem 0 0;
+  font-size: 0.85rem;
+  color: var(--hxOnSurfaceVariant);
+}
+
+.compList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 1rem;
+  flex: 1;
+}
+
+.compRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.1rem 1.25rem;
+  background-color: var(--hxSurfaceVariant);
+  transition: background-color 0.2s;
+}
+
+.compRow:hover {
+  background-color: var(--hxSurfaceBright);
+}
+
+.compStatusRow {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.5rem;
+}
+
+.compStatus {
+  padding: 0.22rem 0.55rem;
+  font-family: var(--hxFontLabel);
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.compStatusActive {
+  color: var(--hxPrimary);
+  background-color: rgba(83, 238, 222, 0.12);
+  border: 1px solid rgba(83, 238, 222, 0.3);
+}
+
+.compStatusRegistration {
+  color: var(--hxOnSurface);
+  background-color: var(--hxSurfaceHighest);
+  border: 1px solid rgba(61, 73, 84, 0.45);
+}
+
+.compStatusDone {
+  color: var(--hxSecondary);
+  background-color: rgba(246, 197, 97, 0.12);
+  border: 1px solid rgba(246, 197, 97, 0.3);
+}
+
+.compFormat {
+  font-family: var(--hxFontLabel);
+  font-size: 0.58rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--hxSecondary);
+}
+
+.compTitle {
+  margin: 0;
+  font-family: var(--hxFontHeadline);
+  font-size: 0.95rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  color: var(--hxOnSurface);
+}
+
+.compMeta {
+  margin: 0.3rem 0 0;
+  font-size: 0.7rem;
+  color: var(--hxOnSurfaceVariant);
+}
+
+.compAction {
+  flex-shrink: 0;
+  padding: 0.55rem 1.1rem;
+  background: none;
+  border: 1px solid rgba(83, 238, 222, 0.4);
+  color: var(--hxPrimary);
+  font-family: var(--hxFontLabel);
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
   cursor: pointer;
   transition: background-color 0.2s;
 }
 
-.quickCardSecondary {
-  border-left-color: var(--hxSecondary);
+.compAction:hover {
+  background-color: rgba(83, 238, 222, 0.1);
 }
 
-.quickCard:hover {
-  background-color: var(--hxSurfaceVariant);
+.championCard {
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+  background-color: var(--hxSurfaceLow);
+  border-top: 3px solid var(--hxSecondary);
 }
 
-.quickCardIcon {
-  position: absolute;
-  top: 0;
-  right: 0;
-  padding: 1rem;
-  color: var(--hxOnSurface);
-  opacity: 0.1;
-  transition: opacity 0.2s;
-  pointer-events: none;
+.championHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
 }
 
-.quickCard:hover .quickCardIcon {
-  opacity: 0.3;
+.championHead > svg {
+  color: var(--hxSecondary);
 }
 
-.quickCardTitle {
-  position: relative;
-  margin: 0 0 1rem;
-  font-family: var(--hxFontHeadline);
-  font-size: 1.5rem;
+.championBadge {
+  padding: 0.3rem 0.65rem;
+  background-color: var(--hxSecondary);
+  color: var(--hxOnSecondary);
+  font-family: var(--hxFontLabel);
+  font-size: 0.6rem;
   font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.championMain {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 1.1rem;
+  background-color: var(--hxSurfaceVariant);
+  border: 1px solid rgba(61, 73, 84, 0.35);
+}
+
+.championPortrait {
+  width: 4.5rem;
+  height: 4.5rem;
+  flex-shrink: 0;
+  overflow: hidden;
+  border: 2px solid var(--hxSecondary);
+}
+
+.championPortrait img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.championInfo {
+  min-width: 0;
+}
+
+.championLabel {
+  display: block;
+  font-family: var(--hxFontLabel);
+  font-size: 0.58rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--hxSecondary);
+}
+
+.championName {
+  margin: 0.25rem 0 0;
+  font-family: var(--hxFontHeadline);
+  font-size: 1.3rem;
+  font-weight: 900;
+  letter-spacing: -0.01em;
   text-transform: uppercase;
   color: var(--hxOnSurface);
 }
 
-.quickCardDesc {
-  position: relative;
-  margin: 0 0 2rem;
-  font-size: 0.875rem;
-  line-height: 1.625;
+.championEmpty {
+  margin: 0 0 1rem;
+  font-size: 0.78rem;
+  line-height: 1.5;
   color: var(--hxOnSurfaceVariant);
   flex: 1;
 }
 
-.quickCardCta {
-  position: relative;
+.championMetrics {
+  list-style: none;
+  margin: 0;
+  padding: 0;
   display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-family: var(--hxFontLabel);
-  font-size: 0.72rem;
-  font-weight: 500;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--hxPrimary);
-  transition: transform 0.3s;
+  flex-direction: column;
+  gap: 0.55rem;
+  flex: 1;
+  justify-content: center;
 }
 
-.quickCardSecondary .quickCardCta {
+.championMetric {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.championMetricLabel {
+  font-family: var(--hxFontLabel);
+  font-size: 0.6rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--hxOnSurfaceVariant);
+}
+
+.championMetricValue {
+  font-family: var(--hxFontHeadline);
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--hxOnSurface);
+}
+
+.championMetricValueGold {
   color: var(--hxSecondary);
 }
 
-.quickCard:hover .quickCardCta {
-  transform: translateX(0.5rem);
+.championCta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  margin-top: 1.25rem;
+  padding: 0.8rem;
+  background-color: var(--hxSecondary);
+  border: none;
+  color: var(--hxOnSecondary);
+  font-family: var(--hxFontHeadline);
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: filter 0.2s;
+}
+
+.championCta:hover {
+  filter: brightness(1.12);
 }
 
 /* ===== Bento: proto-logs ===== */
@@ -400,103 +734,6 @@
   border: 1px solid rgba(61, 73, 84, 0.35);
 }
 
-/* ===== Bento: promo de campeonato ===== */
-
-.eventCard {
-  position: relative;
-  display: flex;
-  overflow: hidden;
-  background-color: var(--hxSurfaceHighest);
-  border-top: 2px solid var(--hxSecondary);
-}
-
-.eventBg {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: 0.25;
-  filter: saturate(0.7);
-}
-
-.eventBgShade {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    to top,
-    var(--hxSurfaceHighest) 0%,
-    rgba(22, 39, 53, 0.55) 40%,
-    transparent 75%
-  );
-}
-
-.eventContent {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  padding: 1.5rem;
-}
-
-.eventBadge {
-  align-self: flex-start;
-  padding: 0.25rem 0.5rem;
-  margin-bottom: 1rem;
-  background-color: var(--hxSecondary);
-  color: var(--hxOnSecondary);
-  font-family: var(--hxFontLabel);
-  font-size: 0.62rem;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-}
-
-.eventTitle {
-  position: relative;
-  margin: 0 0 0.5rem;
-  font-family: var(--hxFontHeadline);
-  font-size: 1.25rem;
-  font-weight: 700;
-  line-height: 1.25;
-  text-transform: uppercase;
-  color: var(--hxOnSurface);
-}
-
-.eventDesc {
-  position: relative;
-  margin: 0 0 1.5rem;
-  flex: 1;
-  font-size: 0.75rem;
-  line-height: 1.5;
-  color: var(--hxOnSurfaceVariant);
-}
-
-.eventCta {
-  position: relative;
-  padding: 0.75rem;
-  background-color: var(--hxSecondary);
-  border: none;
-  color: var(--hxOnSecondary);
-  font-family: var(--hxFontHeadline);
-  font-size: 0.72rem;
-  font-weight: 900;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition:
-    filter 0.2s,
-    transform 0.1s;
-}
-
-.eventCta:hover {
-  filter: brightness(1.1);
-}
-
-.eventCta:active {
-  transform: scale(0.95);
-}
-
 /* ===== Barra de stats ===== */
 
 .statsBar {
@@ -553,17 +790,28 @@
 
 /* ===== Mobile ===== */
 
+@media (max-width: 899px) {
+  .monitorGrid .championCard {
+    order: -1;
+  }
+}
+
 @media (max-width: 599px) {
   .home {
     gap: 2rem;
   }
 
-  .draftPortraits {
-    display: none;
+  .heroActions {
+    width: 100%;
   }
 
-  .quickCard {
-    padding: 1.5rem;
+  .heroCta {
+    flex: 1;
+    justify-content: center;
+  }
+
+  .draftPortraits {
+    display: none;
   }
 
   .statsBar {

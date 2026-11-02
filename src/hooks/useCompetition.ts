@@ -16,11 +16,17 @@ import {
   skipTurnInGame,
   swapPicksInGame,
 } from "@/helpers/draftGame";
+import { backendWriteThrough } from "@/services/appBackend";
 import {
   activeCompetitionIdAtom,
   appScreenAtom,
   competitionsAtom,
 } from "@/state";
+import {
+  useBackendCompetitions,
+  useBackendCompetitionTeams,
+  useBackendMatches,
+} from "@/stores/remoteTables";
 import {
   type Competition,
   type CompetitionMatch,
@@ -34,6 +40,81 @@ import {
 } from "@/types";
 
 const COMPETITIONS_STORAGE_KEY = "competitions";
+
+/** Carimbo no formato das tabelas ("YYYY-MM-DD HH:MM"). */
+const nowStamp = () =>
+  new Date().toISOString().slice(0, 16).replace("T", " ");
+
+const remoteTeamBySeed = (competition: Competition, seed: number) =>
+  competition.teams.find((candidate) => candidate.seed === seed);
+
+/** Row remota do match: identidade = (competição, rodada, seeds). */
+const remoteMatchRowOf = (competitionId: string, match: CompetitionMatch) =>
+  useBackendMatches
+    .getState()
+    .rows.find(
+      (row) =>
+        row.competitionid === competitionId &&
+        row.round === match.round &&
+        row.teamaseed === match.seedA &&
+        row.teambseed === match.seedB,
+    );
+
+/** Payload de um CompetitionMatch local para a tabela matches. */
+const remoteMatchPayloads = (
+  competition: Competition,
+  matches: CompetitionMatch[],
+  startIndex: number,
+) =>
+  matches.map((match, index) => {
+    const teamA = remoteTeamBySeed(competition, match.seedA);
+    const teamB = remoteTeamBySeed(competition, match.seedB);
+
+    return {
+      matchid: `m-${competition.id}-r${match.round}-${startIndex + index + 1}`,
+      competitionid: competition.id,
+      round: String(match.round),
+      teamaid: teamA?.teamId ?? "",
+      teambid: teamB?.teamId ?? "",
+      teamaseed: String(match.seedA),
+      teambseed: String(match.seedB),
+      seriesformat: String(match.seriesLength),
+      winnerteamid: "",
+      winnersource: "",
+      status: "scheduled",
+      createdat: nowStamp(),
+    };
+  });
+
+/** Write-through do resultado de um match (manual ou encerrado no draft). */
+const remoteMatchWinnerPatch = (
+  competition: Competition,
+  match: CompetitionMatch,
+  winner: MatchWinner | null,
+  source: string,
+) => {
+  const row = remoteMatchRowOf(competition.id, match);
+
+  if (!row) {
+    return;
+  }
+
+  const teamA = remoteTeamBySeed(competition, match.seedA);
+  const teamB = remoteTeamBySeed(competition, match.seedB);
+
+  backendWriteThrough(() =>
+    useBackendMatches.getState().update(row._id, {
+      winnerteamid:
+        winner === null
+          ? ""
+          : winner === "seedA"
+            ? (teamA?.teamId ?? "")
+            : (teamB?.teamId ?? ""),
+      winnersource: winner === null ? "" : source,
+      status: winner === null ? "scheduled" : "done",
+    }),
+  );
+};
 
 export type TeamStandingStatus = "active" | "advanced" | "eliminated";
 
@@ -408,6 +489,36 @@ export const useCompetition = () => {
 
       mutateCompetitions((prev) => [competition, ...prev]);
       setActiveCompetitionId(competition.id);
+
+      // Write-through: cria a competição, as inscrições e a rodada 1.
+      backendWriteThrough(async () => {
+        await useBackendCompetitions.getState().create([
+          {
+            competitionid: competition.id,
+            name: competition.name,
+            draftformat: competition.draftFormat,
+            advancewins: String(ADVANCE_WINS),
+            eliminatelosses: String(ELIMINATION_LOSSES),
+            status: competition.status,
+            createdat: nowStamp(),
+          },
+        ]);
+
+        await useBackendCompetitionTeams.getState().create(
+          teams.map((candidate) => ({
+            rowid: `ct-${competition.id.slice(0, 6)}-${candidate.seed}`,
+            competitionid: competition.id,
+            teamid: candidate.teamId,
+            seed: String(candidate.seed),
+            registeredat: nowStamp(),
+            active: "true",
+          })),
+        );
+
+        await useBackendMatches.getState().create(
+          remoteMatchPayloads(competition, competition.matches, 0),
+        );
+      });
     },
     [mutateCompetitions, setActiveCompetitionId],
   );
@@ -425,6 +536,32 @@ export const useCompetition = () => {
 
   const deleteCompetition = React.useCallback(
     (competitionId: string) => {
+      // Write-through: remove matches e inscrições antes da competição.
+      backendWriteThrough(async () => {
+        const competitionsStore = useBackendCompetitions.getState();
+        const compTeamStore = useBackendCompetitionTeams.getState();
+        const matchesStore = useBackendMatches.getState();
+        const competitionRow = competitionsStore.rows.find(
+          (row) => row.competitionid === competitionId,
+        );
+
+        if (!competitionRow) {
+          return;
+        }
+
+        const matchIds = matchesStore.rows
+          .filter((row) => row.competitionid === competitionId)
+          .map((row) => row._id);
+
+        const registrationIds = compTeamStore.rows
+          .filter((row) => row.competitionid === competitionId)
+          .map((row) => row._id);
+
+        await matchesStore.remove(matchIds);
+        await compTeamStore.remove(registrationIds);
+        await competitionsStore.remove([competitionRow._id]);
+      });
+
       mutateCompetitions((prev) =>
         prev.filter((competition) => competition.id !== competitionId),
       );
@@ -438,24 +575,32 @@ export const useCompetition = () => {
   /** Marca o vencedor direto (sem draft) — desfaz ao clicar no lado já marcado. */
   const reportWinner = React.useCallback(
     (match: CompetitionMatch, winner: MatchWinner) => {
-      mutateCompetitions((prev) =>
-        prev.map((competition) => {
-          if (competition.id !== activeCompetitionId) {
-            return competition;
-          }
+      const nextWinner: MatchWinner | null =
+        match.winner === winner ? null : winner;
 
-          return {
-            ...competition,
-            matches: competition.matches.map((candidate) =>
-              matchRefKey(candidate) === matchRefKey(match)
-                ? { ...candidate, winner: candidate.winner === winner ? null : winner }
-                : candidate,
-            ),
-          };
-        }),
+      if (activeCompetition) {
+        remoteMatchWinnerPatch(activeCompetition, match, nextWinner, "manual");
+      }
+
+      mutateCompetitions(
+        (prev) =>
+          prev.map((competition) => {
+            if (competition.id !== activeCompetitionId) {
+              return competition;
+            }
+
+            return {
+              ...competition,
+              matches: competition.matches.map((candidate) =>
+                matchRefKey(candidate) === matchRefKey(match)
+                  ? { ...candidate, winner: nextWinner }
+                  : candidate,
+              ),
+            };
+          }),
       );
     },
-    [activeCompetitionId, mutateCompetitions],
+    [activeCompetition, activeCompetitionId, mutateCompetitions],
   );
 
   const updateMatchDraft = React.useCallback(
@@ -510,6 +655,23 @@ export const useCompetition = () => {
   /** Encerra o draft da partida e define o resultado da série. */
   const finishMatch = React.useCallback(
     (matchKey: string, winner: TeamKey | null) => {
+      const target = activeCompetition?.matches.find(
+        (candidate) => matchRefKey(candidate) === matchKey,
+      );
+
+      if (activeCompetition && target) {
+        remoteMatchWinnerPatch(
+          activeCompetition,
+          target,
+          winner === TeamKey.TeamA
+            ? ("seedA" as MatchWinner)
+            : winner === TeamKey.TeamB
+              ? ("seedB" as MatchWinner)
+              : null,
+          "draft",
+        );
+      }
+
       mutateCompetitions((prev) =>
         prev.map((competition) => {
           if (competition.id !== activeCompetitionId) {
@@ -535,7 +697,7 @@ export const useCompetition = () => {
         }),
       );
     },
-    [activeCompetitionId, mutateCompetitions],
+    [activeCompetition, activeCompetitionId, mutateCompetitions],
   );
 
   /** Ban no turno corrente do draft da partida (auto-cria o draftState). */
@@ -611,6 +773,19 @@ export const useCompetition = () => {
               matches: [...competition.matches, ...nextMatches],
             },
       ),
+    );
+
+    // Write-through: nova rodada vai para a tabela matches.
+    backendWriteThrough(() =>
+      useBackendMatches
+        .getState()
+        .create(
+          remoteMatchPayloads(
+            activeCompetition,
+            nextMatches,
+            activeCompetition.matches.length,
+          ),
+        ),
     );
   }, [activeCompetition, canGenerateNextRound, mutateCompetitions, nextRoundNumber]);
 

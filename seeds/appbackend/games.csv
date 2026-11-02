@@ -1,0 +1,20 @@
+﻿gameId,matchId,gameNumber,winnerTeamId,startedAt
+g-hexa-r1-1-1,m-hexa-r1-1,1,team-equinocio,2026-10-15 19:00
+g-hexa-r1-2-1,m-hexa-r1-2,1,team-guardioes,2026-10-15 20:30
+g-hexa-r1-3-1,m-hexa-r1-3,1,team-forjasul,2026-10-16 19:00
+g-hexa-r1-4-1,m-hexa-r1-4,1,team-cdg-azul,2026-10-16 20:30
+g-hexa-r1-5-1,m-hexa-r1-5,1,team-pantanal,2026-10-17 19:00
+g-hexa-r1-6-1,m-hexa-r1-6,1,team-nucleo-zero,2026-10-17 20:30
+g-hexa-r2-w1-1,m-hexa-r2-w1,1,team-equinocio,2026-10-22 19:00
+g-hexa-r2-w1-2,m-hexa-r2-w1,2,team-equinocio,2026-10-22 20:15
+g-hexa-r2-w2-1,m-hexa-r2-w2,1,team-forjasul,2026-10-23 19:00
+g-hexa-r2-w2-2,m-hexa-r2-w2,2,team-cdg-azul,2026-10-23 20:15
+g-hexa-r2-w2-3,m-hexa-r2-w2,3,,2026-10-24 19:00
+g-hexa-r2-w3-1,m-hexa-r2-w3,1,team-forjasul,2026-10-23 21:00
+g-hexa-r2-w3-2,m-hexa-r2-w3,2,,2026-10-24 20:30
+g-hexa-r2-l1-1,m-hexa-r2-l1,1,team-aurora-nova,2026-10-21 19:00
+g-hexa-r2-l2-1,m-hexa-r2-l2,1,team-aurora-prime,2026-10-21 20:30
+g-hexa-r2-l3-1,m-hexa-r2-l3,1,team-cdg-vermelho,2026-10-21 21:00
+g-avulsa-bo1-1,m-avulsa-bo1,1,team-alpha,2026-10-30 22:00
+g-avulsa-bo3-1,m-avulsa-bo3,1,team-alpha,2026-10-31 21:00
+g-avulsa-bo3-2,m-avulsa-bo3,2,team-alpha,2026-10-31 21:40
